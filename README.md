@@ -3,3 +3,5 @@ Join denne hvis du vil få A i FYS4150
 
 Wow jeg er med - Peder
 Testtesttest
+
+I'm in! Let's nail this ;) - Kevin
