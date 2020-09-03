@@ -1,5 +1,7 @@
 #include <iostream>
 
 int main() {
-    std::cout << "Hello world!\n";
+    double a = 3;
+    double b = a+a;
+    std::cout << "Hello world! " << b << "\n";
 }
