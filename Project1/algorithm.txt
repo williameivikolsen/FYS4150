@@ -2,22 +2,24 @@ Merk: Noen av variablene her har ikke samme navn som i forelesningsnotatene.
 For eksempel brukes noen ganger b om diagonalelementene til A i forelesningsnotatene, 
 mens vi bruker b om høyresiden av likningen h²f(x).
 
+Les input fra kommandolinje: Navn på outputfil og antall gridpoints.
+
 Definér vektorer:
 x   -   x-koordinater           -   lengde n+2
 d   -   diagonalelementer i A   -   lengde n
 a   -   under diagonalen i A    -   lengde n-1
 c   -   over diagonalen i A     -   lengde n-1
-b   -   h²f(x)                  -   lengde n+2
+f   -   h²f(x)                  -   lengde n+2
 v   -   løsning av likning      -   lengde n+2
-
-Les input fra kommandolinje.
 
 Forward substitution (dn og fn er oppdatert d og b).
 dn_1 = d_1 og bn_1 = f_1
 for i = 1, ..., n:
-    dn_i = d_i - a_i*c_(i-1)/dn_(i-1)
-    bn_i = b_i - a_i*bn_(i-1)/dn_(i-1)
+    b[i] = b[i] - (a[i-1]*c[i-1])/b[i-1]
+    f[i] = g[i] - (a[i-1]*f[i-1])/b[i-1]
+x[n-1] = f[n-1] / b[n-1]
 
 Backward substitution.
-for i = 1, ..., n:
-    ???
+for i = n-2, ..., 0:
+    f[i] = f[i] - c[i]*f[i+1]/b[i+1]
+    x[i] = f[i]/b[i]
