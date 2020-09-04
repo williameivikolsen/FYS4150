@@ -18,6 +18,10 @@ int main(int argc, char *argv[]){
     }
     int i;
     for (i = 1; i < n; i++) {
+<<<<<<< HEAD
         cout << "Testing merge conflict." << "\n";
+=======
+        cout << "Hello world" << "\n";
+>>>>>>> 176b383f0c59ae3b79d35506c511044bd904e1ba
     }
 }
