@@ -18,6 +18,6 @@ int main(int argc, char *argv[]){
     }
     int i;
     for (i = 1; i < n; i++) {
-        cout << "Hei" << "\n";
+        cout << "Hello worlde" << "\n";
     }
 }
