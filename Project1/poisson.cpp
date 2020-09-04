@@ -16,9 +16,4 @@ int main(int argc, char *argv[]){
         filename = argv[1]; // first command line argument after name of program
         n = atoi(argv[2]);
     }
-    int i;
-    for (i = 1; i < n; i++) {
-        cout << "Testing merge conflict." << "\n";
-        cout << "Hello world" << "\n";
-    }
 }
