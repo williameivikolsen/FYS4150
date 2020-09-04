@@ -10,22 +10,22 @@ d   -   diagonalelementer i A   -   lengde n
 a   -   under diagonalen i A    -   lengde n-1
 c   -   over diagonalen i A     -   lengde n-1
 b   -   h²f(x)                  -   lengde n
-v   -   løsning av likning      -   lengde n
+v   -   løsning av likning      -   lengde n+2
 
 dn  -  nye diagonalelemnter etter fs. - lengde n
 bn  -  nye b etter fs.                - lengde n
 
 Forward substitution (dn og fn er oppdatert d og b).
-dn[1] = d[1] og bn[1] = b[1]
+dn[0] = d[0] og bn[0] = b[0]
 for i = 1, ..., n:
     dn[i] = d[i] - (a[i-1]*c[i-1])/dn[i-1]
     bn[i] = b[i] - (a[i-1]*bn[i-1])/dn[i-1]
 
 Backward substitution (finner oppdatert v)
-definer v = (0,0,0,0,...,n-times,...,0)
-v[n] = bn[n]/dn[n]
-for i = n, ..., 2: \\ ellers finner v_0 element som ikke finnes
-    v[i] = (bn[i-1]-(c[i-1]*v[i]))/dn[i-1]
+v[n+1] = v[0] = 0
+v[n] = bn[n-1]/dn[n-1]
+for i = n-1, ..., 1:
+    v[i] = (bn[i]-(c[i]*v[i+1]))/dn[i]
 
 Print v
 
