@@ -4,18 +4,40 @@ mens vi bruker b om høyresiden av likningen h²f(x).
 
 Les input fra kommandolinje: Navn på outputfil og antall gridpoints.
 
-Definér vektorer:
+Definér vektorer: double 
 x   -   x-koordinater           -   lengde n+2
 d   -   diagonalelementer i A   -   lengde n
 a   -   under diagonalen i A    -   lengde n-1
 c   -   over diagonalen i A     -   lengde n-1
-f   -   h²f(x)                  -   lengde n+2
-v   -   løsning av likning      -   lengde n+2
+b   -   h²f(x)                  -   lengde n
+v   -   løsning av likning      -   lengde n
+
+dn  -  nye diagonalelemnter etter fs. - lengde n
+bn  -  nye b etter fs.                - lengde n
 
 Forward substitution (dn og fn er oppdatert d og b).
-dn_1 = d_1 og bn_1 = f_1
+dn[1] = d[1] og bn[1] = b[1]
 for i = 1, ..., n:
-    b[i] = b[i] - (a[i-1]*c[i-1])/b[i-1]
+    dn[i] = d[i] - (a[i-1]*c[i-1])/dn[i-1]
+    bn[i] = b[i] - (a[i-1]*bn[i-1])/dn[i-1]
+
+Backward substitution (finner oppdatert v)
+definer v = (0,0,0,0,...,n-times,...,0)
+v[n] = bn[n]/dn[n]
+for i = n, ..., 2: \\ ellers finner v_0 element som ikke finnes
+    v[i] = (bn[i-1]-(c[i-1]*v[i]))/dn[i-1]
+
+Print v
+
+
+
+
+
+
+
+
+
+
     f[i] = g[i] - (a[i-1]*f[i-1])/b[i-1]
 x[n-1] = f[n-1] / b[n-1]
 
