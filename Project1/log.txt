@@ -2,4 +2,146 @@ function   n       time [s]   date
 general    1001    0.00346    Sat Sep  5 13:04:31 2020
 general    101    0.000422    Sat Sep  5 13:06:01 2020
 general    101    0.000525    Sat Sep  5 13:50:01 2020
+special    101    0.000531    Sat Sep  5 14:56:05 2020
+special    101    0.000924    Sat Sep  5 15:40:14 2020
+
+special    101    0.000922    Sat Sep  5 15:40:35 2020
+
+special    101    0.000477    Sat Sep  5 15:41:47 2020
+
+special    101    0.000649    Sat Sep  5 15:42:31 2020
+
+special    101    0.000706    Sat Sep  5 15:42:48 2020
+
+special    101    0.00063    Sat Sep  5 15:43:05 2020
+
+special    101    0.000915    Sat Sep  5 15:43:23 2020
+
+special    101    0.000601    Sat Sep  5 15:54:12 2020
+
+special    101    0.000538    Sat Sep  5 15:54:27 2020
+
+special    101    0.000524    Sat Sep  5 15:54:40 2020
+
+special    101    0.000476    Sat Sep  5 15:54:51 2020
+
+special    101    0.000587    Sat Sep  5 15:55:09 2020
+
+special    101    0.000609    Sat Sep  5 16:13:00 2020
+
+special    101    0.000489    Sat Sep  5 16:20:00 2020
+
+special    101    0.000522    Sat Sep  5 16:20:29 2020
+
+special    101    0.000436    Sat Sep  5 16:26:13 2020
+
+special    101    0.001128    Sat Sep  5 16:27:49 2020
+
+special    51    0.000266    Sat Sep  5 16:29:32 2020
+
+special    11    0.000176    Sat Sep  5 16:33:14 2020
+
+general    11    0.000175    Sat Sep  5 16:34:31 2020
+
+general    51    0.000328    Sat Sep  5 16:36:24 2020
+
+special    51    0.000455    Sat Sep  5 16:37:00 2020
+
+special    51    0.00037    Sat Sep  5 16:39:13 2020
+
+special    51    0.000429    Sat Sep  5 16:42:00 2020
+
+special    51    0.000619    Sat Sep  5 16:46:59 2020
+
+general    51    0.001163    Sat Sep  5 16:47:27 2020
+
+special    51    0.001393    Sat Sep  5 16:47:37 2020
+
+special    51    0.000539    Sat Sep  5 16:48:18 2020
+
+special    51    0.000606    Sat Sep  5 16:48:29 2020
+
+general    51    0.000959    Sat Sep  5 16:48:33 2020
+
+special    51    0.001355    Sat Sep  5 16:48:44 2020
+
+special    51    0.000613    Sat Sep  5 16:49:44 2020
+
+special    51    0.001119    Sat Sep  5 16:49:51 2020
+
+general    51    0.000886    Sat Sep  5 16:50:08 2020
+
+special    51    0.00055    Sat Sep  5 16:50:51 2020
+
+special    51    0.001562    Sat Sep  5 16:50:54 2020
+
+general    51    0.001361    Sat Sep  5 16:51:05 2020
+
+special    51    0.000339    Sat Sep  5 16:52:23 2020
+
+special    51    0.000317    Sat Sep  5 16:53:53 2020
+
+special    51    0.000599    Sat Sep  5 16:54:40 2020
+
+general    51    0.001281    Sat Sep  5 16:54:44 2020
+
+special    51    0.001465    Sat Sep  5 16:54:49 2020
+
+special    51    0.000599    Sat Sep  5 16:56:20 2020
+
+general    51    0.00144    Sat Sep  5 16:56:24 2020
+
+special    51    0.001153    Sat Sep  5 16:56:26 2020
+
+special    51    0.001635    Sat Sep  5 16:57:29 2020
+
+special    51    0.000587    Sat Sep  5 16:57:35 2020
+
+special    51    0.000607    Sat Sep  5 16:58:15 2020
+
+general    51    0.0012    Sat Sep  5 16:58:24 2020
+
+special    51    0.001217    Sat Sep  5 16:58:27 2020
+
+special    51    0.001544    Sat Sep  5 16:59:49 2020
+
+general    51    0.001449    Sat Sep  5 17:00:16 2020
+
+special    51    0.002249    Sat Sep  5 17:00:17 2020
+
+special    51    0.001577    Sat Sep  5 17:03:13 2020
+
+special    51    0.000367    Sat Sep  5 17:03:33 2020
+
+special    51    0.00111    Sat Sep  5 17:04:11 2020
+
+general    51    0.000852    Sat Sep  5 17:04:17 2020
+
+special    51    0.000397    Sat Sep  5 17:04:51 2020
+
+special    51    0.000286    Sat Sep  5 17:05:13 2020
+
+special    10    0.000149    Sat Sep  5 17:07:35 2020
+
+general    10    0.000146    Sat Sep  5 17:07:35 2020
+
+special    100    0.000371    Sat Sep  5 17:07:35 2020
+
+general    100    0.000487    Sat Sep  5 17:07:35 2020
+
+special    1000    0.00367    Sat Sep  5 17:07:35 2020
+
+general    1000    0.004207    Sat Sep  5 17:07:35 2020
+
+special    10    0.000156    Sat Sep  5 17:07:54 2020
+
+general    10    0.000123    Sat Sep  5 17:07:54 2020
+
+special    100    0.00044    Sat Sep  5 17:07:54 2020
+
+general    100    0.00041    Sat Sep  5 17:07:54 2020
+
+special    1000    0.004173    Sat Sep  5 17:07:54 2020
+
+general    1000    0.003305    Sat Sep  5 17:07:54 2020
 
