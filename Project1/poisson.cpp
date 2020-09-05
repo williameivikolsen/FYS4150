@@ -8,7 +8,7 @@ using namespace std;
 //outputfile as global variable
 ofstream ofile;
 
-int f(double x) {
+double f(double x) {
     return 100*exp(-10*x);
 }
 
@@ -59,12 +59,13 @@ int main(int argc, char *argv[]){
         n = atoi(argv[1]);
     }
 
-    double h = 1/(n+2);     // Step size
+    double h = 1.0/(n+2.0);     // Step size
+    cout << h << endl;
     double hh = h*h;
     double *d, *a, *b, *c, *x;
     d = new double[n]; a = new double[n-1]; b = new double[n]; c = new double[n-1]; x = new double[n+2];  // Se algoritmetekst
     for(int i = 0; i < n+2; i++) {
-        x[i] = i*h;
+        x[i] = double(i*h);
     }
     for(int i = 0; i < n-1; i++) {
         d[i] = 2;
@@ -73,7 +74,7 @@ int main(int argc, char *argv[]){
         b[i] = hh*f(x[i+1]);
     }
     d[n-1] = 2;
-    b[n-1] = f(x[n]);
+    b[n-1] = hh*f(x[n]);
     general(n, d, a, b, c);
 
     return 0;
