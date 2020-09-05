@@ -15,6 +15,7 @@ double f(double x) {
 void general(int n, double *d, double *a, double *b, double *c) {
     double *dn, *bn, *v;     // Updated values after forward substitution and unkown
     dn = new double[n]; bn = new double[n]; v = new double[n+2];
+    // Lager outfile:
     string outfilename = "general_";
     outfilename.append(to_string(n));
     outfilename.append(".txt");
