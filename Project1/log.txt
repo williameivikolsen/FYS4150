@@ -1,0 +1,4 @@
+function   n       time [s]   date
+general    1001    0.00346    Sat Sep  5 13:04:31 2020
+general    101    0.000422    Sat Sep  5 13:06:01 2020
+

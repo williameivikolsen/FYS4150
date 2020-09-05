@@ -2,11 +2,15 @@
 #include <cmath>
 #include <fstream>
 #include <iomanip>
+#include "time.h"
+#include <chrono>
+#include <ctime>
 // use namespace for output and input
 using namespace std;
 
 //outputfile as global variable
 ofstream ofile;
+ofstream logfile;
 
 double f(double x) {
     return 100*exp(-10*x);
@@ -51,17 +55,18 @@ void special(int n, double *d, double *e, double *b) {
 int main(int argc, char *argv[]){
     // Read output file name and number of grid points
     int n;
-    if( argc != 2 ){
+    string function;
+    if( argc != 3 ){
           cout << "Bad Usage: " << argv[0] <<
-              " needs number of grid points when executed" << endl;
+              " needs number of grid points and function when executed" << endl;
           exit(1);
     }
         else{
         n = atoi(argv[1]);
+        function = argv[2];
     }
 
     double h = 1.0/(n+2.0);     // Step size
-    cout << h << endl;
     double hh = h*h;
     double *d, *a, *b, *c, *x;
     d = new double[n]; a = new double[n-1]; b = new double[n]; c = new double[n-1]; x = new double[n+2];  // Se algoritmetekst
@@ -76,7 +81,30 @@ int main(int argc, char *argv[]){
     }
     d[n-1] = 2;
     b[n-1] = hh*f(x[n]);
-    general(n, d, a, b, c);
+    logfile.open("log.txt", std::ios_base::app);
+    if(function == "general") {
+        clock_t start, finish;
+        start = clock();
+        general(n, d, a, b, c);
+        finish = clock();
+        double timeused = (double) (finish - start)/(CLOCKS_PER_SEC );
+        auto timenow = chrono::system_clock::to_time_t(chrono::system_clock::now());
+        logfile << function << "    " << n << "    " << timeused << "    " << ctime(&timenow) << endl;
+    }
+    else if(function == "special") {
+        double *e;
+        clock_t start, finish;
+        start = clock();
+        special(n, d, e, b);
+        finish = clock();
+        double timeused = (double)(finish - start) / (CLOCKS_PER_SEC);
+        auto timenow = chrono::system_clock::to_time_t(chrono::system_clock::now());
+        logfile << function << "    " << n << "    " << timeused << "    " << ctime(&timenow) << endl;
+    }
+    else {
+        cout << "The function you specified does not exist." << endl;
+        exit(1);
+    }
 
     return 0;
 }

@@ -4,4 +4,4 @@ compile:
 	c++ -o poisson.exe poisson.cpp
 
 execute:
-	./poisson.exe 1001
+	./poisson.exe 101 general
