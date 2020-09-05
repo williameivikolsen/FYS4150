@@ -1,8 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-infile = open("general_101.txt")
-n = 101
+infile = open("general_1001.txt")
+n = 1001
 vlist = []
 for line in infile:
     vlist.append(float(line))
