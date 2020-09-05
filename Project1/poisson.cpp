@@ -17,6 +17,7 @@ void general(int n, double *d, double *a, double *b, double *c) {
     dn = new double[n]; bn = new double[n]; v = new double[n+2];
     string outfilename = "general_";
     outfilename.append(to_string(n));
+    outfilename.append(".txt");
     ofile.open(outfilename);
 
     // Forward substitution:
@@ -32,6 +33,8 @@ void general(int n, double *d, double *a, double *b, double *c) {
     v[n] = bn[n-1]/dn[n-1];
     for(int i = n-1; i > 0; i--) {
         v[i] = (bn[i]-(c[i]*v[i+1]))/dn[i];
+    }
+    for(int i = 0; i < n+2; i++) {
         ofile << setw(15) << setprecision(8) << v[i] << endl;
     }
     
