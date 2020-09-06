@@ -5,6 +5,7 @@
 #include "time.h"       // Timer
 #include <chrono>       // Current time
 #include <ctime>        // Print current time
+
 // use namespace for output and input
 using namespace std;
 
@@ -16,11 +17,11 @@ void general(int n, double *d, double *a, double *b, double *c);
 void special(int n, double *b);
 
 int main(int argc, char *argv[]){
-    // Read number of grid points and function to be used
+    // Read dimension of matrix and function to be used
     int n; string function;
     if( argc != 3 ){
           cout << "Bad Usage: " << argv[0] <<
-              " needs number of grid points and function when executed" << endl;
+              " needs dimension of matrix (n) and name of function to be called (general/special)" << endl;
           exit(1);
     }
         else{
