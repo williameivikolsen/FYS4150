@@ -11,102 +11,9 @@ using namespace std;
 ofstream ofile;     // File to store results
 ofstream logfile;   // File to log time spent
 
-double f(double x) {
-    return 100*exp(-10*x);
-}
-
-void general(int n, double *d, double *a, double *b, double *c) {
-    // Function that solves equation for the general
-    // tridiagonal matrix case
-
-    double *dn = new double[n];     // Updated diagonal elements of matrix
-    double *bn = new double[n];     // Updated right side of equation h²f(x)
-    double *v = new double[n+2];    // Solution to equation
-    // Make outfile:
-    string outfilename = "general_";
-    outfilename.append(to_string(n));
-    outfilename.append(".txt");
-    ofile.open(outfilename);
-
-    // Make ready for forward/backward substitution:
-    dn[0] = d[0];
-    bn[0] = b[0];
-    v[n+1] = 0;
-    v[0] = 0;
-    clock_t start, finish;
-    start = clock();
-    // Forward substitution:
-    for(int i = 1; i < n; i++) {
-        dn[i] = d[i] - (a[i-1]*c[i-1])/dn[i-1];
-        bn[i] = b[i] - (a[i-1]*bn[i-1])/dn[i-1];
-    }
-    // Backward substitution:
-    v[n] = bn[n-1]/dn[n-1];
-    for(int i = n-1; i > 0; i--) {
-        v[i] = (bn[i-1] - c[i-1]*v[i+1])/dn[i-1];
-    }
-    finish = clock();
-    double timeused = (double)(finish - start) / (CLOCKS_PER_SEC);
-    auto timenow = chrono::system_clock::to_time_t(chrono::system_clock::now());
-    double float_n = (double) n;
-    logfile << "general      " << scientific << setprecision(1) << float_n << setw(10) << setprecision(2) << timeused << setw(30) << ctime(&timenow);
-    // Write to file:
-    for(int i = 0; i < n+2; i++) {
-        ofile << setw(15) << setprecision(8) << v[i] << endl;
-    }
-    
-    // Clear memory
-    delete [] dn; delete [] bn; delete [] v;
-}
-
-void special(int n, double *b) {
-    // Function that solves equation for the general
-    // tridiagonal matrix case
-
-    double *dn = new double[n];    // Updated diagonal elements of matrix
-    double *bn = new double[n];    // Updated right side of equation h²f(x)
-    double *v = new double[n + 2]; // Solution to equation
-    // Make outfile:
-    string outfilename = "special_";
-    outfilename.append(to_string(n));
-    outfilename.append(".txt");
-    ofile.open(outfilename);
-
-    // We have analytical expression for dn in special case:
-    for (int i = 1; i < n+1; i++) {
-        dn[i-1] = (1.0+i)/i;
-    }
-    // Make ready for forward/backward substitution:
-    bn[0] = b[0];
-    v[n + 1] = 0;
-    v[0] = 0;
-    v[n] = bn[n - 1] / dn[n - 1];
-    clock_t start, finish;
-    start = clock();
-    // Forward substitution:
-    for (int i = 1; i < n; i++) {
-        bn[i] = b[i] + bn[i-1]/dn[i-1];
-    }
-    // Backward substitution:
-    for (int i = n-1; i > 0; i--) {
-        v[i] = (bn[i-1] + v[i+1])/dn[i-1];
-    }
-    finish = clock();
-    double timeused = (double)(finish - start) / (CLOCKS_PER_SEC);
-    auto timenow = chrono::system_clock::to_time_t(chrono::system_clock::now());
-    double float_n = (double) n;
-    logfile << "special      " << scientific << setprecision(1) << float_n << setw(10) << setprecision(2) << timeused << setw(30) << ctime(&timenow);
-    // Write to file:   
-    for (int i = 0; i < n + 2; i++)
-    {
-        ofile << setw(15) << setprecision(8) << v[i] << endl;
-    }
-
-    // Clear memory
-    delete[] dn;
-    delete[] bn;
-    delete[] v;
-}
+double f(double x);
+void general(int n, double *d, double *a, double *b, double *c);
+void special(int n, double *b);
 
 int main(int argc, char *argv[]){
     // Read number of grid points and function to be used
@@ -155,6 +62,120 @@ int main(int argc, char *argv[]){
         cout << "The function you specified does not exist." << endl;
         exit(1);
     }
+    // Close log file
+    logfile.close();
 
     return 0;
+}
+
+double f(double x)
+{
+    return 100 * exp(-10 * x);
+}
+
+void general(int n, double *d, double *a, double *b, double *c)
+{
+    // Function that solves equation for the general
+    // tridiagonal matrix case
+
+    double *dn = new double[n];    // Updated diagonal elements of matrix
+    double *bn = new double[n];    // Updated right side of equation h²f(x)
+    double *v = new double[n + 2]; // Solution to equation
+    // Make outfile:
+    string outfilename = "general_";
+    outfilename.append(to_string(n));
+    outfilename.append(".txt");
+    ofile.open(outfilename);
+
+    // Make ready for forward/backward substitution:
+    dn[0] = d[0];
+    bn[0] = b[0];
+    v[n + 1] = 0;
+    v[0] = 0;
+    clock_t start, finish;
+    start = clock();
+    // Forward substitution:
+    for (int i = 1; i < n; i++)
+    {
+        dn[i] = d[i] - (a[i - 1] * c[i - 1]) / dn[i - 1];
+        bn[i] = b[i] - (a[i - 1] * bn[i - 1]) / dn[i - 1];
+    }
+    v[n] = bn[n - 1] / dn[n - 1];
+    // Backward substitution:
+    for (int i = n - 1; i > 0; i--)
+    {
+        v[i] = (bn[i - 1] - c[i - 1] * v[i + 1]) / dn[i - 1];
+    }
+    finish = clock();
+    double timeused = (double)(finish - start) / (CLOCKS_PER_SEC);
+    auto timenow = chrono::system_clock::to_time_t(chrono::system_clock::now());
+    double float_n = (double)n;
+    logfile << "general      " << scientific << setprecision(1) << float_n << setw(10) << setprecision(2) << timeused << setw(30) << ctime(&timenow);
+    // Write to file:
+    for (int i = 0; i < n + 2; i++)
+    {
+        ofile << setw(15) << setprecision(8) << v[i] << endl;
+    }
+
+    // Clear memory
+    delete[] dn;
+    delete[] bn;
+    delete[] v;
+    // Close outfile
+    ofile.close();
+}
+
+void special(int n, double *b)
+{
+    // Function that solves equation for the general
+    // tridiagonal matrix case
+
+    double *dn = new double[n];    // Updated diagonal elements of matrix
+    double *bn = new double[n];    // Updated right side of equation h²f(x)
+    double *v = new double[n + 2]; // Solution to equation
+    // Make outfile:
+    string outfilename = "special_";
+    outfilename.append(to_string(n));
+    outfilename.append(".txt");
+    ofile.open(outfilename);
+
+    // We have analytical expression for dn in special case:
+    for (int i = 1; i < n + 1; i++)
+    {
+        dn[i - 1] = (1.0 + i) / i;
+    }
+    // Make ready for forward/backward substitution:
+    bn[0] = b[0];
+    v[n + 1] = 0;
+    v[0] = 0;
+    clock_t start, finish;
+    start = clock();
+    // Forward substitution:
+    for (int i = 1; i < n; i++)
+    {
+        bn[i] = b[i] + bn[i - 1] / dn[i - 1];
+    }
+    v[n] = bn[n - 1] / dn[n - 1];
+    // Backward substitution:
+    for (int i = n - 1; i > 0; i--)
+    {
+        v[i] = (bn[i - 1] + v[i + 1]) / dn[i - 1];
+    }
+    finish = clock();
+    double timeused = (double)(finish - start) / (CLOCKS_PER_SEC);
+    auto timenow = chrono::system_clock::to_time_t(chrono::system_clock::now());
+    double float_n = (double)n;
+    logfile << "special      " << scientific << setprecision(1) << float_n << setw(10) << setprecision(2) << timeused << setw(30) << ctime(&timenow);
+    // Write to file:
+    for (int i = 0; i < n + 2; i++)
+    {
+        ofile << setw(15) << setprecision(8) << v[i] << endl;
+    }
+
+    // Clear memory
+    delete[] dn;
+    delete[] bn;
+    delete[] v;
+    // Close outfile
+    ofile.close();
 }
