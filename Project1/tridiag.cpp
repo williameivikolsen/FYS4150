@@ -5,9 +5,10 @@
 #include "time.h"       // Timer
 #include <chrono>       // Current time
 #include <ctime>        // Print current time
+#include <armadillo>
 
-// use namespace for output and input
 using namespace std;
+using namespace arma;
 
 ofstream ofile;     // File to store results
 ofstream logfile;   // File to log time spent
@@ -15,13 +16,14 @@ ofstream logfile;   // File to log time spent
 double f(double x);
 void general(int n, double *d, double *a, double *b, double *c);
 void special(int n, double *b);
+void lu(int n, double *b);
 
 int main(int argc, char *argv[]){
     // Read dimension of matrix and function to be used
     int n; string function;
     if( argc != 3 ){
           cout << "Bad Usage: " << argv[0] <<
-              " needs dimension of matrix (n) and name of function to be called (general/special)" << endl;
+              " needs dimension of matrix (n) and name of function to be called (general/special/LU)" << endl;
           exit(1);
     }
         else{
@@ -59,6 +61,10 @@ int main(int argc, char *argv[]){
         else if(function == "special") {
         special(n, b);
     }
+
+        else if(function == "LU") {
+        lu(n, b);
+    }
         else {
         cout << "The function you specified does not exist." << endl;
         exit(1);
@@ -66,13 +72,19 @@ int main(int argc, char *argv[]){
     // Close log file
     logfile.close();
 
+    // Clear memory
+    delete[] d; delete[] a; delete[] b; delete[] c; delete[] x;
     return 0;
 }
+
+
 
 double f(double x)
 {
     return 100 * exp(-10 * x);
 }
+
+
 
 void general(int n, double *d, double *a, double *b, double *c)
 {
@@ -125,6 +137,8 @@ void general(int n, double *d, double *a, double *b, double *c)
     // Close outfile
     ofile.close();
 }
+
+
 
 void special(int n, double *b)
 {
@@ -180,3 +194,50 @@ void special(int n, double *b)
     // Close outfile
     ofile.close();
 }
+
+
+void lu(int n, double *b)
+{
+    // Make outfile:
+    string outfilename = "LU_";
+    outfilename.append(to_string(n));
+    outfilename.append(".txt");
+    ofile.open(outfilename);
+
+    // Define matrix A
+    mat A = 2*eye<mat>(n,n);        // (n x n) matrix with 2 on diagonal
+    for (int i = 0; i < n-1; i++){
+        A(i, i+1) = -1;             // Set upper diagonal = -1
+        A(i+1, i) = -1;             // Set lower diagonal = -1
+    }
+    
+    // Define vector b_vec (RHS)
+    vec b_vec = zeros(n);
+    for (int i=0; i<n; i++){
+        b_vec(i) = b[i];
+    }
+
+    mat L,  U;          // Declare lower and upper matrix
+    lu(L, U, A);        // LU decomposition
+
+    clock_t start, finish;
+    start = clock();
+
+    // Use that Av = LUv = b  => so define Uv = w, and then Lw=b 
+    
+    vec w_vec = solve(L, b_vec);    // Intermediate solution
+
+    vec v_vec = solve(U, w_vec);    // Final solution
+
+    finish = clock();
+    double timeused = (double)(finish - start) / (CLOCKS_PER_SEC);
+    auto timenow = chrono::system_clock::to_time_t(chrono::system_clock::now());
+    double float_n = (double)n;
+    logfile << "LU           " << scientific << setprecision(1) << float_n << setw(10) << setprecision(2) << timeused << setw(30) << ctime(&timenow);
+
+    // Print result to file
+    ofile << v_vec << endl;
+
+    // Close outfile
+    ofile.close();
+}   

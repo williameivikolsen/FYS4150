@@ -1,8 +1,7 @@
 all: compile execute
 
 compile:
-	c++ -o tridiag.exe tridiag.cpp
-	c++ -o LU.exe LU.cpp -larmadillo
+	c++ -o tridiag.exe tridiag.cpp -larmadillo
 
 execute:
 	#./tridiag.exe 10 special
@@ -17,4 +16,4 @@ execute:
 	#./tridiag.exe 100000 general
 	#./tridiag.exe 1000000 special
 	#./tridiag.exe 1000000 general
-	./LU.exe 10
+	./tridiag.exe 10 LU
