@@ -1,19 +1,35 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-infile = open("general_101.txt")
-n = 101
-vlist = []
-for line in infile:
-    vlist.append(float(line))
-v = np.array(vlist)
+infile_sp = open("special_1000000.txt")
+infile_ge = open("general_1000000.txt")
+n = 1000000
+vlist_sp = []
+vlist_ge = []
+for line in infile_sp:
+    vlist_sp.append(float(line))
+for line in infile_ge:
+    vlist_ge.append(float(line))
+v_sp = np.array(vlist_sp)
+v_ge = np.array(vlist_ge)
 x = np.linspace(0, 1, n+2)
 u = 1- (1-np.exp(-10))*x - np.exp(-10*x)
 plt.plot(x, u, label='Analytisk')
-plt.plot(x, v, label='Numerisk')
+plt.plot(x, v_sp, label='Numerisk, spesiell')
+plt.plot(x, v_ge, label='Numerisk, generell', ls='--')
 plt.grid(ls='--')
 plt.xlabel('x')
 plt.ylabel('u(x)')
 plt.legend()
-plt.savefig("bild.png")
+plt.show()
+
+relerr_sp = np.log10(np.abs((v_sp - u)/u)[1:-1])
+relerr_ge = np.log10(np.abs((v_ge - u)/u)[1:-1])
+plt.plot(x[1:-1], relerr_sp, label='Special algorithm')
+plt.plot(x[1:-1], relerr_ge, label='General algorithm', ls='--')
+plt.title('Relative error')
+plt.grid(ls='--')
+plt.xlabel('x')
+plt.ylabel(r'$\epsilon (x)$')
+plt.legend()
 plt.show()
