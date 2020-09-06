@@ -34,7 +34,7 @@ for i in n:
     maxerr_ge.append(np.max(relerr_ge))
 
 plt.loglog(n, maxerr_sp, 'o', label='Special algorithm')
-plt.loglog(n, maxerr_ge, 'o', label='General algorithm')
+plt.loglog(n, maxerr_ge, 'x', label='General algorithm')
 plt.title('Maximum relative error')
 plt.grid(ls='--')
 plt.xlabel('n')
