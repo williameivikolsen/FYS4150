@@ -1,9 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-infile_sp = open("special_1000.txt")
-infile_ge = open("general_1000.txt")
-n = 1000
+infile_sp = open("special_1000000.txt")
+infile_ge = open("general_1000000.txt")
+n = 1000000
 vlist_sp = []
 vlist_ge = []
 for line in infile_sp:
@@ -23,10 +23,10 @@ plt.ylabel('u(x)')
 plt.legend()
 plt.show()
 
-relerr_sp = np.log10(np.abs((v_sp - u)/u))
-relerr_ge = np.log10(np.abs((v_ge - u)/u))
-plt.plot(x, relerr_sp, label='Special algorithm')
-plt.plot(x, relerr_ge, label='General algorithm')
+relerr_sp = np.log10(np.abs((v_sp - u)/u)[1:-1])
+relerr_ge = np.log10(np.abs((v_ge - u)/u)[1:-1])
+plt.plot(x[1:-1], relerr_sp, label='Special algorithm')
+plt.plot(x[1:-1], relerr_ge, label='General algorithm', ls='--')
 plt.title('Relative error')
 plt.grid(ls='--')
 plt.xlabel('x')
