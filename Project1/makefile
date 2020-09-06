@@ -1,12 +1,12 @@
 all: compile execute
 
 compile:
-	c++ -o poisson.exe poisson.cpp
+	c++ -o tridiag.exe tridiag.cpp
 
 execute:
-	./poisson.exe 10 special
-	./poisson.exe 10 general
-	./poisson.exe 100 special
-	./poisson.exe 100 general
-	./poisson.exe 1000 special
-	./poisson.exe 1000 general
+	./tridiag.exe 10 special
+	./tridiag.exe 10 general
+	./tridiag.exe 100 special
+	./tridiag.exe 100 general
+	./tridiag.exe 1000 special
+	./tridiag.exe 1000 general

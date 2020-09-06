@@ -28,25 +28,28 @@ void general(int n, double *d, double *a, double *b, double *c) {
     outfilename.append(".txt");
     ofile.open(outfilename);
 
-    // Forward substitution:
+    // Make ready for forward/backward substitution:
     dn[0] = d[0];
     bn[0] = b[0];
-
+    v[n+1] = 0;
+    v[0] = 0;
+    clock_t start, finish;
+    start = clock();
+    // Forward substitution:
     for(int i = 1; i < n; i++) {
         dn[i] = d[i] - (a[i-1]*c[i-1])/dn[i-1];
         bn[i] = b[i] - (a[i-1]*bn[i-1])/dn[i-1];
     }
-
     // Backward substitution:
-    v[n+1] = 0;
-    v[0] = 0;
-
-  
-
     v[n] = bn[n-1]/dn[n-1];
     for(int i = n-1; i > 0; i--) {
         v[i] = (bn[i-1] - c[i-1]*v[i+1])/dn[i-1];
     }
+    finish = clock();
+    double timeused = (double)(finish - start) / (CLOCKS_PER_SEC);
+    auto timenow = chrono::system_clock::to_time_t(chrono::system_clock::now());
+    double float_n = (double) n;
+    logfile << "general      " << scientific << setprecision(1) << float_n << setw(10) << setprecision(2) << timeused << setw(30) << ctime(&timenow);
     // Write to file:
     for(int i = 0; i < n+2; i++) {
         ofile << setw(15) << setprecision(8) << v[i] << endl;
@@ -73,18 +76,26 @@ void special(int n, double *b) {
     for (int i = 1; i < n+1; i++) {
         dn[i-1] = (1.0+i)/i;
     }
-    // Forward substitution:
+    // Make ready for forward/backward substitution:
     bn[0] = b[0];
+    v[n + 1] = 0;
+    v[0] = 0;
+    v[n] = bn[n - 1] / dn[n - 1];
+    clock_t start, finish;
+    start = clock();
+    // Forward substitution:
     for (int i = 1; i < n; i++) {
         bn[i] = b[i] + bn[i-1]/dn[i-1];
     }
     // Backward substitution:
-    v[n+1] = 0;
-    v[0] = 0;
-    v[n] = bn[n-1]/dn[n-1];
     for (int i = n-1; i > 0; i--) {
         v[i] = (bn[i-1] + v[i+1])/dn[i-1];
     }
+    finish = clock();
+    double timeused = (double)(finish - start) / (CLOCKS_PER_SEC);
+    auto timenow = chrono::system_clock::to_time_t(chrono::system_clock::now());
+    double float_n = (double) n;
+    logfile << "special      " << scientific << setprecision(1) << float_n << setw(10) << setprecision(2) << timeused << setw(30) << ctime(&timenow);
     // Write to file:   
     for (int i = 0; i < n + 2; i++)
     {
@@ -135,22 +146,10 @@ int main(int argc, char *argv[]){
     logfile.open("log.txt", std::ios_base::app);
     // Check function and execute
     if(function == "general") {
-        clock_t start, finish;
-        start = clock();
         general(n, d, a, b, c);
-        finish = clock();
-        double timeused = (double) (finish - start)/(CLOCKS_PER_SEC );
-        auto timenow = chrono::system_clock::to_time_t(chrono::system_clock::now());
-        logfile << function << "    " << n << "    " << timeused << "    " << ctime(&timenow) << endl;
     }
         else if(function == "special") {
-        clock_t start, finish;
-        start = clock();
         special(n, b);
-        finish = clock();
-        double timeused = (double)(finish - start) / (CLOCKS_PER_SEC);
-        auto timenow = chrono::system_clock::to_time_t(chrono::system_clock::now());
-        logfile << function << "    " << n << "    " << timeused << "    " << ctime(&timenow) << endl;
     }
         else {
         cout << "The function you specified does not exist." << endl;
