@@ -19,7 +19,7 @@ bn  -  nye b etter fs.                - lengde n
 
 Forward substitution (dn og fn er oppdatert d og b).
 dn[0] = d[0] og bn[0] = b[0]
-for i = 1, ..., n:
+for i = 1, ..., n-1:
     dn[i] = d[i] - (a[i-1]*c[i-1])/dn[i-1]
     bn[i] = b[i] - (a[i-1]*bn[i-1])/dn[i-1]
 
@@ -45,7 +45,7 @@ bn  -  nye b etter fs.                - lengde n
 
 Forward substitution (dn og fn er oppdatert d og b).
 dn[0] = d[0] og bn[0] = b[0]
-for i = 1, ..., n:
+for i = 1, ..., n-1:
     dn[i] = (i+1)/i
     bn[i] = b[i] + ((i-1)*bn[i-1])/i
 
