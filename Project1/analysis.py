@@ -4,27 +4,18 @@ import matplotlib.pyplot as plt
 # Program to analyze files from tridiag.cpp
 
 # We go through all the values of n we have used:
-n = [10, 100, 1000, 10000, 100000, 1000000]
+n = [10, 100, 1000, 10000, 100000, 1000000, 10000000]
 # Make lists for maximum relative error of special
 # and general algorithm:
 maxerr_sp = []
 maxerr_ge = []
 for i in n:
-    i_st = str(i)   # String to open files
     # Open data from special and general algorithm for n = 1:
-    infile_sp = open("special_%s.txt" % i_st)   
-    infile_ge = open("general_%s.txt" % i_st)
-    # Lists to store data from infiles:
-    vlist_sp = []
-    vlist_ge = []
+    infile_sp = open("special_%i.txt" % i)   
+    infile_ge = open("general_%i.txt" % i)
     # Read through infiles:
-    for line in infile_sp:
-        vlist_sp.append(float(line))
-    for line in infile_ge:
-        vlist_ge.append(float(line))
-    # Make arrays of lists:
-    v_sp = np.array(vlist_sp)
-    v_ge = np.array(vlist_ge)
+    v_sp = np.loadtxt(infile_sp)
+    v_ge = np.loadtxt(infile_ge)
 
     # Plot:
     x = np.linspace(0, 1, i+2)
@@ -33,12 +24,12 @@ for i in n:
     plt.plot(x, u, label='Analytical')
     plt.plot(x, v_sp, label='Numerical, special')
     plt.plot(x, v_ge, label='Numerical, general', ls='--')
-    plt.title('Comparison for n = %s' % i_st)
+    plt.title('Comparison for n = %g' % i)
     plt.grid(ls='--')
     plt.xlabel('x')
     plt.ylabel('u(x)')
     plt.legend()
-    plt.savefig('plot_n%s' % i_st)
+    plt.savefig('plot_n%.0e' % i)
     plt.close()
 
     # Calculate relative error:
