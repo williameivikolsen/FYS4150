@@ -35,22 +35,29 @@ for i = n-1, ..., 1:
 
 Definér vektorer: double 
 x   -   x-koordinater           -   lengde n+2
-d   -   diagonalelementer i A   -   lengde n
-e   -   over/under diagonalen i A - lengde n-1
 b   -   h²f(x)                  -   lengde n
 v   -   løsning av likning      -   lengde n+2
 
 dn  -  nye diagonalelemnter etter fs. - lengde n
 bn  -  nye b etter fs.                - lengde n
 
-Forward substitution (dn og fn er oppdatert d og b).
-dn[0] = d[0] og bn[0] = b[0]
+Analytisk uttrykk for dn
+
+for i = 1, ..., n+1:
+    dn[i-1] = (1.0 + i) / i
+
+Gjør klar til fs
+
+bn[0] = b[0]
+
+Forward substitution
+
 for i = 1, ..., n:
-    dn[i] = (i+1)/i
-    bn[i] = b[i] + ((i-1)*bn[i-1])/i
+    bn[i] = b[i] + bn[i-1]/dn[i-1]
 
 Backward substitution (finner oppdatert v)
 v[n+1] = v[0] = 0
 v[n] = bn[n-1]/dn[n-1]
-for i = n, ..., 2:
-    v[i-1] = (i-1)/i*(bn[i-1] + v[i])
+
+for i = n-1, ..., 1:
+    v[i] = (bn[i-1] + v[i+1]) / dn[i-1]
