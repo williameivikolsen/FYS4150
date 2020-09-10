@@ -108,7 +108,7 @@ plt.loglog(n_arr, time_ge, 'x', label='General algorithm')
 plt.loglog(n_arr[:4], time_LU, '*', label='LU-decomposition')
 
 plt.grid(ls='--')
-plt.xlabel(r'$h$')
+plt.xlabel(r'$n$')
 plt.ylabel(r'CPU time (s)')
 plt.legend()
 plt.savefig('time')
