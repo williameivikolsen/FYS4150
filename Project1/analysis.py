@@ -9,6 +9,11 @@ n = [10, 100, 1000, 10000, 100000, 1000000, 10000000]
 # and general algorithm:
 maxerr_sp = []
 maxerr_ge = []
+
+# Make analytical solution 
+x_exact = np.linspace(0, 1, 1001)
+u_exact = 1- (1-np.exp(-10))*x_exact - np.exp(-10*x_exact)
+
 for i in n:
     # Open data from special and general algorithm for n = 1:
     infile_sp = open("special_%i.txt" % i)   
@@ -19,9 +24,8 @@ for i in n:
 
     # Plot:
     x = np.linspace(0, 1, i+2)
-    u = 1- (1-np.exp(-10))*x - np.exp(-10*x) # Analytical
-
-    plt.plot(x, u, label='Analytical')
+    u = 1- (1-np.exp(-10))*x - np.exp(-10*x)
+    plt.plot(x_exact, u_exact, label='Analytical')
     plt.plot(x, v_sp, label='Numerical, special')
     plt.plot(x, v_ge, label='Numerical, general', ls='--')
     plt.title('Comparison for n = %g' % i)
@@ -30,7 +34,9 @@ for i in n:
     plt.ylabel('u(x)')
     plt.legend()
     plt.savefig('plot_n%.0e' % i)
+    plt.show()
     plt.close()
+    
 
     # Calculate relative error:
     relerr_sp = np.abs((v_sp - u)/u)[1:-1]
@@ -50,4 +56,5 @@ plt.xlabel(r'$h$')
 plt.ylabel(r'$\epsilon (n)$')
 plt.legend()
 plt.savefig('maxrel')
+plt.show()
 plt.close()
