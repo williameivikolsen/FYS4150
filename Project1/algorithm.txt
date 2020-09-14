@@ -1,4 +1,4 @@
-Merk: Noen av variablene her har ikke samme navn som i forelesningsnotatene.
+fMerk: Noen av variablene her har ikke samme navn som i forelesningsnotatene.
 For eksempel brukes noen ganger b om diagonalelementene til A i forelesningsnotatene, 
 mens vi bruker b om høyresiden av likningen h²f(x).
 
