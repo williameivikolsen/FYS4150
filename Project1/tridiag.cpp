@@ -236,7 +236,7 @@ void lu(int n, double *b)
     logfile << "LU           " << scientific << setprecision(1) << float_n << setw(10) << setprecision(2) << timeused << setw(30) << ctime(&timenow);
 
     // Print result to file
-    ofile << v_vec << endl;
+    ofile << "0\n" << v_vec << "0\n" << endl;
 
     // Close outfile
     ofile.close();
