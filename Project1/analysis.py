@@ -1,3 +1,4 @@
+#%%
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -139,3 +140,4 @@ LU           1.0e+02  1.71e-04     Thu Sep 10 19:43:12 2020
 LU           1.0e+03  9.16e-02     Thu Sep 10 19:43:12 2020
 LU           1.0e+04  9.50e+00     Thu Sep 10 19:43:27 2020
 """
+# %%
