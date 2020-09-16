@@ -4,3 +4,5 @@ Denne kompileres og kjøres ved å bruke makefilen. Selve løsningsarrayene blir
 en loggfil log.txt. 
 
 Plotting skjer med analysis.py etter makefilen er kjørt.
+
+Algoritmen er beskrevet med pseudokode i algorithm.txt
