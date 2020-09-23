@@ -17,11 +17,11 @@ protected:
     mat m_A0;                     // Copy of original matrix A  (nxn)   
     mat m_R;                      // Eigenvector matrix         (nxn)
     vec m_v;                      // Eigenvalue vector          (nx1)
+    void Rotate();           // Perform Jacobi rotation and return max off-diagonal value
 
 public:
     void Initialize(int n, double epsilon, int maxit);   // Initialize parameters n, h, d, a, epsilon, maxit, A and R
     void Loop();
-    void Rotate();           // Perform Jacobi rotation and return max off-diagonal value
     void Test_results(int num_tests, bool test_bool=false);
 };
 
