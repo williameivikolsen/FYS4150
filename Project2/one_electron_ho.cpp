@@ -1,8 +1,8 @@
 #include "jacobi.hpp"
 
-void One_electron_HO::Init(int n, double epsilon, int maxit, vec V) {
+void One_electron_HO::Init(int n, double epsilon, int maxit, vec V, int num_tests, bool test_bool) {
     // Initialiserer variabler fra Jacobi:
-    Initialize(n, epsilon, maxit);
+    Initialize(n, epsilon, maxit, num_tests, test_bool);
     // Genererer matrise:
     for (int i = 0; i < m_n - 1; i++) {
         m_A(i, i) = m_d + V(i);
