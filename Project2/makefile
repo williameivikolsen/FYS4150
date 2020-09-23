@@ -5,5 +5,5 @@ compile:
 	# c++ -o test.exe test.cpp
 
 execute:
-	./main.exe
+	./main.exe test
 	# ./test.exe

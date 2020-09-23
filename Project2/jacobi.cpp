@@ -15,36 +15,79 @@ void Jacobi::Initialize(int n, double epsilon, int maxit) {
     m_maxit = maxit;
     m_maxsq = m_a*m_a;
 
+    m_v = zeros<vec>(m_n);
     m_A = zeros<mat>(m_n, m_n);
     for (int i = 0; i < m_n - 1; i++) {
-        m_A(i, i) = m_a;
-        m_A(i+1, i) = m_d;
-        m_A(i, i+1) = m_d;
+        m_A(i, i) = m_d;
+        m_A(i+1, i) = m_a;
+        m_A(i, i+1) = m_a;
     }
-    m_A(m_n-1, m_n-1) = m_a;
+    m_A(m_n-1, m_n-1) = m_d;
+   
+    m_R = arma::eye<mat>(m_n, m_n);
 
-    m_R = eye<mat>(m_n, m_n);
 }
 
-void Jacobi::Loop() {
+void Jacobi::Loop(bool test) {
     // We define the squared maximim off-diagonal element of A
     // to be a value known to be larger than epsilon to begin with:
     // Iteration counter:
     int it = 0;
-    cout << m_A << endl;
-
-    // Hvis vi vil regne ut egenvektorene med armadillo:
-    // vec eigval;
-    // mat eigvec;
-    // eig_sym(eigval, eigvec, m_A);
-    // cout << eigvec << endl;
+    m_A.print();
 
     while (m_maxsq > m_epsilon and it < m_maxit) {
         Rotate();
         it++;
     }
-    cout << m_R << endl;
+
+    // Fill m_v with eigenvectors
+    for (int i = 0; i < m_n; i++)
+    {
+        m_v(i) = m_A(i,i);
+    }
+    
+    //cout << m_A << endl;
+    //cout << m_R << endl;
     cout << "Loop finished. Number of loops: " << it << endl;
+
+
+    if (test==true){
+    // Test eigenvectors and eigenvalues against Armadillo
+
+    cout << "Executing tests: " << endl;
+
+    vec eigval;     // Will be listed in ascending order
+    mat eigvec;     // Stored as column vectors
+    eig_sym(eigval, eigvec, m_A);
+    //cout << "Armadillo says:" << endl << eigval << endl;
+    //cout << "Jacobi says:" << endl << m_v << endl;
+    
+    uvec sort_indices = sort_index(m_v); // Indexes needed to sort m_v
+    //cout << sort_indices << endl;
+
+    int error_count = 0;
+    for (int i = 0; i < m_n; i++){
+        int sort_idx = sort_indices[i]; // Corresponding index for m_v
+        
+        if(abs(eigval[i]-m_v[sort_idx]) > 1e-12){ // <<<--- m_epsilon
+            cout << "***********************" << endl;
+            cout << "Eigenvalue check fails!" << endl;
+            cout << "Armadillo eigenvalue: " << eigval[i] << endl;
+            cout << "Jacobi eigenvalue: " << m_v[sort_idx] << endl;
+            cout << "Absolute differnce is " << abs(eigval[i]-m_v[sort_idx]);
+            cout <<  ", which is higher than tolerance " << m_epsilon << endl;
+            cout << "***********************" << endl;
+            error_count++;
+        }
+    }
+    if(error_count == 0){
+        cout << "Eigenvalue test passed! Tolerance: " << m_epsilon << endl;
+    }
+    else{
+        cout << error_count <<"/" << m_n << " eigenvalue tests failed" << endl;
+    }
+    
+    }
 }
 
 void Jacobi::Rotate() {
