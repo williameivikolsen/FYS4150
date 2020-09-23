@@ -108,7 +108,7 @@ void Jacobi::Rotate() {
     }
 }
 
-void Jacobi::Test_results_Armadillo(){
+void Jacobi::Test_results_armadillo(){
 if (m_test_bool==true){      
     // Test eigenvectors and eigenvalues against Armadillo
     int freq_check = m_n/(m_num_tests-1); // Frequency of testing

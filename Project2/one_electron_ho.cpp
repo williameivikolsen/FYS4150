@@ -11,3 +11,7 @@ void One_electron_HO::Init(int n, double epsilon, int maxit, vec V, int num_test
     }
     m_A(m_n - 1, m_n - 1) = m_d;
 }
+
+void One_electron_HO::Test_results_analytic(){
+    cout << "hello" << endl;
+}

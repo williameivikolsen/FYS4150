@@ -24,16 +24,18 @@ protected:
 public:
     void Initialize(int n, double epsilon, int maxit, int num_tests, bool test_bool);   // Initialize parameters n, h, d, a, epsilon, maxit, A and R
     void Loop();
-    void Test_results_Armadillo();
+    void Test_results_armadillo();
 };
 
 class Beam : public Jacobi {
 public:
     void Init(int n, double epsilon, int maxit, int num_tests, bool test_bool=false);
+    void Test_results_analytic();
 };
 
 class One_electron_HO : public Jacobi {
     void Init(int n, double epsilon, int maxit, vec V, int num_tests, bool test_bool=false);
+    void Test_results_analytic();
 };
 
 #endif

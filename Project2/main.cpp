@@ -24,6 +24,7 @@ int main(int argc, char *argv[]) {
     Beam my_solver;
     my_solver.Init(n, epsilon, maxit, num_tests, test_bool);
     my_solver.Loop();
-    my_solver.Test_results_Armadillo();
+    // my_solver.Test_results_armadillo();
+    my_solver.Test_results_analytic();
     return 0;
 }
