@@ -3,7 +3,7 @@
 lectures2015.pdf
 test.cpp
 test.exe
-
+*.json
 
 # compiled files:
 *.o
