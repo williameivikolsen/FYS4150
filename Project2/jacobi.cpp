@@ -24,7 +24,8 @@ void Jacobi::Initialize(int n, double epsilon, int maxit) {
     }
     m_A(m_n-1, m_n-1) = m_d;
    
-    m_R = arma::eye<mat>(m_n, m_n);
+    m_A0 = m_A;         // Create copy of m_A
+    m_R = eye<mat>(m_n, m_n);
 
 }
 
@@ -122,7 +123,7 @@ if (test_bool==true){
  
     vec eigval;     // Will be listed in ascending order
     mat eigvec;     // Stored as column vectors
-    eig_sym(eigval, eigvec, m_A);
+    eig_sym(eigval, eigvec, m_A0);
  
     uvec sort_indices = sort_index(m_v); // Indexes needed to sort m_v
 
@@ -133,7 +134,7 @@ if (test_bool==true){
     
     for (int i = 0; i < m_n; i++){
     
-        if(i % (m_n/(num_tests-1)) == 0 || i == m_n-1){ // Test only for select values of i
+        if(i % m_n/freq_check == 0 || i == m_n-1){ // Test only for select values of i
         cout << "Testing for i = " << i << "..."<< endl;
 
         int sort_idx = sort_indices[i]; // Corresponding index for m_v
@@ -159,41 +160,46 @@ if (test_bool==true){
     }
 
 
-    // Compare norm of eigenvectors
-    cout << endl << "Executing eigenvector tests: " << endl;
-    error_count = 0;
-    eigvec.print();
+    // // Compare norm of eigenvectors
+    // cout << endl << "Executing eigenvector tests: " << endl;
+    // error_count = 0;
+    // eigvec.print();
+    // cout << endl;
+    // m_R.print();
 
-    for (int i = 0; i < m_n; i++){
+    // cout << endl;
+    // m_A0.print();
+    // for (int i = 0; i < m_n; i++){
     
-        if(i % (m_n/(num_tests-1)) == 0 || i == m_n-1){ // Test only for select values of i
-        cout << "Testing for i = " << i << "..."<< endl;
+    //     if(i % (m_n/(num_tests-1)) == 0 || i == m_n-1){ // Test only for select values of i
+    //     cout << "Testing for i = " << i << "..."<< endl;
 
-        int sort_idx = sort_indices[i]; // Corresponding index for m_v
-        vec jacobi_eigenvec = m_R.row(sort_idx).as_col(); // Relevant eigenvector is row sort_idx of m_R
-        jacobi_eigenvec.print();
-        vec armadillo_eigenvec = eigvec.col(i);
-        armadillo_eigenvec.print();
-        // m_A.print();
-            // if(norm(eigvec[i]-jacobi_eigenvec) > m_epsilon){
-            //     cout << "***********************" << endl;
-            //     cout << "Eigenvector check fails!" << endl;
-            //     cout << "Armadillo eigenvector: " << eigvec[i] << endl;
-            //     cout << "Jacobi eigenvector: " << jacobi_eigenvec << endl;
-            //     cout << "Difference of vectors has norm " << norm(eigvec[i]-jacobi_eigenvec);
-            //     cout <<  ", which is higher than tolerance " << m_epsilon << endl;
-            //     cout << "***********************" << endl;
-            //     error_count++;
-            // }
-        }
+    //     int sort_idx = sort_indices[i]; // Corresponding index for m_v
+    //     // vec jacobi_eigenvec = m_R.row(sort_idx).as_col(); // Relevant eigenvector is row sort_idx of m_R
+    //     // jacobi_eigenvec.print();
+    //     // cout << endl;
+    //     // vec armadillo_eigenvec = eigvec.col(i);
+    //     // armadillo_eigenvec.print();
+    //     // m_A.print();
+    //         // if(norm(eigvec[i]-jacobi_eigenvec) > m_epsilon){
+    //         //     cout << "***********************" << endl;
+    //         //     cout << "Eigenvector check fails!" << endl;
+    //         //     cout << "Armadillo eigenvector: " << eigvec[i] << endl;
+    //         //     cout << "Jacobi eigenvector: " << jacobi_eigenvec << endl;
+    //         //     cout << "Difference of vectors has norm " << norm(eigvec[i]-jacobi_eigenvec);
+    //         //     cout <<  ", which is higher than tolerance " << m_epsilon << endl;
+    //         //     cout << "***********************" << endl;
+    //         //     error_count++;
+    //         // }
+    //     }
 
-    }
-    if(error_count == 0){
-        cout << num_tests <<"/" << num_tests << " eigenvector tests passed!" << endl;
-    }
-    else{
-        cout << error_count <<"/" << num_tests << " eigenvector tests failed" << endl;
-    }
+    // }
+    // if(error_count == 0){
+    //     cout << num_tests <<"/" << num_tests << " eigenvector tests passed!" << endl;
+    // }
+    // else{
+    //     cout << error_count <<"/" << num_tests << " eigenvector tests failed" << endl;
+    // }
 
     cout << "--------------------------------------------------------------------------" << endl;
 }

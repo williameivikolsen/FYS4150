@@ -13,9 +13,10 @@ private:
     double m_epsilon;             // Tolerance
     int m_maxit;                  // Maximum number of iterations
     double m_maxsq;               // Max squared off-diagonal element
-    mat m_A;                      // Matrix             (nxn)
-    mat m_R;                      // Eigenvector matrix (nxn)
-    vec m_v;                      // Eigenvalue vector  (nx1)
+    mat m_A;                      // Matrix                     (nxn)
+    mat m_A0;                     // Copy of original matrix A  (nxn)   
+    mat m_R;                      // Eigenvector matrix         (nxn)
+    vec m_v;                      // Eigenvalue vector          (nx1)
 
 public:
     void Initialize(int n, double epsilon, int maxit);   // Initialize parameters n, h, d, a, epsilon and maxit
