@@ -6,22 +6,24 @@ using namespace std;
 
 int main(int argc, char *argv[]) {
     
-    bool test;
+    bool test_bool;
     if(argc == 1){
-        test = false;
+        test_bool = false;
     }
     else if(strcmp(argv[1], "test")== 0){
-        test = true;
+        test_bool = true;
     }
     else{
-        test = false;
+        test_bool = false;
     }
 
     int n = 10;
     int maxit = 1000;
     double epsilon = 1e-8;
+    int num_tests = 6;          // A check will be performed on every num_test'th value 
     Jacobi my_solver;
     my_solver.Initialize(n, epsilon, maxit);
-    my_solver.Loop(test);
+    my_solver.Loop();
+    my_solver.Test_results(num_tests, test_bool);
     return 0;
 }

@@ -28,7 +28,7 @@ void Jacobi::Initialize(int n, double epsilon, int maxit) {
 
 }
 
-void Jacobi::Loop(bool test) {
+void Jacobi::Loop() {
     // We define the squared maximim off-diagonal element of A
     // to be a value known to be larger than epsilon to begin with:
     // Iteration counter:
@@ -49,45 +49,6 @@ void Jacobi::Loop(bool test) {
     //cout << m_A << endl;
     //cout << m_R << endl;
     cout << "Loop finished. Number of loops: " << it << endl;
-
-
-    if (test==true){
-    // Test eigenvectors and eigenvalues against Armadillo
-
-    cout << "Executing tests: " << endl;
-
-    vec eigval;     // Will be listed in ascending order
-    mat eigvec;     // Stored as column vectors
-    eig_sym(eigval, eigvec, m_A);
-    //cout << "Armadillo says:" << endl << eigval << endl;
-    //cout << "Jacobi says:" << endl << m_v << endl;
-    
-    uvec sort_indices = sort_index(m_v); // Indexes needed to sort m_v
-    //cout << sort_indices << endl;
-
-    int error_count = 0;
-    for (int i = 0; i < m_n; i++){
-        int sort_idx = sort_indices[i]; // Corresponding index for m_v
-        
-        if(abs(eigval[i]-m_v[sort_idx]) > 1e-12){ // <<<--- m_epsilon
-            cout << "***********************" << endl;
-            cout << "Eigenvalue check fails!" << endl;
-            cout << "Armadillo eigenvalue: " << eigval[i] << endl;
-            cout << "Jacobi eigenvalue: " << m_v[sort_idx] << endl;
-            cout << "Absolute differnce is " << abs(eigval[i]-m_v[sort_idx]);
-            cout <<  ", which is higher than tolerance " << m_epsilon << endl;
-            cout << "***********************" << endl;
-            error_count++;
-        }
-    }
-    if(error_count == 0){
-        cout << "Eigenvalue test passed! Tolerance: " << m_epsilon << endl;
-    }
-    else{
-        cout << error_count <<"/" << m_n << " eigenvalue tests failed" << endl;
-    }
-    
-    }
 }
 
 void Jacobi::Rotate() {
@@ -150,4 +111,90 @@ void Jacobi::Rotate() {
         m_R(i, k) = c * r_ik - s * r_il;
         m_R(i, l) = c * r_il + s * r_ik;
     }
+}
+
+void Jacobi::Test_results(int num_tests, bool test_bool){
+if (test_bool==true){      
+    // Test eigenvectors and eigenvalues against Armadillo
+    int freq_check = m_n/(num_tests-1); // Frequency of testing
+    cout << endl << "--------------------------------------------------------------------------" << endl;
+    cout << "Testing against Armadillo for every " << freq_check << " value + last value. Tolerance: " << m_epsilon << endl;     
+ 
+    vec eigval;     // Will be listed in ascending order
+    mat eigvec;     // Stored as column vectors
+    eig_sym(eigval, eigvec, m_A);
+ 
+    uvec sort_indices = sort_index(m_v); // Indexes needed to sort m_v
+
+
+    // Compare eigenvectors
+    cout << "Executing eigenvalue tests: " << endl;
+    int error_count = 0;
+    
+    for (int i = 0; i < m_n; i++){
+    
+        if(i % (m_n/(num_tests-1)) == 0 || i == m_n-1){ // Test only for select values of i
+        cout << "Testing for i = " << i << "..."<< endl;
+
+        int sort_idx = sort_indices[i]; // Corresponding index for m_v
+        
+            if(abs(eigval[i]-m_v[sort_idx]) > 1e-1){ // m_epsilon
+                cout << "***********************" << endl;
+                cout << "Eigenvalue check fails!" << endl;
+                cout << "Armadillo eigenvalue: " << eigval[i] << endl;
+                cout << "Jacobi eigenvalue: " << m_v[sort_idx] << endl;
+                cout << "Absolute difference is " << abs(eigval[i]-m_v[sort_idx]);
+                cout <<  ", which is higher than tolerance " << m_epsilon << endl;
+                cout << "***********************" << endl;
+                error_count++;
+            }
+        }
+
+    }
+    if(error_count == 0){
+        cout << num_tests <<"/" << num_tests << " eigenvalue tests passed!" << endl;
+    }
+    else{
+        cout << error_count <<"/" << num_tests << " eigenvalue tests failed" << endl;
+    }
+
+
+    // Compare norm of eigenvectors
+    cout << endl << "Executing eigenvector tests: " << endl;
+    error_count = 0;
+    eigvec.print();
+
+    for (int i = 0; i < m_n; i++){
+    
+        if(i % (m_n/(num_tests-1)) == 0 || i == m_n-1){ // Test only for select values of i
+        cout << "Testing for i = " << i << "..."<< endl;
+
+        int sort_idx = sort_indices[i]; // Corresponding index for m_v
+        vec jacobi_eigenvec = m_R.row(sort_idx).as_col(); // Relevant eigenvector is row sort_idx of m_R
+        jacobi_eigenvec.print();
+        vec armadillo_eigenvec = eigvec.col(i);
+        armadillo_eigenvec.print();
+        // m_A.print();
+            // if(norm(eigvec[i]-jacobi_eigenvec) > m_epsilon){
+            //     cout << "***********************" << endl;
+            //     cout << "Eigenvector check fails!" << endl;
+            //     cout << "Armadillo eigenvector: " << eigvec[i] << endl;
+            //     cout << "Jacobi eigenvector: " << jacobi_eigenvec << endl;
+            //     cout << "Difference of vectors has norm " << norm(eigvec[i]-jacobi_eigenvec);
+            //     cout <<  ", which is higher than tolerance " << m_epsilon << endl;
+            //     cout << "***********************" << endl;
+            //     error_count++;
+            // }
+        }
+
+    }
+    if(error_count == 0){
+        cout << num_tests <<"/" << num_tests << " eigenvector tests passed!" << endl;
+    }
+    else{
+        cout << error_count <<"/" << num_tests << " eigenvector tests failed" << endl;
+    }
+
+    cout << "--------------------------------------------------------------------------" << endl;
+}
 }

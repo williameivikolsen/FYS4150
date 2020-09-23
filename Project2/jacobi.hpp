@@ -16,9 +16,11 @@ private:
     mat m_A;                      // Matrix             (nxn)
     mat m_R;                      // Eigenvector matrix (nxn)
     vec m_v;                      // Eigenvalue vector  (nx1)
+
 public:
     void Initialize(int n, double epsilon, int maxit);   // Initialize parameters n, h, d, a, epsilon and maxit
-    void Loop(bool test=false);
+    void Loop();
     void Rotate();           // Perform Jacobi rotation and return max off-diagonal value
+    void Test_results(int num_tests, bool test_bool=false);
 };
 #endif
