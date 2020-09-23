@@ -6,7 +6,7 @@
 using namespace std;
 using namespace arma;
 
-void Jacobi::Initialize(int n, double epsilon, int maxit) {
+void Jacobi::Initialize(int n, double epsilon, int maxit, int num_tests, bool test_bool) {
     m_n = n;
     m_h = 1/double(n);
     m_d = 2/(m_h*m_h);
@@ -15,16 +15,12 @@ void Jacobi::Initialize(int n, double epsilon, int maxit) {
     m_maxit = maxit;
     m_maxsq = m_a*m_a;
 
-    m_v = zeros<vec>(m_n);
-    m_A = zeros<mat>(m_n, m_n);
-    // for (int i = 0; i < m_n - 1; i++) {
-    //     m_A(i, i) = m_d;
-    //     m_A(i+1, i) = m_a;
-    //     m_A(i, i+1) = m_a;
-    // }
-    // m_A(m_n-1, m_n-1) = m_d;
+    m_v = zeros<vec>(m_n);      // To be filled
+    m_A = zeros<mat>(m_n, m_n); // To be filled
 
     m_R = eye<mat>(m_n, m_n);
+    m_test_bool = test_bool;
+    m_num_tests = num_tests;
 }
 
 void Jacobi::Loop() {
@@ -112,10 +108,10 @@ void Jacobi::Rotate() {
     }
 }
 
-void Jacobi::Test_results(int num_tests, bool test_bool){
-if (test_bool==true){      
+void Jacobi::Test_results_armadillo(){
+if (m_test_bool==true){      
     // Test eigenvectors and eigenvalues against Armadillo
-    int freq_check = m_n/(num_tests-1); // Frequency of testing
+    int freq_check = m_n/(m_num_tests-1); // Frequency of testing
     cout << endl << "--------------------------------------------------------------------------" << endl;
     cout << "Testing against Armadillo for every " << freq_check << " value + last value. Tolerance: " << m_epsilon << endl;     
  
@@ -130,14 +126,14 @@ if (test_bool==true){
     cout << "Executing eigenvalue tests: " << endl;
     int error_count = 0;
     
+
     for (int i = 0; i < m_n; i++){
-    
-        if(i % m_n/freq_check == 0 || i == m_n-1){ // Test only for select values of i
+        if(i % freq_check == 0 || i == m_n-1){ // Test only for select values of i
         cout << "Testing for i = " << i << "..."<< endl;
 
         int sort_idx = sort_indices[i]; // Corresponding index for m_v
         
-            if(abs(eigval[i]-m_v[sort_idx]) > 1e-1){ // m_epsilon
+            if(abs(eigval[i]-m_v[sort_idx]) > m_epsilon){ // m_epsilon
                 cout << "***********************" << endl;
                 cout << "Eigenvalue check fails!" << endl;
                 cout << "Armadillo eigenvalue: " << eigval[i] << endl;
@@ -151,12 +147,11 @@ if (test_bool==true){
 
     }
     if(error_count == 0){
-        cout << num_tests <<"/" << num_tests << " eigenvalue tests passed!" << endl;
+        cout << m_num_tests <<"/" << m_num_tests << " eigenvalue tests passed!" << endl;
     }
     else{
-        cout << error_count <<"/" << num_tests << " eigenvalue tests failed" << endl;
+        cout << error_count <<"/" << m_num_tests << " eigenvalue tests failed" << endl;
     }
-
 
     // // Compare norm of eigenvectors
     // cout << endl << "Executing eigenvector tests: " << endl;
@@ -200,5 +195,10 @@ if (test_bool==true){
     // }
 
     cout << "--------------------------------------------------------------------------" << endl;
+}
+else{
+    cout << "********************************************************************" << endl;
+    cout << "Add 'test' on command line when executing in order to perform tests." << endl;
+    cout << "********************************************************************" << endl;
 }
 }
