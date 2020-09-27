@@ -1,0 +1,6 @@
+Rar feil som oppstår: Print av matrise inni Loop() gir feil:
+
+error: Mat::operator(): index out of bounds
+terminate called after throwing an instance of 'std::logic_error'
+  what():  Mat::operator(): index out of bounds
+make: *** [makefile:8: execute] Aborted (core dumped)
