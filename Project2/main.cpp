@@ -5,8 +5,8 @@
 using namespace std;
 
 int main() {
-    int n = 10;
-    int maxit = 1000;
+    int n = 4;
+    int maxit = 100;
     double epsilon = 1e-8;
     Jacobi my_solver;
     my_solver.Initialize(n, epsilon, maxit);

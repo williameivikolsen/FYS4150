@@ -16,12 +16,12 @@ void Jacobi::Initialize(int n, double epsilon, int maxit) {
     m_maxsq = m_a*m_a;
 
     m_A = zeros<mat>(m_n, m_n);
-    for (int i = 0; i < m_n - 1; i++) {
-        m_A(i, i) = m_a;
-        m_A(i+1, i) = m_d;
-        m_A(i, i+1) = m_d;
-    }
-    m_A(m_n-1, m_n-1) = m_a;
+    // for (int i = 0; i < m_n - 1; i++) {
+    //     m_A(i, i) = m_a;
+    //     m_A(i+1, i) = m_d;
+    //     m_A(i, i+1) = m_d;
+    // }
+    // m_A(m_n-1, m_n-1) = m_a;
 
     m_R = eye<mat>(m_n, m_n);
 }
@@ -31,7 +31,7 @@ void Jacobi::Loop() {
     // to be a value known to be larger than epsilon to begin with:
     // Iteration counter:
     int it = 0;
-    cout << m_A << endl;
+    // cout << m_A << endl;
 
     // Hvis vi vil regne ut egenvektorene med armadillo:
     // vec eigval;
@@ -43,6 +43,7 @@ void Jacobi::Loop() {
         Rotate();
         it++;
     }
+    cout << m_A << endl;
     cout << m_R << endl;
     cout << "Loop finished. Number of loops: " << it << endl;
 }
