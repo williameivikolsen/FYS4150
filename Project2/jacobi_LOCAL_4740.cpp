@@ -23,9 +23,10 @@ void Jacobi::Initialize(int n, double epsilon, int maxit) {
         m_A(i, i+1) = m_a;
     }
     m_A(m_n-1, m_n-1) = m_d;
-
+   
+    m_A0 = m_A;         // Create copy of m_A
     m_R = eye<mat>(m_n, m_n);
-    m_A0 = m_A;
+
 }
 
 void Jacobi::Loop() {
