@@ -31,7 +31,7 @@ public:
     void Solve();
 };
 
-class Oscillator : public Jacobi {
+class One_electron_HO : public Jacobi {
     void Init(int n, double epsilon, int maxit, vec V);
     void Solve();
 };

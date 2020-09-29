@@ -1,6 +1,6 @@
 #include "jacobi.hpp"
 
-void Oscillator::Init(int n, double epsilon, int maxit, vec V) {
+void One_electron_HO::Init(int n, double epsilon, int maxit, vec V) {
     // Initialiserer variabler fra Jacobi:
     Initialize(n, epsilon, maxit);
     // Genererer matrise:
@@ -12,7 +12,7 @@ void Oscillator::Init(int n, double epsilon, int maxit, vec V) {
     m_A(m_n - 1, m_n - 1) = m_d;
 }
 
-void Oscillator::Solve()
+void One_electron_HO::Solve()
 {
     Loop();
 }
