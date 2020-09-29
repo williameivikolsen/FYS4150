@@ -28,12 +28,10 @@ public:
 class Beam : public Jacobi {
 public:
     void Init(int n, double epsilon, int maxit);
-    void Solve();
 };
 
 class One_electron_HO : public Jacobi {
     void Init(int n, double epsilon, int maxit, vec V);
-    void Solve();
 };
 
 #endif

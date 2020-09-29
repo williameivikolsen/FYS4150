@@ -1,9 +1,7 @@
 all: compile execute
 
 compile:
-	c++ -o main.exe main.cpp jacobi.cpp -larmadillo
-	# c++ -o test.exe test.cpp
+	c++ -o main.exe main.cpp jacobi.cpp beam.cpp one_electron_ho.cpp -larmadillo
 
 execute:
-	./main.exe test
-	# ./test.exe
+	./main.exe

@@ -10,8 +10,5 @@ void Beam::Init(int n, double epsilon, int maxit) {
         m_A(i, i + 1) = m_a;
     }
     m_A(m_n - 1, m_n - 1) = m_d;
-}
-
-void Beam::Solve() {
-    Loop();
+    m_A0 = m_A;
 }

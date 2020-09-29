@@ -21,8 +21,8 @@ int main(int argc, char *argv[]) {
     int maxit = 1000;
     double epsilon = 1e-8;
     int num_tests = 6;          // A check will be performed on every num_test'th value 
-    Jacobi my_solver;
-    my_solver.Initialize(n, epsilon, maxit);
+    Beam my_solver;
+    my_solver.Init(n, epsilon, maxit);
     my_solver.Loop();
     my_solver.Test_results(num_tests, test_bool);
     return 0;

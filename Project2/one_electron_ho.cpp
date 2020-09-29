@@ -11,8 +11,3 @@ void One_electron_HO::Init(int n, double epsilon, int maxit, vec V) {
     }
     m_A(m_n - 1, m_n - 1) = m_d;
 }
-
-void One_electron_HO::Solve()
-{
-    Loop();
-}
