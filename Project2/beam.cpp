@@ -16,11 +16,12 @@ void Beam::Init(int n, double epsilon, int maxit, int num_tests, bool test_bool)
 void Beam::Test_results_analytic(){
     vec eigval_analytical = zeros<vec>(m_n); 
 
+    cout << "--------------" << endl << "eigenvals: " << endl;
     cout << "m_d: " << m_d << ", m_a: " << m_a << endl;
     for (int j = 0; j < m_n; j++)
     {
-        cout << cos(j*M_PI/m_n) << endl;
-        eigval_analytical(j) = m_d + 2*m_a*cos(j*M_PI/m_n);
+        // cout << cos(j*M_PI/m_n) << endl;
+        eigval_analytical(j) = m_d + 2*m_a*cos((j+1)*M_PI/(m_n+1));
     }
     cout << "Analytical eigvals:" << endl;
     eigval_analytical.print();
@@ -38,4 +39,8 @@ void Beam::Test_results_analytic(){
     cout << "Armadillo eigvals:" << endl;
     eigval_arma.print();
     
+    cout << "--------------" << endl << "eigenvecs: " << endl;
+
+
+
 }

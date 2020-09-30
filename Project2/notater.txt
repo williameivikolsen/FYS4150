@@ -1,4 +1,4 @@
-Rar feil som oppstår: Print av matrise inni Loop() gir feil:
+Rar feil som oppstår: Print av matrise inni Loop() gir følgende feil:
 
 error: Mat::operator(): index out of bounds
 terminate called after throwing an instance of 'std::logic_error'
