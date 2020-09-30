@@ -4,6 +4,7 @@ lectures2015.pdf
 test.cpp
 test.exe
 *.json
+test.py
 
 # compiled files:
 *.o

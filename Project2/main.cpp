@@ -28,7 +28,7 @@ int main(int argc, char *argv[]) {
         my_solver.Init(n, epsilon, maxit, num_tests, filename, test_bool);
         my_solver.Loop();
         // my_solver.Test_results_armadillo();
-        // my_solver.Test_results_analytic();
+        my_solver.Test_results_analytic();
         my_solver.Test_results_orthogonality();
         my_solver.Print_to_file();
     }

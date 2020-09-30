@@ -17,7 +17,7 @@ eigenvectors = data[1:]
 
 valmin = np.min(eigenvalues)        # Smallest eigenvalue
 idxmin = np.argmin(eigenvalues)     # Index of smallest eigenvalue
-vecmin = eigenvectors[:, idxmin]       # Eigenvector with smallest eigenvaluel
+vecmin = eigenvectors[:, idxmin]    # Eigenvector with smallest eigenvalue
 
 rhomin = 0
 rhomax = 1
