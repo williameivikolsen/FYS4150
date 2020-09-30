@@ -108,8 +108,8 @@ void Jacobi::Test_results_armadillo(){
 if (m_test_bool==true){      
     // Test eigenvectors and eigenvalues against Armadillo
     int freq_check = m_n/(m_num_tests-1); // Frequency of testing
-    cout << endl << "--------------------------------------------------------------------------" << endl;
-    cout << "Testing against Armadillo for every " << freq_check << " value + last value. Tolerance: " << m_epsilon << endl;     
+    cout << "--------------------------------------------------------------------------" << endl;
+    cout << "Testing against Armadillo for every " << freq_check << " value + last value. Tolerance: " << m_epsilon << endl << endl;     
  
     vec eigval;     // Will be listed in ascending order
     mat eigvec;     // Stored as column vectors
@@ -148,17 +148,14 @@ if (m_test_bool==true){
     else{
         cout << error_count <<"/" << m_num_tests << " eigenvalue tests failed" << endl;
     }
-    cout << "--------------------------------------------------------------------------" << endl;
-}
-else{
-    cout << "********************************************************************" << endl;
-    cout << "Add 'test' on command line when executing in order to perform tests." << endl;
-    cout << "********************************************************************" << endl;
+    cout << "--------------------------------------------------------------------------" << endl << endl;
 }
 }
 
 void Jacobi::Test_results_orthogonality(){
-    // If in testing mode: check orthogonality m_num_test times in final matrixes m_A and m_R
+    // If in testing mode: check orthogonality m_num_test times in final matrix m_R
+    cout << "--------------------------------------------------------------------------" << endl;
+    cout << "Checking orthogonality of final matrix: " << endl;
     if(m_test_bool == true){
         int freq_check = m_n/(m_num_tests-1);           // Frequency of testing
         ivec checked_idx = zeros<ivec>(m_num_tests);     // Integer vector
@@ -199,7 +196,7 @@ void Jacobi::Test_results_orthogonality(){
     }
     cout << "********************************************" << endl;
     cout << "In total: " << err_count << " errors" << endl;
-    cout << "********************************************" << endl;
+    cout << "********************************************" << endl << endl;;
     }
 }
 

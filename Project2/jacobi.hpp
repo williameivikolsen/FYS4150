@@ -24,7 +24,7 @@ protected:
     mat m_R;                      // Eigenvector matrix         (nxn)
     vec m_v;                      // Eigenvalue vector          (nx1)
     bool m_test_bool;             // Whether to preform tests or not 
-    int m_num_tests;              // A check will be performed on every num_test'th value
+    int m_num_tests;              // Number of (evenly spaced out) tests to be performed per test function
     string m_filename;            // Filename for data to be saved
     void Rotate();                // Perform Jacobi rotation and return max off-diagonal value
 
