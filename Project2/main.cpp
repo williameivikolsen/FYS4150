@@ -4,7 +4,7 @@ using namespace std;
 
 int main(int argc, char *argv[]) {
     bool test_bool;
-    int num_tests; // A check will be performed on every num_test'th value
+    int num_tests; // Number of (evenly spaced out) tests to be performed per test function
     if(argc != 8){
         test_bool = false;
     }
