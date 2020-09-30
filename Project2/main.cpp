@@ -3,25 +3,29 @@
 using namespace std;
 
 int main(int argc, char *argv[]) {
-    bool test_bool;
-    int num_tests; // Number of (evenly spaced out) tests to be performed per test function
-    if(argc != 8){
-        test_bool = false;
-    }
-    else if(strcmp(argv[6], "test")== 0){
-        test_bool = true;
-        num_tests = atoi(argv[7]);
-    }
-    else{
-        cout << "Something is wrong with python script." << endl;
-        exit(EXIT_FAILURE);
-    }
 
     string syst = argv[1];
     int n = atoi(argv[2]);
     double epsilon = atof(argv[3]);
     int maxit = atoi(argv[4]);
     string filename = argv[5];
+
+    bool test_bool;
+    int num_tests;      // Number of (evenly spaced out) tests to be performed per test function
+    float rho_max;      // Cut-off for rho in HO-cases  
+    if(strcmp(argv[6], "test") == 0){
+        test_bool = true;
+        num_tests = atoi(argv[7]);
+        if(strcmp(syst, "HO1") == 0 && strcmp(syst, "HO2")){
+            rho_max = atof(argv[8])
+        }
+    }
+    else{
+        if(strcmp(syst, "HO1") == 0 && strcmp(syst, "HO2")){
+            rho_max = atof(argv[6])
+        }
+    }
+
     // Now run class functions for chosen system:
     if (syst.compare("beam") == 0) {
         Beam my_solver;
