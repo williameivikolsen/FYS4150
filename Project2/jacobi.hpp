@@ -48,4 +48,9 @@ public:
     void Test_results_analytic();
 };
 
+class Two_electron_HO : public Jacobi {
+public:
+    void Init(int n, double epsilon, int maxit, int num_tests, string filename, bool test_bool=false);
+    void Test_results_analytic();
+};
 #endif

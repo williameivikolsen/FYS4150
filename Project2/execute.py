@@ -50,6 +50,12 @@ if test == "Y":
 
 # -----------------------------------------
 
+print("made it here")
+print(path)
+print(filename)
+print(system)
+
+
 
 # ------ File handling and plotting -------
 #First check if the directory exists. Otherwise, create it.
