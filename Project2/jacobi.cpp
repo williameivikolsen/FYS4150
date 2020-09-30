@@ -34,10 +34,10 @@ void Jacobi::Loop() {
         Rotate();
         it++;
     }
+    
 
     // Fill m_v with eigenvectors
-    for (int i = 0; i < m_n; i++)
-    {
+    for (int i = 0; i < m_n; i++){
         m_v(i) = m_A(i,i);
     }
     
@@ -103,14 +103,6 @@ void Jacobi::Rotate() {
 
         m_R(i, k) = c * r_ik - s * r_il;
         m_R(i, l) = c * r_il + s * r_ik;
-
-        // If in testing mode: check orthogonality m_num_test times
-        if(m_test_bool == true){
-
-        }
-
-
-        
     }
 
 }
@@ -208,6 +200,71 @@ else{
     cout << "Add 'test' on command line when executing in order to perform tests." << endl;
     cout << "********************************************************************" << endl;
 }
+}
+
+void Jacobi::Test_results_orthogonality(){
+    // If in testing mode: check orthogonality m_num_test times in final matrixes m_A and m_R
+    if(m_test_bool == true){
+        int freq_check = m_n/(m_num_tests-1);           // Frequency of testing
+        ivec checked_idx = zeros<ivec>(m_num_tests);     // Integer vector
+
+        int j = 0;                                  // Index of checked_idx
+        for(int i = 0; i < m_n; i++){
+            if(i % freq_check == 0 || i == m_n-1){      // Check only for select eigenvectors
+                checked_idx(j) = i;
+                j++;
+            }
+        }
+        checked_idx.print();
+        int err_count = 0;
+        int checked_row_i;  // Index needed for below loop
+        int checked_row_j;  // Index needed for below loop
+
+        for(int i = 0; i < m_num_tests; i++){
+            checked_row_i = checked_idx(i);
+            for(int j = i; j < m_num_tests; j++){
+                checked_row_j = checked_idx(j);
+                if(i == j){
+                    if(abs(as_scalar(dot(m_R.row(checked_row_i), m_R.row(checked_row_j)))) - 1 > m_epsilon){
+                        cout << "m_R: Inner product not equal to 1 for i,j=" << checked_row_i << endl;
+                        cout << "     Abs. inner product minus 1 should be lower than tolerence " << m_epsilon;
+                        cout << ", but is acually " << abs(as_scalar(dot(m_R.row(checked_row_i), m_R.row(checked_row_j)))) - 1 << endl;
+                        err_count++;
+                    }
+                    if(abs(as_scalar(dot(m_A.row(checked_row_i), m_A.row(checked_row_j)))) - 1 > m_epsilon){
+                        cout << "m_A: Inner product not equal to 1 for i,j=" << checked_row_i << endl;
+                        cout << "     Abs. inner product minus 1 should be lower than tolerence " << m_epsilon;
+                        cout << ", but is acually " << abs(as_scalar(dot(m_A.row(checked_row_i), m_A.row(checked_row_j)))) - 1 << endl;
+                        err_count++;
+                    }
+                }
+                else{
+                    if(abs(as_scalar(dot(m_R.row(checked_row_i), m_R.row(checked_row_j)))) > m_epsilon){
+                        cout << "m_R: Inner product not equal to 0 for i=" << checked_row_i << ", j=" << checked_row_j<< endl;
+                        cout << "     Abs. inner product should be lower than tolerence " << m_epsilon;
+                        cout << ", but is acually " << abs(as_scalar(dot(m_R.row(checked_row_i), m_R.row(checked_row_j)))) << endl;
+                        err_count++;
+                    }
+                    if(abs(as_scalar(dot(m_A.row(checked_row_i), m_A.row(checked_row_j)))) > m_epsilon){
+                        cout << "m_A: Inner product not equal to 0 for i=" << checked_row_i << ", j=" << checked_row_j<< endl;
+                        cout << "     Abs. inner product minus 1 should be lower than tolerence " << m_epsilon;
+                        cout << ", but is acually " << abs(as_scalar(dot(m_A.row(checked_row_i), m_A.row(checked_row_j)))) << endl;
+                        err_count++;
+
+                }
+            }
+            
+        }
+    }
+    cout << "********************************************" << endl;
+    cout << "In total: " << err_count << " errors" << endl;
+    cout << "********************************************" << endl;
+    }
+    else{
+    cout << "********************************************************************" << endl;
+    cout << "Add 'test' on command line when executing in order to perform tests." << endl;
+    cout << "********************************************************************" << endl;
+    }
 }
 
 void Jacobi::Print_to_file(){
