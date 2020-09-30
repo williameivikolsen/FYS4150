@@ -17,7 +17,7 @@ int main(int argc, char *argv[]) {
         test_bool = false;
     }
 
-    int n = 10;
+    int n = 15;
     int maxit = 1000;
     double epsilon = 1e-8;
     int num_tests = 6;          // A check will be performed on every num_test'th value 

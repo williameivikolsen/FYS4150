@@ -41,8 +41,6 @@ void Jacobi::Loop() {
         m_v(i) = m_A(i,i);
     }
     
-    //cout << m_A << endl;
-    //cout << m_R << endl;
     cout << "Loop finished. Number of loops: " << it << endl;
 }
 
@@ -105,7 +103,16 @@ void Jacobi::Rotate() {
 
         m_R(i, k) = c * r_ik - s * r_il;
         m_R(i, l) = c * r_il + s * r_ik;
+
+        // If in testing mode: check orthogonality m_num_test times
+        if(m_test_bool == true){
+
+        }
+
+
+        
     }
+
 }
 
 void Jacobi::Test_results_armadillo(){
@@ -201,4 +208,9 @@ else{
     cout << "Add 'test' on command line when executing in order to perform tests." << endl;
     cout << "********************************************************************" << endl;
 }
+}
+
+void Jacobi::Print_to_file(){
+
+    cout << "This function not yet made" << endl;
 }

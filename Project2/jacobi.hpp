@@ -25,6 +25,7 @@ public:
     void Initialize(int n, double epsilon, int maxit, int num_tests, bool test_bool);   // Initialize parameters n, h, d, a, epsilon, maxit, A and R
     void Loop();
     void Test_results_armadillo();
+    void Print_to_file();
 };
 
 class Beam : public Jacobi {
