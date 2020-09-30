@@ -154,9 +154,9 @@ if (m_test_bool==true){
 
 void Jacobi::Test_results_orthogonality(){
     // If in testing mode: check orthogonality m_num_test times in final matrix m_R
+    if(m_test_bool == true){
     cout << "--------------------------------------------------------------------------" << endl;
     cout << "Checking orthogonality of final matrix: " << endl;
-    if(m_test_bool == true){
         int freq_check = m_n/(m_num_tests-1);           // Frequency of testing
         ivec checked_idx = zeros<ivec>(m_num_tests);     // Integer vector
 

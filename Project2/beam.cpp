@@ -18,9 +18,9 @@ void Beam::Init(int n, double epsilon, int maxit, int num_tests, string filename
 
 void Beam::Test_results_analytic(){
     // If in testing mode: check orthogonality m_num_test times in final matrix m_R
-    cout << "--------------------------------------------------------------------------" << endl;
-    cout << "Checking beam eigenvalues against analytical values" << endl;
-    if(m_test_bool == true){
+    if(m_test_bool == true){  
+        cout << "--------------------------------------------------------------------------" << endl;
+        cout << "Checking beam eigenvalues against analytical values" << endl;
         int err_count = 0;
         double eigval_analytical;
         for (int j = 0; j < m_n; j++) {
