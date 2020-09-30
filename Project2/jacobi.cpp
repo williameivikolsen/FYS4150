@@ -1,12 +1,10 @@
 #include "jacobi.hpp"
-#include <iostream>
-#include <cmath>
-#include <armadillo>
 
 using namespace std;
 using namespace arma;
+ofstream ofile;
 
-void Jacobi::Initialize(int n, double epsilon, int maxit, int num_tests, bool test_bool) {
+void Jacobi::Initialize(int n, double epsilon, int maxit, int num_tests, string filename, bool test_bool) {
     m_n = n;
     m_h = 1/double(n);
     m_d = 2/(m_h*m_h);
@@ -28,7 +26,6 @@ void Jacobi::Loop() {
     // to be a value known to be larger than epsilon to begin with:
     // Iteration counter:
     int it = 0;
-    m_A.print();
 
     while (m_maxsq > m_epsilon and it < m_maxit) {
         Rotate();
@@ -36,7 +33,7 @@ void Jacobi::Loop() {
     }
     
 
-    // Fill m_v with eigenvectors
+    // Fill m_v with eigenvalues
     for (int i = 0; i < m_n; i++){
         m_v(i) = m_A(i,i);
     }
@@ -151,48 +148,6 @@ if (m_test_bool==true){
     else{
         cout << error_count <<"/" << m_num_tests << " eigenvalue tests failed" << endl;
     }
-
-    // // Compare norm of eigenvectors
-    // cout << endl << "Executing eigenvector tests: " << endl;
-    // error_count = 0;
-    // eigvec.print();
-    // cout << endl;
-    // m_R.print();
-
-    // cout << endl;
-    // m_A0.print();
-    // for (int i = 0; i < m_n; i++){
-    
-    //     if(i % (m_n/(num_tests-1)) == 0 || i == m_n-1){ // Test only for select values of i
-    //     cout << "Testing for i = " << i << "..."<< endl;
-
-    //     int sort_idx = sort_indices[i]; // Corresponding index for m_v
-    //     // vec jacobi_eigenvec = m_R.row(sort_idx).as_col(); // Relevant eigenvector is row sort_idx of m_R
-    //     // jacobi_eigenvec.print();
-    //     // cout << endl;
-    //     // vec armadillo_eigenvec = eigvec.col(i);
-    //     // armadillo_eigenvec.print();
-    //     // m_A.print();
-    //         // if(norm(eigvec[i]-jacobi_eigenvec) > m_epsilon){
-    //         //     cout << "***********************" << endl;
-    //         //     cout << "Eigenvector check fails!" << endl;
-    //         //     cout << "Armadillo eigenvector: " << eigvec[i] << endl;
-    //         //     cout << "Jacobi eigenvector: " << jacobi_eigenvec << endl;
-    //         //     cout << "Difference of vectors has norm " << norm(eigvec[i]-jacobi_eigenvec);
-    //         //     cout <<  ", which is higher than tolerance " << m_epsilon << endl;
-    //         //     cout << "***********************" << endl;
-    //         //     error_count++;
-    //         // }
-    //     }
-
-    // }
-    // if(error_count == 0){
-    //     cout << num_tests <<"/" << num_tests << " eigenvector tests passed!" << endl;
-    // }
-    // else{
-    //     cout << error_count <<"/" << num_tests << " eigenvector tests failed" << endl;
-    // }
-
     cout << "--------------------------------------------------------------------------" << endl;
 }
 else{
@@ -215,7 +170,6 @@ void Jacobi::Test_results_orthogonality(){
                 j++;
             }
         }
-        checked_idx.print();
         int err_count = 0;
         int checked_row_i;  // Index needed for below loop
         int checked_row_j;  // Index needed for below loop
@@ -231,12 +185,6 @@ void Jacobi::Test_results_orthogonality(){
                         cout << ", but is acually " << abs(as_scalar(dot(m_R.row(checked_row_i), m_R.row(checked_row_j)))) - 1 << endl;
                         err_count++;
                     }
-                    if(abs(as_scalar(dot(m_A.row(checked_row_i), m_A.row(checked_row_j)))) - 1 > m_epsilon){
-                        cout << "m_A: Inner product not equal to 1 for i,j=" << checked_row_i << endl;
-                        cout << "     Abs. inner product minus 1 should be lower than tolerence " << m_epsilon;
-                        cout << ", but is acually " << abs(as_scalar(dot(m_A.row(checked_row_i), m_A.row(checked_row_j)))) - 1 << endl;
-                        err_count++;
-                    }
                 }
                 else{
                     if(abs(as_scalar(dot(m_R.row(checked_row_i), m_R.row(checked_row_j)))) > m_epsilon){
@@ -245,13 +193,6 @@ void Jacobi::Test_results_orthogonality(){
                         cout << ", but is acually " << abs(as_scalar(dot(m_R.row(checked_row_i), m_R.row(checked_row_j)))) << endl;
                         err_count++;
                     }
-                    if(abs(as_scalar(dot(m_A.row(checked_row_i), m_A.row(checked_row_j)))) > m_epsilon){
-                        cout << "m_A: Inner product not equal to 0 for i=" << checked_row_i << ", j=" << checked_row_j<< endl;
-                        cout << "     Abs. inner product minus 1 should be lower than tolerence " << m_epsilon;
-                        cout << ", but is acually " << abs(as_scalar(dot(m_A.row(checked_row_i), m_A.row(checked_row_j)))) << endl;
-                        err_count++;
-
-                }
             }
             
         }
@@ -260,14 +201,21 @@ void Jacobi::Test_results_orthogonality(){
     cout << "In total: " << err_count << " errors" << endl;
     cout << "********************************************" << endl;
     }
-    else{
-    cout << "********************************************************************" << endl;
-    cout << "Add 'test' on command line when executing in order to perform tests." << endl;
-    cout << "********************************************************************" << endl;
-    }
 }
 
 void Jacobi::Print_to_file(){
-
-    cout << "This function not yet made" << endl;
+    ofile.open(m_filename);
+    ofile << "Top row: Eigenvealues." << endl;
+    ofile << "Corresponding eigenvectors in columns below each eigenvalue." << endl;
+    for (int i = 0; i < m_n; i++) {
+        ofile << m_A(i, i) << setw(14);
+    }
+    ofile << endl;
+    for (int i = 0; i < m_n; i++) {
+        for (int j = 0; j < m_n; j++) {
+            ofile << m_R(j, i) << setw(14);
+        }
+        ofile << endl;
+    }
+    ofile.close();
 }

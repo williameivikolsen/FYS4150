@@ -1,8 +1,11 @@
 #include "jacobi.hpp"
 
-void Beam::Init(int n, double epsilon, int maxit, int num_tests, bool test_bool) {
+using namespace std;
+
+void Beam::Init(int n, double epsilon, int maxit, int num_tests, string filename, bool test_bool) {
     // Initialiserer variabler fra Jacobi:
-    Initialize(n, epsilon, maxit, num_tests, test_bool);
+    Initialize(n, epsilon, maxit, num_tests, filename, test_bool);
+    m_filename = filename;
     // Genererer matrise:
     for (int i = 0; i < m_n - 1; i++) {
         m_A(i, i) = m_d;
@@ -14,33 +17,21 @@ void Beam::Init(int n, double epsilon, int maxit, int num_tests, bool test_bool)
 }
 
 void Beam::Test_results_analytic(){
-    vec eigval_analytical = zeros<vec>(m_n); 
-
-    cout << "--------------" << endl << "eigenvals: " << endl;
-    cout << "m_d: " << m_d << ", m_a: " << m_a << endl;
-    for (int j = 0; j < m_n; j++)
-    {
-        // cout << cos(j*M_PI/m_n) << endl;
-        eigval_analytical(j) = m_d + 2*m_a*cos((j+1)*M_PI/(m_n+1));
+    // If in testing mode: check orthogonality m_num_test times in final matrix m_R
+    if(m_test_bool == true){
+        int err_count = 0;
+        double eigval_analytical;
+        for (int j = 0; j < m_n; j++) {
+            eigval_analytical = m_d + 2*m_a*cos((j+1)*M_PI/(m_n+1));
+            if (abs(m_v(j) - eigval_analytical > 0.1*eigval_analytical)) {
+                cout << "Calculated eigenvalue not equal to analytical for i = " << j << endl;
+                cout << "Calculated eigenvalue: " << m_v(j) << endl;
+                cout << "Analytical eigenvalue: " << eigval_analytical << endl;
+                err_count++;
+            }
+        }
+        cout << "********************************************" << endl;
+        cout << "In total: " << err_count << " errors" << endl;
+        cout << "********************************************" << endl;
     }
-    cout << "Analytical eigvals:" << endl;
-    eigval_analytical.print();
-    cout << endl;
-    
-    cout << "Calculated eigvals:" << endl;
-    m_v.print();
-    cout << endl;
-
-    vec eigval_arma;     // Will be listed in ascending order
-    mat eigvec_arma;     // Stored as column vectors
-    eig_sym(eigval_arma, eigvec_arma, m_A0);
-
-
-    cout << "Armadillo eigvals:" << endl;
-    eigval_arma.print();
-    
-    cout << "--------------" << endl << "eigenvecs: " << endl;
-
-
-
 }

@@ -1,8 +1,14 @@
 #ifndef JACOBI_HPP
 #define JACOBI_HPP
 #include <armadillo>
+#include <iostream>
+#include <cmath>
+#include <stdlib.h>
+#include <string>
+#include <iomanip>      // Text formatting
 
 using namespace arma;
+using namespace std;
 
 class Jacobi {
 protected:
@@ -18,11 +24,12 @@ protected:
     mat m_R;                      // Eigenvector matrix         (nxn)
     vec m_v;                      // Eigenvalue vector          (nx1)
     bool m_test_bool;             // Whether to preform tests or not 
-    int m_num_tests;              // A check will be performed on every num_test'th value 
+    int m_num_tests;              // A check will be performed on every num_test'th value
+    string m_filename;            // Filename for data to be saved
     void Rotate();                // Perform Jacobi rotation and return max off-diagonal value
 
 public:
-    void Initialize(int n, double epsilon, int maxit, int num_tests, bool test_bool);   // Initialize parameters n, h, d, a, epsilon, maxit, A and R
+    void Initialize(int n, double epsilon, int maxit, int num_tests, string filename, bool test_bool);   // Initialize parameters n, h, d, a, epsilon, maxit, A and R
     void Loop();
     void Test_results_armadillo();
     void Test_results_orthogonality();
@@ -31,12 +38,13 @@ public:
 
 class Beam : public Jacobi {
 public:
-    void Init(int n, double epsilon, int maxit, int num_tests, bool test_bool=false);
+    void Init(int n, double epsilon, int maxit, int num_tests, string filename, bool test_bool=false);
     void Test_results_analytic();
 };
 
 class One_electron_HO : public Jacobi {
-    void Init(int n, double epsilon, int maxit, vec V, int num_tests, bool test_bool=false);
+public:
+    void Init(int n, double epsilon, int maxit, int num_tests, string filename, bool test_bool=false);
     void Test_results_analytic();
 };
 
