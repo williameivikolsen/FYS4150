@@ -41,19 +41,15 @@ path = "./" + system
 test = input("Test? [Y/N]: ")
 if test != "Y" and test != "N":
     print('Command not recognized. Skipping test...')
-    os.system("echo executing...")
-    os.system("./main.exe" + " " + system + " " + n + " " + epsilon + " " + maxit + " " + filename)                     # Execute code
 if test == "Y":
     num_tests = input("Number of (evenly spaced out) tests to be performed per test function: ")
     os.system("echo executing...")
     os.system("./main.exe" + " " + system + " " + n + " " + epsilon + " " + maxit + " " + filename + " test " + num_tests)            # Execute code with test
 
-# -----------------------------------------
+os.system("echo executing...")
+os.system("./main.exe" + " " + system + " " + n + " " + epsilon + " " + maxit + " " + filename)                     # Execute code
 
-print("made it here")
-print(path)
-print(filename)
-print(system)
+# -----------------------------------------
 
 
 
