@@ -27,7 +27,7 @@ int main(int argc, char *argv[]) {
         Beam my_solver;
         my_solver.Init(n, epsilon, maxit, num_tests, filename, test_bool);
         my_solver.Loop();
-        // my_solver.Test_results_armadillo();
+        my_solver.Test_results_armadillo();
         my_solver.Test_results_analytic();
         my_solver.Test_results_orthogonality();
         my_solver.Print_to_file();
@@ -36,13 +36,22 @@ int main(int argc, char *argv[]) {
         One_electron_HO my_solver;
         my_solver.Init(n, epsilon, maxit, num_tests, filename, test_bool);
         my_solver.Loop();
-        // my_solver.Test_results_armadillo();
-        // my_solver.Test_results_analytic();
+        my_solver.Test_results_armadillo();
+        my_solver.Test_results_analytic();
         my_solver.Test_results_orthogonality();
+        my_solver.Print_to_file();
     }
     else if (syst.compare("HO2") == 0) {
-        cout << "The chosen syst is yet to be added as class." << endl;
-        exit(EXIT_FAILURE);
+        vec omega("0.01 0.5 1.0 5.0");
+        for (int i = 0; i < 4; i++) {
+            Two_electron_HO my_solver;
+            my_solver.Init(n, epsilon, maxit, num_tests, filename, test_bool, omega(i));
+            my_solver.Loop();
+            my_solver.Test_results_armadillo();
+            my_solver.Test_results_analytic();
+            my_solver.Test_results_orthogonality();
+            my_solver.Print_to_file();
+        }
     }
     else {
         cout << "Something is wrong with python script." << endl;

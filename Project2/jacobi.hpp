@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string>
 #include <iomanip>      // Text formatting
+#include <list>
 
 using namespace arma;
 using namespace std;
@@ -38,19 +39,24 @@ public:
 
 class Beam : public Jacobi {
 public:
-    void Init(int n, double epsilon, int maxit, int num_tests, string filename, bool test_bool=false);
+    void Init(int n, double epsilon, int maxit, int num_tests, string filename, bool test_bool);
     void Test_results_analytic();
 };
 
 class One_electron_HO : public Jacobi {
+private:
+    double m_rhomax;
 public:
-    void Init(int n, double epsilon, int maxit, int num_tests, string filename, bool test_bool=false);
+    void Init(int n, double epsilon, int maxit, int num_tests, string filename, bool test_bool);
     void Test_results_analytic();
 };
 
 class Two_electron_HO : public Jacobi {
+private:
+    double m_rhomax;
+    double m_omega;
 public:
-    void Init(int n, double epsilon, int maxit, int num_tests, string filename, bool test_bool=false);
+    void Init(int n, double epsilon, int maxit, int num_tests, string filename, bool test_bool, double omega);
     void Test_results_analytic();
 };
 #endif

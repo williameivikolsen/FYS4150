@@ -201,6 +201,7 @@ void Jacobi::Test_results_orthogonality(){
 }
 
 void Jacobi::Print_to_file(){
+    cout << m_filename << endl;
     ofile.open(m_filename);
     ofile << "Top row: Eigenvealues." << endl;
     ofile << "Corresponding eigenvectors in columns below each eigenvalue." << endl;
