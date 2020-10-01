@@ -4,10 +4,9 @@ void One_electron_HO::Init(int n, double epsilon, int maxit, int num_tests, stri
     // Initialiserer variabler fra Jacobi:
     Initialize(n, epsilon, maxit, num_tests, filename, test_bool);
     m_rho_max = rho_max;
-
-
     vec rho_values = linspace(0, m_rho_max, m_n);
-    
+    rho_values.print();
+
     // Genererer matrise:
     for (int i = 0; i < m_n - 1; i++) {
         m_A(i, i) = m_d + rho_values(i);

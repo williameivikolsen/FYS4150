@@ -72,7 +72,7 @@ else:
 # ------ File handling and plotting -------
 #First check if the directory exists. Otherwise, create it.
 if not os.path.exists(path):
-    os.makedirs(path) #Creates the directory
+   os.makedirs(path) #Creates the directory
 os.system("mv" + " " + filename + " " + path) # Move data file to results directory.
 os.system("python3 plot.py" + " " + system + " " + n)
 
