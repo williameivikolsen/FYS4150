@@ -1,5 +1,9 @@
 # egendefinert:
+beam*.txt
+HO1*.txt
+HO2*.txt
 *0.txt
+
 lectures2015.pdf
 test.cpp
 test.exe
