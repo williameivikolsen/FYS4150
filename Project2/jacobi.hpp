@@ -38,19 +38,24 @@ public:
 
 class Beam : public Jacobi {
 public:
-    void Init(int n, double epsilon, int maxit, int num_tests, string filename, bool test_bool=false);
+    void Init(int n, double epsilon, int maxit, int num_tests, string filename, bool test_bool);
     void Test_results_analytic();
 };
 
 class One_electron_HO : public Jacobi {
+private:
+    double m_rho_max;             // Cut-off for rho in HO-cases  
 public:
-    void Init(int n, double epsilon, int maxit, int num_tests, string filename, bool test_bool=false);
+    void Init(int n, double epsilon, int maxit, int num_tests, string filename, bool test_bool, double rho_max);
     void Test_results_analytic();
 };
 
 class Two_electron_HO : public Jacobi {
+private:
+    double m_rho_max;             // Cut-off for rho in HO-cases 
+    vec m_omega;                // Values of HO frequency
 public:
-    void Init(int n, double epsilon, int maxit, int num_tests, string filename, bool test_bool=false);
+    void Init(int n, double epsilon, int maxit, int num_tests, string filename, bool test_bool, double rho_max);
     void Test_results_analytic();
 };
 #endif

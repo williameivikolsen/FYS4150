@@ -29,25 +29,41 @@ if parameters != "Y" and parameters != "N":
 n = "16"
 maxit = "1000"
 epsilon = "1e-8"
+rho_max = "10"
 
 if parameters == "Y":
     n = input("Give number of mesh points n: ")
     epsilon = input("Choose tolerance: ")
     maxit = input("Choose max number of iterations: ")
+    if system == "HO1" or system == "HO2":
+        rho_max = input("Choose value of rho_max: ") 
 
 filename = system + "_" + n + ".txt"
 path = "./" + system
 
 test = input("Test? [Y/N]: ")
+
+# Unknown comment
 if test != "Y" and test != "N":
     print('Command not recognized. Skipping test...')
-if test == "Y":
+
+# Execute code with tests
+elif test == "Y":
     num_tests = input("Number of (evenly spaced out) tests to be performed per test function: ")
     os.system("echo executing...")
-    os.system("./main.exe" + " " + system + " " + n + " " + epsilon + " " + maxit + " " + filename + " test " + num_tests)            # Execute code with test
+    if system == "HO1" or system == "HO2":
+        os.system("./main.exe" + " " + system + " " + n + " " + epsilon + " " + maxit + " " + filename + " test " + num_tests + " " + rho_max)
+    else:
+        os.system("./main.exe" + " " + system + " " + n + " " + epsilon + " " + maxit + " " + filename + " test " + num_tests)  
 
-os.system("echo executing...")
-os.system("./main.exe" + " " + system + " " + n + " " + epsilon + " " + maxit + " " + filename)                     # Execute code
+# Execute code without tests
+else:
+    os.system("echo executing...")
+    if system == "HO1" or system == "HO2":
+        os.system("./main.exe" + " " + system + " " + n + " " + epsilon + " " + maxit + " " + filename + " " + rho_max)
+    else:
+        os.system("./main.exe" + " " + system + " " + n + " " + epsilon + " " + maxit + " " + filename)
+        
 
 # -----------------------------------------
 
@@ -56,7 +72,7 @@ os.system("./main.exe" + " " + system + " " + n + " " + epsilon + " " + maxit + 
 # ------ File handling and plotting -------
 #First check if the directory exists. Otherwise, create it.
 if not os.path.exists(path):
-    os.makedirs(path) #Creates the directory
+   os.makedirs(path) #Creates the directory
 os.system("mv" + " " + filename + " " + path) # Move data file to results directory.
 os.system("python3 plot.py" + " " + system + " " + n)
 
