@@ -59,5 +59,7 @@ if not os.path.exists(path):
     os.makedirs(path) #Creates the directory
 os.system("mv" + " " + filename + " " + path) # Move data file to results directory.
 os.system("python3 plot.py" + " " + system + " " + n)
-
+# Open plot:
+os.chdir(path)
+os.system("code " + system + "_" + n + ".png")
 # -----------------------------------------
