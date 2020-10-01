@@ -18,5 +18,7 @@ void Two_electron_HO::Init(int n, double epsilon, int maxit, int num_tests, stri
 }
 
 void Two_electron_HO::Test_results_analytic(){
-    cout << "hello" << endl;
+    if(m_test_bool == true){  
+        cout << "There is no test >:)" << endl;
+    }
 }
