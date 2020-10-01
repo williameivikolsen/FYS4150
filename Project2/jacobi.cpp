@@ -6,9 +6,9 @@ ofstream ofile;
 
 void Jacobi::Initialize(int n, double epsilon, int maxit, int num_tests, string filename, bool test_bool) {
     m_n = n;
-    m_h = 1/double(n);
-    m_d = 2/(m_h*m_h);
-    m_a = -1/(m_h*m_h);
+    m_h = 1.0/double(n+1);
+    m_d = 2.0/(m_h*m_h);
+    m_a = -1.0/(m_h*m_h);
     m_epsilon = epsilon;
     m_maxit = maxit;
     m_maxsq = m_a*m_a;
