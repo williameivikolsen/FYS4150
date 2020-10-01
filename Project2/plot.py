@@ -19,14 +19,12 @@ valmin = np.min(eigenvalues)        # Smallest eigenvalue
 idxmin = np.argmin(eigenvalues)     # Index of smallest eigenvalue
 vecmin = eigenvectors[:, idxmin]    # Eigenvector with smallest eigenvalue
 
-print(eigenvalues)
-
 rhomin = 0
 rhomax = 1
 rho = np.linspace(rhomin, rhomax, int(n))
 
-# plt.plot(rho, vecmin)
-# plt.xlabel(r'$\rho$')
-# plt.ylabel(r'$u(\rho)$')
-# plt.grid(ls='--')
-# plt.savefig(plotname)
+plt.plot(rho, vecmin)
+plt.xlabel(r'$\rho$')
+plt.ylabel(r'$u(\rho)$')
+plt.grid(ls='--')
+plt.savefig(plotname)
