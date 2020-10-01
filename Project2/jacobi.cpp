@@ -66,9 +66,9 @@ void Jacobi::Rotate() {
     // Update max squared off-diagonal element:
     m_maxsq = a_kl*a_kl;
     // Now we calculate tau, tan, cos and sin:
-    if (a_kl != 0.0) {
-        tau = (m_A(l, l) - m_A(k, k))/(2.0*a_kl);
-        if (tau >= 0.0) {
+    if (m_A(k, l) != 0.0) {
+        tau = (m_A(l, l) - m_A(k, k))/(2.0*m_A(k, l));
+        if (tau > 0.0) {
             t = 1.0/(tau + sqrt(1.0 + tau*tau));
         }
         else {
