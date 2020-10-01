@@ -1,0 +1,3 @@
+n   | its    | eps     | file 
+  16       372     1e-08  beam_16.txt
+  16       372     1e-08  beam_16.txt

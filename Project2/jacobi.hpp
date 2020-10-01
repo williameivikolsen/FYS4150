@@ -6,7 +6,6 @@
 #include <stdlib.h>
 #include <string>
 #include <iomanip>      // Text formatting
-#include <list>
 
 using namespace arma;
 using namespace std;

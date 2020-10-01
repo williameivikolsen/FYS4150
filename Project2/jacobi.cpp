@@ -3,6 +3,7 @@
 using namespace std;
 using namespace arma;
 ofstream ofile;
+ofstream iteration_file;
 
 void Jacobi::Initialize(int n, double epsilon, int maxit, int num_tests, string filename, bool test_bool) {
     m_n = n;
@@ -39,6 +40,9 @@ void Jacobi::Loop() {
     }
     
     cout << "Loop finished. Number of loops: " << it << endl;
+    iteration_file.open("iterations.txt", ios_base::app);
+    iteration_file << setw(4) << m_n << setw(10) << it << setw(10) << m_epsilon << setw(13) << m_filename << endl;
+    iteration_file.close();
 }
 
 void Jacobi::Rotate() {
@@ -201,7 +205,6 @@ void Jacobi::Test_results_orthogonality(){
 }
 
 void Jacobi::Print_to_file(){
-    cout << m_filename << endl;
     ofile.open(m_filename);
     ofile << "Top row: Eigenvealues." << endl;
     ofile << "Corresponding eigenvectors in columns below each eigenvalue." << endl;
