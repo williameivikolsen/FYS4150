@@ -3,3 +3,4 @@ Arbeidslogg
 Dato          Loggtid        Person         Hva skjedde    
 04.10.20      17:00          Alle           Oppstartsmøte
 05.10.20      16:00          William        Oppg 3a: Skev algoritme med Eulers metode og førte inn i Latex
+05.10.20      22:00	     Peder	    Begynte på no_classes.cpp
