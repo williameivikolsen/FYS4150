@@ -35,6 +35,8 @@ int main(){
     // Solve motion
     SolveEuler(N, h, rx, ry, vx, vy);
     WriteToFile("Euler", t0, tn, N, h, rx, ry, vx, vy);
+    SolveVerlet(N, h, rx, ry, vx, vy);
+    WriteToFile("Verlet", t0, tn, N, h, rx, ry, vx, vy);
 
     // Clear memory
     delete[] rx;
@@ -46,7 +48,7 @@ int main(){
 }
 
 void SolveEuler(int N, double h, double *rx, double *ry, double *vx, double *vy){
-    cout << "Solving with Euler's method..." << endl;
+    cout << "Solving with Euler's method" << endl;
     double k = 4*M_PI*M_PI;                               // Define k = 4*pi*pi
     double r3;                                            // Distance r^3
     for(int i = 0; i < N-1; i++){
@@ -56,7 +58,6 @@ void SolveEuler(int N, double h, double *rx, double *ry, double *vx, double *vy)
         rx[i+1] = rx[i] + h*vx[i];
         ry[i+1] = ry[i] + h*vy[i];
     }
-    cout << "...done!" << endl;
 }
 
 void SolveVerlet(int N, double h, double *rx, double *ry, double *vx, double *vy){
@@ -74,10 +75,17 @@ void SolveVerlet(int N, double h, double *rx, double *ry, double *vx, double *vy
         vx[i+1] = vx[i] - k2*(rx[i]/r3_old + rx[i+1]/r3_new);
         vy[i+1] = vy[i] - k2*(rx[i]/r3_old + rx[i+1]/r3_new);
     }
-    cout << "...done!" << endl;
 }
 void WriteToFile(string name, double t0, double tn, int N, double h, double *rx, double *ry, double *vx, double *vy){
     string outfilename = name + "_" + to_string(N) + ".txt";
     cout << "Printing to " << outfilename << endl;
-    cout << outfilename << endl;
+    ofile.open(outfilename);
+    ofile << setw(6) << "Method" << setw(5) << "t0" << setw(5) << "tn" << setw(8) << "N" << setw(15) << "h" << endl;
+    ofile << setw(6) << name << setw(5) << t0 << setw(5) << tn << setw(8) << N << setw(15) << h << endl;
+    ofile << endl;
+    ofile << "rx  -  ry  -  vx  -  vy" << endl;
+    for(int i = 0; i < N; i++){
+        ofile << scientific << setprecision(6) << rx[i] << setw(15) << ry[i] << setw(15) << vx[i] << setw(15) << vy[i] << endl;
+    }
+    ofile.close();
 }
