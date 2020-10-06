@@ -17,7 +17,7 @@ int main(){
     // Constants
     double t0 = 0;                      // Start time [yr]
     double tn = 2;                      // End time [yr]
-    int N = 731;                        // Time steps - 731 corresponds to one evaluation per day
+    int N = 1 + 365*200;                  // Time steps
     double h = (tn-t0)/(N-1);           // Step size [yr]
 
     // Initialize arrays
@@ -49,7 +49,7 @@ int main(){
 
 void SolveEuler(int N, double h, double *rx, double *ry, double *vx, double *vy){
     cout << "Solving with Euler's method" << endl;
-    double k = 4*M_PI*M_PI;                               // Define k = 4*pi*pi
+    double k = 4*h*M_PI*M_PI;                             // Define k = 4*pi*pi*h
     double r3;                                            // Distance r^3
     for(int i = 0; i < N-1; i++){
         r3 = pow(rx[i]*rx[i] + ry[i]*ry[i], 1.5);
@@ -73,7 +73,7 @@ void SolveVerlet(int N, double h, double *rx, double *ry, double *vx, double *vy
 
         r3_new  = pow(rx[i+1]*rx[i+1] + ry[i+1]*ry[i+1], 1.5);
         vx[i+1] = vx[i] - k2*(rx[i]/r3_old + rx[i+1]/r3_new);
-        vy[i+1] = vy[i] - k2*(rx[i]/r3_old + rx[i+1]/r3_new);
+        vy[i+1] = vy[i] - k2*(ry[i]/r3_old + ry[i+1]/r3_new);
     }
 }
 void WriteToFile(string name, double t0, double tn, int N, double h, double *rx, double *ry, double *vx, double *vy){
