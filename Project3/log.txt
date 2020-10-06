@@ -3,4 +3,7 @@ Arbeidslogg
 Dato          Loggtid        Person         Hva skjedde    
 04.10.20      17:00          Alle           Oppstartsmøte
 05.10.20      16:00          William        Oppg 3a: Skev algoritme med Eulers metode og førte inn i Latex
-05.10.20      22:00	     Peder	    Begynte på no_classes.cpp
+05.10.20      22:00	         Peder	        Begynte på no_classes.cpp
+05.10.20      22:00          Benny          Skrev om three-body-problem og begynte på en introduksjon   
+06.10.20      12:00          William        Fullførte oppg 3a med Verlets metode og førte inn i Latex
+06.10.20      17:00          Peder          Fungerende kode no_classes.cpp. Implementerer plotting
