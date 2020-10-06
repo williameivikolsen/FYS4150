@@ -17,7 +17,7 @@ int main(){
     // Constants
     double t0 = 0;                      // Start time [yr]
     double tn = 2;                      // End time [yr]
-    int N = 1 + 365*200;                  // Time steps
+    int N = 1 + 365*1;                  // Time steps
     double h = (tn-t0)/(N-1);           // Step size [yr]
 
     // Initialize arrays
@@ -80,8 +80,8 @@ void WriteToFile(string name, double t0, double tn, int N, double h, double *rx,
     string outfilename = name + "_" + to_string(N) + ".txt";
     cout << "Printing to " << outfilename << endl;
     ofile.open(outfilename);
-    ofile << setw(6) << "Method" << setw(5) << "t0" << setw(5) << "tn" << setw(8) << "N" << setw(15) << "h" << endl;
-    ofile << setw(6) << name << setw(5) << t0 << setw(5) << tn << setw(8) << N << setw(15) << h << endl;
+    ofile << setw(6) << "Method" << setw(9) << "t0" << setw(9) << "tn" << setw(8) << "N" << setw(10) << "h" << endl;
+    ofile << setw(6) << setprecision(1) << name << setw(9) << t0 << setw(9) << tn << setw(8) << N << setprecision(3) << setw(10) << h << endl;
     ofile << endl;
     ofile << "rx  -  ry  -  vx  -  vy" << endl;
     for(int i = 0; i < N; i++){
