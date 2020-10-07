@@ -8,3 +8,4 @@ Dato          Loggtid        Person         Hva skjedde
 06.10.20      12:00          William        Fullførte oppg 3a med Verlets metode og førte inn i Latex
 06.10.20      17:00          Peder          Fungerende kode no_classes.cpp. Implementerer plotting
 06.10.20      22:00          Benny          Skrev ferdig jupiter-jorda, og generell formel for many-body-problem 
+07.10.20      17:30          William        Lagde klasse SolarSystem
