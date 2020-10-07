@@ -1,0 +1,11 @@
+Planet numbering used in positions_and_vel.txt and masses.txt
+
+1   Earth
+2   Jupiter
+3   Mars
+4   Venus
+5   Saturn
+6   Mercury
+7   Uranus
+8   Neptune
+9   Pluto
