@@ -9,3 +9,4 @@ Dato          Loggtid        Person         Hva skjedde
 06.10.20      17:00          Peder          Fungerende kode no_classes.cpp. Implementerer plotting
 06.10.20      22:00          Benny          Skrev ferdig jupiter-jorda, og generell formel for many-body-problem 
 07.10.20      17:30          William        Lagde klasse SolarSystem
+08.10.20      13:00          Alle           Gruppetime
