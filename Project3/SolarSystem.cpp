@@ -8,15 +8,15 @@ void SolarSystem::initialize(double tn, int N, double x0, double y0, double z0, 
     m_t0 = 0.0;
     m_tn = tn;
     m_N = N;
-    m_h = (m_tn - m_t0)/m_N;        // Riktig å dele på N her?
+    m_h = (m_tn - m_t0)/(m_N-1);
 
     // Initialize arrays
-    double *m_x = new double[m_N];
-    double *m_y = new double[m_N];
-    double *m_z = new double[m_N];
-    double *m_vx = new double[m_N];
-    double *m_vy = new double[m_N];
-    double *m_vz = new double[m_N];
+    m_x = new double[m_N];
+    m_y = new double[m_N];
+    m_z = new double[m_N];
+    m_vx = new double[m_N];
+    m_vy = new double[m_N];
+    m_vz = new double[m_N];
 
     // Insert initial values
     m_x[0] = x0;
@@ -25,6 +25,7 @@ void SolarSystem::initialize(double tn, int N, double x0, double y0, double z0, 
     m_vx[0] = vx0;
     m_vy[0] = vy0;
     m_vz[0] = vz0;
+    cout << m_vx[0] << endl;
 }
 
 void SolarSystem::solve_euler() {
