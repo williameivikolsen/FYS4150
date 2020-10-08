@@ -4,6 +4,7 @@ HO1*.txt
 HO2*.txt
 special_*.txt
 general_*.txt
+./Project3/results/*.txt
 
 
 lectures2015.pdf

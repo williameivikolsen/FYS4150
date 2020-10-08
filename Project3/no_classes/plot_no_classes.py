@@ -28,4 +28,4 @@ for i in n:
     plt.legend()
     plt.title("N = %i" % i)
     plt.savefig("N_%i.png" % i)
-    plt.show()
+    plt.close()

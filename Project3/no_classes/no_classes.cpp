@@ -27,10 +27,10 @@ int main(){
     double *vy = new double[N];         // Velocity y-axis
 
     // Insert initial values
-    rx[0] = 1;                           // r_0x = 1 AU
-    ry[0] = 0;                           // r_0y = 0
-    vx[0] = 0;                           // v_0x = 0
-    vy[0] = 2*M_PI;                      // v_0y = 2*pi AU/yr
+    rx[0] = 9.641327723118710E-01;                           // r_0x = 1 AU
+    ry[0] = 2.465760952329768E-01;                           // r_0y = 0
+    vx[0] = -4.414756238829297E-03;                           // v_0x = 0
+    vy[0] = 1.662854248250772E-02;                      // v_0y = 2*pi AU/yr
 
     // Solve motion
     SolveEuler(N, h, rx, ry, vx, vy);

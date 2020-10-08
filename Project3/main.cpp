@@ -36,7 +36,7 @@ int main(int argc, char *argv[]) {
 
     // Løser foreløpig kun for jorda (element 0)
     SolarSystem my_solver;
-    my_solver.initialize(tn, N, x[0], y[0], z[0], vx[0], vy[0], vz[0]);
+    my_solver.initialize(tn, N, x[0], y[0], z[0], 365*vx[0], 365*vy[0], 365*vz[0]);
     my_solver.solve_euler();
     my_solver.write_to_file("Euler");
     my_solver.solve_velvet();
