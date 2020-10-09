@@ -9,10 +9,10 @@ using namespace std;
 
 class SolarSystem {
 protected:
-    double m_t0;                  // Start time [yr]
-    double m_tn;                  // End time [yr]
-    int m_N;                      // Number of time steps
-    double m_h;                   // Step size
+    double m_T;                  // Total simulation time [yr]
+    int m_N, m_Nobjects;                      // Number of time steps
+    double m_h, m_hh;                   // Step size
+    double *m_masses;             //Masses of the objects in the system
     double *m_x;                  // Position x-axis
     double *m_y;                  // Position y-axis
     double *m_z;                  // Position z-axis
@@ -24,7 +24,7 @@ public:
     SolarSystem(void F(double x_diff, double y_diff, double z_diff, double m, double *a));
     void initialize(double tn, int N, double x0, double y0, double z0, double vx0, double vy0, double vz0); // Initialize class object
     void solve_euler();                    // Solve differential equation using the Euler method
-    void solve_velvet();                   // Solve differential equation using the Velvet method
+    void solve_verlet();                   // Solve differential equation using the Verlet method
     void write_to_file(string name);       // Write results to file
 };
 #endif
