@@ -3,6 +3,10 @@
 using namespace std;
 ofstream ofile;
 
+
+SolarSystem::SolarSystem(void acceleration(double x_diff, double y_diff, double z_diff, double m, double *a)){
+  m_acceleration = acceleration;
+}
 void SolarSystem::initialize(double tn, int N, double x0, double y0, double z0, double vx0, double vy0, double vz0) {
     // Constants
     m_t0 = 0.0;
@@ -35,7 +39,7 @@ void SolarSystem::solve_euler() {
         r3 = pow(m_x[i]*m_x[i] + m_y[i]*m_y[i]+ m_z[i]*m_z[i], 1.5);
         m_vx[i+1] = m_vx[i] - k*m_x[i]/r3;
         m_vy[i+1] = m_vy[i] - k*m_y[i]/r3;
-        m_vz[i+1] = m_vz[i] - k*m_z[i]/r3;     
+        m_vz[i+1] = m_vz[i] - k*m_z[i]/r3;
         m_x[i+1] = m_x[i] + m_h*m_vx[i];
         m_y[i+1] = m_y[i] + m_h*m_vy[i];
         m_z[i+1] = m_z[i] + m_h*m_vz[i];

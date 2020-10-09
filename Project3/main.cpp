@@ -3,6 +3,8 @@
 
 using namespace std;
 
+void F(double x_diff, double y_diff, double z_diff, double m);
+
 int main(int argc, char *argv[]) {
     int N = atoi(argv[1]);                              // Number of inegration points
     double tn = atof(argv[2]);                          // Time to be simulated
@@ -18,7 +20,7 @@ int main(int argc, char *argv[]) {
     vz = new double[Nplanets];
     mass = new double[Nplanets];
 
-    char* filename_pos_vel = "positions_and_vel.txt";   //Each line of file gives initial condition for a particle on the form: x y z vx vy vz 
+    char* filename_pos_vel = "positions_and_vel.txt";   //Each line of file gives initial condition for a particle on the form: x y z vx vy vz
     char* filename_mass = "masses.txt";                 //Each line of the file contains a mass for a given particle.
 
     //Open files
@@ -35,7 +37,7 @@ int main(int argc, char *argv[]) {
     fclose(fp_mass); //Close file with masses.
 
     // Løser foreløpig kun for jorda (element 0)
-    SolarSystem my_solver;
+    SolarSystem my_solver(F);
     my_solver.initialize(tn, N, x[0], y[0], z[0], 365*vx[0], 365*vy[0], 365*vz[0]);
     my_solver.solve_euler();
     my_solver.write_to_file("Euler");
