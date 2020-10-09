@@ -12,6 +12,7 @@ ofstream ofile;         // File to store results
 void SolveEuler(int N, double h, double *rx, double *ry, double *vx, double *vy);
 void SolveVerlet(int N, double h, double *rx, double *ry, double *vx, double *vy);
 void WriteToFile(string name, double t0, double tn, int N, double h, double *rx, double *ry, double *vx, double *vy);
+void TestEarthSun(int N, double eps, double tn, double *rx, double *ry);
 
 int main(){
     // Constants
@@ -19,6 +20,7 @@ int main(){
     double tn = 2;                      // End time [yr]
     int N = 1 + 365*1;                  // Time steps
     double h = (tn-t0)/(N-1);           // Step size [yr]
+    double eps = 1e-3;                  // Test tolerance [AU]
 
     // Initialize arrays
     double *rx = new double[N];         // Position x-axis
@@ -26,17 +28,24 @@ int main(){
     double *vx = new double[N];         // Velocity x-axis
     double *vy = new double[N];         // Velocity y-axis
 
-    // Insert initial values
-    rx[0] = 9.641327723118710E-01;                           // r_0x = 1 AU
-    ry[0] = 2.465760952329768E-01;                           // r_0y = 0
-    vx[0] = -4.414756238829297E-03;                           // v_0x = 0
-    vy[0] = 1.662854248250772E-02;                      // v_0y = 2*pi AU/yr
+    // Insert initial values (real)
+    // rx[0] = 9.641327723118710E-01;                          // r_0x = 1 AU
+    // ry[0] = 2.465760952329768E-01;                          // r_0y = 0
+    // vx[0] = -4.414756238829297E-03*365;                     // v_0x = 0
+    // vy[0] = 1.662854248250772E-02*365;                      // v_0y = 2*pi AU/yr
+
+    // Insert initial values (circle)
+    rx[0] = 1;
+    ry[0] = 0;
+    vx[0] = 0;
+    vy[0] = 2*M_PI;
 
     // Solve motion
     SolveEuler(N, h, rx, ry, vx, vy);
     WriteToFile("Euler", t0, tn, N, h, rx, ry, vx, vy);
     SolveVerlet(N, h, rx, ry, vx, vy);
     WriteToFile("Verlet", t0, tn, N, h, rx, ry, vx, vy);
+    TestEarthSun(N, eps, tn, rx, ry);
 
     // Clear memory
     delete[] rx;
@@ -88,4 +97,56 @@ void WriteToFile(string name, double t0, double tn, int N, double h, double *rx,
         ofile << scientific << setprecision(6) << rx[i] << setw(15) << ry[i] << setw(15) << vx[i] << setw(15) << vy[i] << endl;
     }
     ofile.close();
+}
+
+void TestEarthSun(int N, double eps, double tn, double *rx, double *ry){
+    // Comparison of trajectory with circular orbit, assuming radius 1 AU
+    cout << "--------------------------------------------------------------------------------" << endl;
+    cout << "Testing Earth orbit with circle. Max trajectory deviation allowed is eps=" << eps << "..." << endl;
+    cout << "--------------------------------------------------------------------------------" << endl;
+    
+    // Start by finding coordinates of circle
+    double *rx_test = new double[N];            // x-vals of circle
+    double *ry_test = new double[N];            // y-vals of circle
+
+    double theta_0 = atan2(ry[0], rx[0]);       // Initial angle, note order of ry and rx
+    double delta_theta = 2*tn*M_PI/(N-1);
+    for(int i = 0; i < N; i++){                 // Fill angle array with values
+        rx_test[i] = cos(theta_0 + i*delta_theta);
+        ry_test[i] = sin(theta_0 + i*delta_theta);
+    }
+    
+    // Check that distance from circle doesn't exceed tolerance
+    int i_problem = 0;                                                          // First index that exceeds tolerance
+    int num_problems = 0;                                                       // Number of indexes with problems
+    double deviance = sqrt(pow(rx[0]-rx_test[0], 2) + pow(ry[0]-ry_test[0],2)); // Initial deviance
+    double max_deviance = 0;                                                    // Store max deviance
+    for(int i = 0; i < N; i++){
+        if(deviance > eps && num_problems == 0){
+            i_problem = i;
+            num_problems++;
+        }
+        else if(deviance > eps){
+            num_problems++;
+        }
+        double new_deviance = sqrt(pow(rx[i+1]-rx_test[i+1], 2) + pow(ry[i+1]-ry_test[i+1],2));
+        if(new_deviance > max_deviance){
+            max_deviance = new_deviance;
+        }
+        deviance = new_deviance;
+    }
+    
+    // Print out results
+    if(num_problems == 0){
+        cout << "The test was passed successfully!" << endl;
+        cout << "Max recorded deviance was " << max_deviance << endl;
+    }
+    else{
+        cout << "The test failed for " << num_problems << "/" << N << " time steps" << endl;
+        cout << "The problems started at index " << i_problem << endl;
+        cout << "Max recorded deviance was " << max_deviance << endl;
+    }
+    delete[] rx_test;
+    delete[] ry_test;
+
 }
