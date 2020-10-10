@@ -11,3 +11,4 @@ Dato          Loggtid        Person         Hva skjedde
 07.10.20      17:30          William        Lagde klasse SolarSystem
 08.10.20      13:00          Alle           Gruppetime
 09.10.20      17:00          Peder          Testfunksjoner i no_classes.cpp
+09.10.20      21:00          Benny          Har lagt til nye filer med massene og initialverdier ferdig skalert. Begynt med å implementere alle planetene (Funker         ikke enda, så kun pushet til egen branch)
