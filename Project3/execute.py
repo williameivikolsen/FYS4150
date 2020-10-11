@@ -3,7 +3,6 @@ import sys
 
 # File that compiles and runs c++ codes, plotting resulting data.
 
-
 # ------------- Compilation -------------
 all_cpp_codes = "./*.cpp"
 os.system("echo compiling...")
@@ -14,6 +13,8 @@ os.system("c++ -o main.exe" + " " + all_cpp_codes)
 N = input("Select number of integration points: ")
 tn = input("Select simulation time (years): ")
 Nplanets = input("Select number of planets: ")
+problem = input("Choose system:")
+
 os.system("echo executing...")
 os.system("./main.exe" + " " + N + " " + tn + " " + Nplanets)                     # Execute code
 # -----------------------------------------

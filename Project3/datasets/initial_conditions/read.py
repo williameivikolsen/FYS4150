@@ -41,6 +41,22 @@ with open(outfilename, "w") as outfile:
     outfile.write(" ".join(l))
     outfile.write("\n")
 
+outfilename = "initial_conditions_sun_earth_jupiter.txt"
+
+with open(outfilename, "w") as outfile:
+    l = [str(pos[0][0]), str(pos[1][0]), str(pos[2][0]), str(vel[0][0]), str(vel[1][0]), str(vel[2][0])]
+    outfile.write(" ".join(l))
+    outfile.write("\n")
+
+    l = [str(pos[0][3]), str(pos[1][3]), str(pos[2][3]), str(vel[0][3]), str(vel[1][3]), str(vel[2][3])]
+    outfile.write(" ".join(l))
+    outfile.write("\n")
+
+    l = [str(pos[0][5]), str(pos[1][5]), str(pos[2][5]), str(vel[0][5]), str(vel[1][5]), str(vel[2][5])]
+    outfile.write(" ".join(l))
+    outfile.write("\n")
+
+
 infilename = "../masses/masses.txt"
 m = []
 with open(infilename, "r") as infile:

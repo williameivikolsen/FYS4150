@@ -4,8 +4,8 @@ using namespace std;
 ofstream ofile;
 
 
-SolarSystem::SolarSystem(int Nobjects, int N, void acceleration(double x_diff, double y_diff, double z_diff, double m, double *a)){
-  m_acceleration = acceleration;
+SolarSystem::SolarSystem(int Nobjects, int N){
+  // Constants
   m_N = N;
   m_Nobjects = Nobjects;
   m_T = T;
@@ -21,7 +21,7 @@ SolarSystem::SolarSystem(int Nobjects, int N, void acceleration(double x_diff, d
   m_vy = new double[m_N*m_Nobjects];
   m_vz = new double[m_N*m_Nobjects];
 }
-void SolarSystem::initialize(double *x, double *y, double *z, double *vx, double *vy, double *vz, double *masses) {
+void SolarSystem::initialize_objects(double *x, double *y, double *z, double *vx, double *vy, double *vz, double *masses) {
   //Fill initial conditions into member arrays.
   for (int i = 0; i < m_Nobjects; i++){
     m_x[i] = x[i];
@@ -42,6 +42,15 @@ void SolarSystem::initialize(double *x, double *y, double *z, double *vx, double
   delete[] masses;
 }
 
+void SolarSystem::Gravitational_force() {
+
+}
+
+void SolarSystem::Relativistic_gravitational_force() {
+
+}
+
+
 void SolarSystem::solve_euler() {
     cout << "Solving with Euler method..." << endl;
     double k = 4*m_h*M_PI*M_PI;                             // Define k = 4*pi*pi*h
@@ -57,7 +66,7 @@ void SolarSystem::solve_euler() {
     }
 }
 
-void SolarSystem::solve_verlet() {
+void SolarSystem::solve_velocity_verlet() {
     cout << "Solving with Verlet method ..." << endl;
     double k1 = 2*m_h*m_h*M_PI*M_PI;                            // Define k1 = 2*pi*pi*h*h
     double k2 = 2*m_h*M_PI*M_PI;                                // Define k2 = 2*pi*pi*h

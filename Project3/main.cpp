@@ -3,12 +3,12 @@
 
 using namespace std;
 
-void F(double x_diff, double y_diff, double z_diff, double m);
 
 int main(int argc, char *argv[]) {
     int N = atoi(argv[1]);                              // Number of inegration points
     double tn = atof(argv[2]);                          // Time to be simulated
-    int Nplanets = atoi(argv[3]);                       // Number of planets
+    int Nobjects = atoi(argv[3]);                       // Number of planets
+    string objects = atoi(argv[4]);
 
     double *x, *y, *z, *vx, *vy, *vz;                   //To store initial conditions for each particle.
     double *mass;                                       //Store mass of particles.
