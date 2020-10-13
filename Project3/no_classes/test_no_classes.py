@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 
 # N = int(input("Which value of step size N to test for? "))
 # assert open("Euler_%i.txt" % N), "Output files not found for this value of N. Try again after computing results."
-N=366
+N=73001
 
 # Start by reading data from files
 infile_euler = open("Euler_%i.txt" % N, "r")   
@@ -60,6 +60,8 @@ def test_circular(data_set, metohd_name, eps=1e-2):     # Takes in either the da
         print("The problems started at index {}".format(first_problem_idx))
         print("Max recorded deviance was {:.7f}".format(max_deviance))
 
+    return deviance
+
 
 def test_ang_moment_conservation(data_set, metohd_name, eps=1e-2):
     pass
@@ -67,5 +69,15 @@ def test_energy_conservation(data_set, method_name, eps=1e-2):
     pass
 
 
-test_circular(data_verlet, "Verlet")
-test_circular(data_euler, "Euler")
+deviance_verlet_circle = test_circular(data_verlet, "Verlet")
+deviance_euler_cirlce = test_circular(data_euler, "Euler")
+
+steps = np.arange(N)
+plt.plot(steps, deviance_euler_cirlce, label="Euler")
+plt.plot(steps, deviance_verlet_circle, label="Verlet")
+plt.xlabel("N")
+plt.ylabel("Deviation [AU]")
+plt.yscale("log")
+plt.title("N = {}".format(N))
+plt.legend()
+plt.show()
