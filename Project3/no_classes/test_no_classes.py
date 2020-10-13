@@ -12,7 +12,6 @@ import matplotlib.pyplot as plt
 # assert open("Euler_%i.txt" % N), "Output files not found for this value of N. Try again after computing results."
 N=366
 
-
 # Start by reading data from files
 infile_euler = open("Euler_%i.txt" % N, "r")   
 infile_verlet = open("Verlet_%i.txt" % N, "r")
@@ -43,25 +42,13 @@ def test_circular(data_set, metohd_name, eps=1e-2):     # Takes in either the da
         rx_test[i] = np.cos(theta0 + i*delta_theta)
         ry_test[i] = np.sin(theta0 + i*delta_theta)
 
-    # first_problem_idx = 0                                                       # First index that exceeds tolerance
-    # num_problems = 0                                                            # Number of indexes with problems
-    # deviance = np.sqrt((rx[0]-rx_test[0])**2 + (ry[0]-ry_test[0])**2);          # Initial deviance
-    # max_deviance = 0 
-    #                                                            #Store max deviance
-    # for i in range(N-1):
-    #     if deviance > eps and num_problems == 0:
-    #         first_problem_idx = i
-    #         num_problems += 1
-    #     elif(deviance > eps):
-    #         num_problems += 1
 
-    #     new_deviance = np.sqrt((rx[i+1]-rx_test[i+1])**2 + (ry[i+1]-ry_test[i+1])**2)
-    #     if new_deviance > max_deviance:
-    #         max_deviance = new_deviance
-
-    #     deviance = new_deviance
+    deviance = np.sqrt((rx-rx_test)**2 + (ry-ry_test)**2)   # Deviance from circle for every step
+    max_deviance = np.max(deviance)                         # Max deviance
+    num_problems = np.sum(deviance > eps)                   # Number of steps exceeding deviance
+    if num_problems != 0:
+        first_problem_idx = np.min(np.where(deviance > eps))    # First index that exceeds deviance
     
-
     # Print out results
     print("Testing for method {}, tolerance set to {}...".format(metohd_name, eps))
     if num_problems == 0:
@@ -73,4 +60,12 @@ def test_circular(data_set, metohd_name, eps=1e-2):     # Takes in either the da
         print("The problems started at index {}".format(first_problem_idx))
         print("Max recorded deviance was {:.7f}".format(max_deviance))
 
+
+def test_ang_moment_conservation(data_set, metohd_name, eps=1e-2):
+    pass
+def test_energy_conservation(data_set, method_name, eps=1e-2):
+    pass
+
+
 test_circular(data_verlet, "Verlet")
+test_circular(data_euler, "Euler")
