@@ -1,15 +1,17 @@
 Arbeidslogg
 
-Dato          Loggtid        Person         Hva skjedde    
+Dato          Loggtid        Person         Hva skjedde
 04.10.20      17:00          Alle           Oppstartsmøte
 05.10.20      16:00          William        Oppg 3a: Skev algoritme med Eulers metode og førte inn i Latex
 05.10.20      22:00	         Peder	        Begynte på no_classes.cpp
-05.10.20      22:00          Benny          Skrev om three-body-problem og begynte på en introduksjon   
+05.10.20      22:00          Benny          Skrev om three-body-problem og begynte på en introduksjon
 06.10.20      12:00          William        Fullførte oppg 3a med Verlets metode og førte inn i Latex
 06.10.20      17:00          Peder          Fungerende kode no_classes.cpp. Implementerer plotting (4t)
-06.10.20      22:00          Benny          Skrev ferdig jupiter-jorda, og generell formel for many-body-problem 
+06.10.20      22:00          Benny          Skrev ferdig jupiter-jorda, og generell formel for many-body-problem
 07.10.20      17:30          William        Lagde klasse SolarSystem
 08.10.20      13:00          Alle           Gruppetime
 09.10.20      17:00          Peder          Testfunksjoner i no_classes.cpp
 09.10.20      21:00          Benny          Har lagt til nye filer med massene og initialverdier ferdig skalert. Begynt med å implementere alle planetene (Funker         ikke enda, så kun pushet til egen branch)
 11.10.20      19:30          William        Prøvde å jobbe videre med det Benny pushet til sin branch, fikk ikke til :(
+12.10.20      13:00          Peder          Begynte å skrive globale tester i python-skript.
+13.10.20      20.00          Benny          Fikset innlesing av initialverdier og pushet til master
