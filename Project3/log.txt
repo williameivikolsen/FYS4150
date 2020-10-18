@@ -15,3 +15,4 @@ Dato          Loggtid        Person         Hva skjedde
 11.10.20      19:30          William        Prøvde å jobbe videre med det Benny pushet til sin branch, fikk ikke til :(
 12.10.20      13:00          Peder          Begynte å skrive globale tester i python-skript.
 13.10.20      20.00          Benny          Fikset innlesing av initialverdier og pushet til master
+18.10.20      22:00          William        Begynt å ordne generalisering av kode. Ikke ferdig enda
