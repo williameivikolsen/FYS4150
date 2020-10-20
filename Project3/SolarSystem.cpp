@@ -42,16 +42,19 @@ void SolarSystem::initialize_objects(double *x, double *y, double *z, double *vx
   delete[] masses;
 }
 
-void SolarSystem::Gravitational_acc(int p, double x, double y, double z) {
-  double r3 = pow(x*x + y*y + z*z, 1.5);
+void SolarSystem::Gravitational_acc(int t, int p) {
   m_ax = 0;
   m_ay = 0;
   m_az = 0;
   for (int i = 0; i < m_Nobjects; i++) {
     if (i != p) {
-      m_ax += -m_G*m_masses[i]/r3*x;
-      m_ay += -m_G*m_masses[i]/r3*y;
-      m_az += -m_G*m_masses[i]/r3*z;
+      double xdiff = m_x[t*m_Nobjects + p] - m_x[t*m_Nobjects + i];
+      double ydiff = m_y[t*m_Nobjects + p] - m_y[t*m_Nobjects + i];
+      double zdiff = m_z[t*m_Nobjects + p] - m_z[t*m_Nobjects + i];
+      double r3 = pow(xdiff*xdiff + ydiff*ydiff + zdiff*zdiff, 1.5);
+      m_ax += -m_G*m_masses[i]/r3*xdiff;
+      m_ay += -m_G*m_masses[i]/r3*ydiff;
+      m_az += -m_G*m_masses[i]/r3*zdiff;
     }
   }
 }
@@ -65,7 +68,7 @@ void SolarSystem::solve_euler() {
     cout << "Solving with Euler method..." << endl;
     for (int i = 0; i < m_N; i++) {
       for (int j = 0; j < m_Nobjects; j++) {
-        Gravitational_acc(j, m_x[i*m_Nobjects + j], m_y[i*m_Nobjects + j], m_z[i*m_Nobjects + j]);
+        Gravitational_acc(i, j); // Fiks på denne
         m_vx[(i+1)*m_Nobjects + j] = m_vx[i*m_Nobjects + j] + m_h*m_ax;
         m_vy[(i+1)*m_Nobjects + j] = m_vy[i*m_Nobjects + j] + m_h*m_ay;
         m_vz[(i+1)*m_Nobjects + j] = m_vz[i*m_Nobjects + j] + m_h*m_az;

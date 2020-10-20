@@ -50,7 +50,7 @@ euler_file = "Euler_" + N + ".txt"
 # verlet_file = "Verlet_" + N + ".txt"
 os.system("mv" + " " + euler_file + " " + path)         # Move Euler data to results directory.
 # os.system("mv" + " " + verlet_file + " " + path)         # Move Euler data to results directory.
-os.system("python3 plot.py " + name_of_problem + " " + N)
+os.system("python3 plot.py " + name_of_problem + " " + N + " " + Nobjects)
 
 
 # Open plot:
