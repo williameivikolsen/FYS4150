@@ -28,7 +28,7 @@ protected:
 public:
     SolarSystem(double T, int N, int Nobjects);   // Initialize class object
     void initialize_objects(double *x, double *y, double *z, double *vx, double *vy, double *vz, double *masses); // Sets initial values
-    void Gravitational_acc(int p, double x, double y, double z);
+    void Gravitational_acc(int t, int p);
     void Relativistic_gravitational_force();
     void solve_euler();                    // Solve differential equation using the Euler method
     void solve_velocity_verlet();          // Solve differential equation using the Verlet method
