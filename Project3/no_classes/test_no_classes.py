@@ -78,7 +78,7 @@ def test_ang_moment_conservation(data_set, method_name, eps=1e-2, dT=0.1):
     dN = int(N/num_checks)           # Number of steps for every sweep
     for i in range(num_checks):
         idx_0 = int(i*N/num_checks)  # Start inde for every sweep 
-        for j in range(dN):
+        for _ in range(dN):
             pos0 = np.array([rx[idx_0 + i], ry[idx_0+i]])
             pos1 = np.array([rx[idx_0 + (i+1)], ry[idx_0+(i+1)]])
             
@@ -87,8 +87,8 @@ def test_ang_moment_conservation(data_set, method_name, eps=1e-2, dT=0.1):
             heigth = np.sqrt(np.dot(pos1-pos0, pos1-pos0))
 
             area[i] +=  0.5*base_length*heigth
-
-    return area
+    area_diff_ratio = np.abs(area - area[0])/area[0]
+    return area_diff_ratio, num_checks
 
 
 
@@ -145,7 +145,7 @@ def test_energy_conservation(data_set, method_name, eps=1e-4):      # eps is tol
 deviance_verlet_circle = test_circular(data_verlet, "Verlet")
 deviance_euler_cirlce = test_circular(data_euler, "Euler")
 
-
+plt.figure(1)
 plt.plot(steps, deviance_euler_cirlce, label="Euler")
 plt.plot(steps, deviance_verlet_circle, label="Verlet")
 plt.xlabel("N")
@@ -153,14 +153,13 @@ plt.ylabel("Deviation [AU]")
 plt.yscale("log")
 plt.title("N = {}".format(N))
 plt.legend()
-# plt.show()
 
 # Plot 2: Deviance from initial energies
 
 verlet_kin_diff, verlet_pot_diff, verlet_tot_diff = test_energy_conservation(data_verlet, "Verlet")
 euler_kin_diff, euler_pot_diff, euler_tot_diff = test_energy_conservation(data_euler, "Euler")
 
-plt.figure(figsize=(15,4))
+plt.figure(2, figsize=(15,4))
 
 plt.subplot(1,3,1)
 plt.plot(steps, verlet_kin_diff, label="Kinetic energy Verlet")
@@ -185,9 +184,19 @@ plt.xlabel("N")
 plt.yscale("log")
 plt.legend()
 
-plt.show()
+
 
 # Plot 3: Constant angular velocity: check if area swept over is constant
-area = test_ang_moment_conservation(data_verlet, "Verlet")
-plt.plot(area)
+plt.figure(3)
+area_diff_ratio_verlet, num_checks_verlet = test_ang_moment_conservation(data_verlet, "Verlet", dT=0.01)
+area_diff_ratio_euler, num_checks_euler = test_ang_moment_conservation(data_euler, "Euler", dT = 0.01)
+
+plt.plot(area_diff_ratio_euler, label="Total energy Euler")
+plt.plot(area_diff_ratio_verlet,label="Total energy Verlet")
+
+plt.xlabel("Sweep number")
+plt.ylabel("Absolute ratio of deviation from first sweep [1]")
+
+plt.yscale("log")
+
 plt.show()
