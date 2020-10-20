@@ -18,3 +18,4 @@ Dato          Loggtid        Person         Hva skjedde
 18.10.20      22:00          William        Begynt å ordne generalisering av kode. Ikke ferdig enda
 18.10.20      22:00          Peder          Tester og shit
 19.10.20      12:00          Peder          Tester og shit (99%) ferdig
+19.10.20      12:00          William        Store endringer, se what_to_do.txt
