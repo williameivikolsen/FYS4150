@@ -1,4 +1,4 @@
-//#include "SolarSystem.hpp"
+#include "SolarSystem.hpp"
 #include <cstdio>
 #include <iostream>
 
@@ -6,14 +6,15 @@ using namespace std;
 
 int main(int argc, char *argv[]) {
     int N = atoi(argv[1]);                              // Number of inegration points
-    double tn = atof(argv[2]);                          // Time to be simulated
+    double T = atof(argv[2]);                           // Time to be simulated
     int Nobjects = atoi(argv[3]);                       // Number of planets
-    char* initial_conditions = argv[4];          // File containing initial conditions for chosen system
-    char* masses = argv[5];                       // File containing masses for chosen system
+    char* initial_conditions = argv[4];                 // File containing initial conditions for chosen system
+    char* masses = argv[5];                             // File containing masses for chosen system
+    int mercury = atoi(argv[6]);                        // Parameter to check if we consider the mercury perihelion
 
     double *x, *y, *z, *vx, *vy, *vz;                   //To store initial conditions for each particle.
     double *mass;                                       //Store mass of particles.
-    x = new double[N];
+    x = new double[Nobjects];
     y = new double[Nobjects];
     z = new double[Nobjects];
     vx = new double[Nobjects];
@@ -23,7 +24,7 @@ int main(int argc, char *argv[]) {
 
     //char* filename_pos_vel = initial_conditions;   //Each line of file gives initial condition for a particle on the form: x y z vx vy vz
     //char* filename_mass = masses;                 //Each line of the file contains a mass for a given particle.
-
+    
     //Open files
     FILE *fp_init = fopen(initial_conditions, "r"); //Open file to read, specified by "r".
     FILE *fp_mass = fopen(masses, "r");    //Open file to read.
@@ -34,20 +35,18 @@ int main(int argc, char *argv[]) {
         fscanf(fp_mass, "%lf", &mass[i]); //Extract mass for particle i.
     }
 
-
     fclose(fp_init); //Close file with initial conditions
     fclose(fp_mass); //Close file with masses.
 
-    cout << x[1] << endl;
+    SolarSystem my_solver(T, N, Nobjects);
+    my_solver.initialize_objects(x, y, z, vx, vy, vz, mass);
+    if (mercury == 0) {
+        my_solver.solve_euler();
+        my_solver.write_to_file("Euler");
+    }
+    else if (mercury == 1) {
+        // Run simulation with relativistically corrected gravotational force
+    }
 
-/*
-    // Løser foreløpig kun for jorda (element 0)
-    SolarSystem my_solver(F);
-    my_solver.initialize(tn, N, x[0], y[0], z[0], vx[0], vy[0], vz[0]);
-    my_solver.solve_euler();
-    my_solver.write_to_file("Euler");
-    my_solver.solve_velvet();
-    my_solver.write_to_file("Verlet");
-*/
     return 0;
 }

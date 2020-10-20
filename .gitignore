@@ -5,7 +5,7 @@ HO2*.txt
 special_*.txt
 general_*.txt
 ./Project3/results/*.txt
-
+*.exe
 
 lectures2015.pdf
 test.cpp
