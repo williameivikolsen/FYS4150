@@ -23,7 +23,7 @@ SolarSystem::SolarSystem(double T, int N, int Nobjects){
 }
 
 void SolarSystem::initialize_objects(double *x, double *y, double *z, double *vx, double *vy, double *vz, double *masses) {
-  //Fill initial conditions into member arrays.
+  // Fill initial conditions into member arrays.
   for (int i = 0; i < m_Nobjects; i++){
     m_x[i] = x[i];
     m_y[i] = y[i];
@@ -33,6 +33,39 @@ void SolarSystem::initialize_objects(double *x, double *y, double *z, double *vx
     m_vz[i] = vz[i];
     m_masses[i] = masses[i];
   }
+  // Adjust initial conditions to move to C.O.M system
+  double *R = new double[3];              // COM position
+  double *V = new double[3];              // COM velocity
+  double M = 0;                   // Total mass
+  // Initialize to zero
+  for (int i = 0; i < 3; i++){
+    R[i] = 0;                     
+    V[i] = 0; 
+  }
+  for (int i = 0; i < m_Nobjects; i++){
+    R[0] += m_masses[i] * m_x[i];
+    R[1] += m_masses[i] * m_y[i];
+    R[2] += m_masses[i] * m_z[i];
+    V[0] += m_masses[i] * m_vx[i];
+    V[1] += m_masses[i] * m_vy[i];
+    V[2] += m_masses[i] * m_vz[i];
+    M += m_masses[i];
+  }
+  // Divide by total mass
+  for (int i = 0; i < 3; i++){
+    R[i] = R[i]/M;                     
+    V[i] = V[i]/M; 
+  } 
+  // Remove COM position and velocity from all initial conditions
+  for (int i = 0; i < m_Nobjects; i++){
+    m_x[i] -= R[0];
+    m_y[i] -= R[1];
+    m_z[i] -= R[2];
+    m_vx[i] -= V[0];
+    m_vy[i] -= V[1];
+    m_vz[i] -= V[2];
+  }
+
   delete[] x;
   delete[] y;
   delete[] z;
@@ -40,6 +73,8 @@ void SolarSystem::initialize_objects(double *x, double *y, double *z, double *vx
   delete[] vy;
   delete[] vz;
   delete[] masses;
+  delete[] R;
+  delete[] V;
 }
 
 void SolarSystem::Gravitational_acc(int t, int p) {
