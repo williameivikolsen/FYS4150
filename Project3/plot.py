@@ -11,11 +11,19 @@ N = sys.argv[2]
 Nobjects = int(sys.argv[3])
 path = "./results/" + name_of_problem
 os.chdir(path)
-infile_euler = "Euler_" + N + ".txt"
+filename_euler = "Euler_" + N + ".txt"
 # infile_verlet = "Verlet_" + N + ".txt"
 
+infile_euler = open(filename_euler, 'r')
+infile_euler.readline()                                 # Skip one line
+params = infile_euler.readline().split()                # Parameters located in line 2
+t0 = params[1]
+tn = params[2]
+h = params[4]
+infile_euler.seek(0)
+
 # Read through infiles, structure is [x y z vx vy vz]:
-data_euler = np.loadtxt(infile_euler, skiprows=4)
+data_euler = np.loadtxt(filename_euler, skiprows=4)
 # data_verlet = np.loadtxt(infile_verlet, skiprows=4)
 
 for i in range(Nobjects):
@@ -28,5 +36,5 @@ plt.axis('equal')
 # plt.xlim([-2,2])
 # plt.ylim([-2,2])
 # plt.legend()
-plt.title("N = " + N)
+plt.title("T = " + tn + " N = " + N)
 plt.savefig("plot_" + N + ".pdf")
