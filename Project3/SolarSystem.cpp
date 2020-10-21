@@ -12,7 +12,7 @@ SolarSystem::SolarSystem(double T, int N, int Nobjects){
   m_Nobjects = Nobjects;
   m_h = m_T/(m_N-1);
   m_hh = m_h*m_h;
-  // Initialize arrays
+  // Initialize arrays of positions and velocities
   m_masses = new double[m_N];
   m_x = new double[m_N*m_Nobjects];
   m_y = new double[m_N*m_Nobjects];
@@ -39,8 +39,8 @@ void SolarSystem::initialize_objects(double *x, double *y, double *z, double *vx
   double M = 0;                   // Total mass
   // Initialize to zero
   for (int i = 0; i < 3; i++){
-    R[i] = 0;                     
-    V[i] = 0; 
+    R[i] = 0;
+    V[i] = 0;
   }
   for (int i = 0; i < m_Nobjects; i++){
     R[0] += m_masses[i] * m_x[i];
@@ -53,9 +53,9 @@ void SolarSystem::initialize_objects(double *x, double *y, double *z, double *vx
   }
   // Divide by total mass
   for (int i = 0; i < 3; i++){
-    R[i] = R[i]/M;                     
-    V[i] = V[i]/M; 
-  } 
+    R[i] = R[i]/M;
+    V[i] = V[i]/M;
+  }
   // Remove COM position and velocity from all initial conditions
   for (int i = 0; i < m_Nobjects; i++){
     m_x[i] -= R[0];
@@ -116,6 +116,19 @@ void SolarSystem::solve_euler() {
 
 void SolarSystem::solve_velocity_verlet() {
     cout << "Solving with Verlet method ..." << endl;
+    for (int i = 0; i < m_N; i++) {
+      for (int j = 0; j < m_Nobjects; j++) {
+        Gravitational_acc(i, j); // Fiks på akselerasjonen 
+        m_x[(i+1)*m_Nobjects + j] = m_x[i*m_Nobjects + j] + m_h*m_vx[i*m_Nobjects + j] + m_hh./2*a;
+        m_y[(i+1)*m_Nobjects + j] = m_y[i*m_Nobjects + j] + m_h*m_vy[i*m_Nobjects + j];
+        m_z[(i+1)*m_Nobjects + j] = m_z[i*m_Nobjects + j] + m_h*m_vz[i*m_Nobjects + j];
+        m_vx[(i+1)*m_Nobjects + j] = m_vx[i*m_Nobjects + j] + m_h*m_ax;
+        m_vy[(i+1)*m_Nobjects + j] = m_vy[i*m_Nobjects + j] + m_h*m_ay;
+        m_vz[(i+1)*m_Nobjects + j] = m_vz[i*m_Nobjects + j] + m_h*m_az;
+
+      }
+
+  /*
     double k1 = 2*m_h*m_h*M_PI*M_PI;                            // Define k1 = 2*pi*pi*h*h
     double k2 = 2*m_h*M_PI*M_PI;                                // Define k2 = 2*pi*pi*h
     double r3_old;                                              // Distance r^3 current step
@@ -131,6 +144,7 @@ void SolarSystem::solve_velocity_verlet() {
         m_vy[i+1] = m_vy[i] - k2*(m_y[i]/r3_old + m_y[i+1]/r3_new);
         m_vz[i+1] = m_vz[i] - k2*(m_z[i]/r3_old + m_z[i+1]/r3_new);
         r3_old = r3_new;
+      */
     }
 }
 

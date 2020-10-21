@@ -12,7 +12,7 @@ Nobjects = int(sys.argv[3])
 path = "./results/" + name_of_problem
 os.chdir(path)
 filename_euler = "Euler_" + N + ".txt"
-# infile_verlet = "Verlet_" + N + ".txt"
+filename_verlet = "Verlet_" + N + ".txt"
 
 infile_euler = open(filename_euler, 'r')
 infile_euler.readline()                                 # Skip one line

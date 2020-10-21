@@ -24,7 +24,7 @@ int main(int argc, char *argv[]) {
 
     //char* filename_pos_vel = initial_conditions;   //Each line of file gives initial condition for a particle on the form: x y z vx vy vz
     //char* filename_mass = masses;                 //Each line of the file contains a mass for a given particle.
-    
+
     //Open files
     FILE *fp_init = fopen(initial_conditions, "r"); //Open file to read, specified by "r".
     FILE *fp_mass = fopen(masses, "r");    //Open file to read.
@@ -43,6 +43,8 @@ int main(int argc, char *argv[]) {
     if (mercury == 0) {
         my_solver.solve_euler();
         my_solver.write_to_file("Euler");
+        my_solver.solve_velocity_verlet():
+        my_solver.write_to_file("Verlet");
     }
     else if (mercury == 1) {
         // Run simulation with relativistically corrected gravotational force

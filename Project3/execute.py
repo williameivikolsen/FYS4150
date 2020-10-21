@@ -12,9 +12,7 @@ os.system("c++ -o main.exe" + " " + all_cpp_codes)
 # -------------- Execution --------------
 mercury = '0'         # Parameter to check if we consider the mercury perihelion
 beta = '2'            # Beta parameter for force
-problem = input("Choose system sun_earth [1] / sun_earth_jupiter [2] / full_system [3] / sun_mercury [4]: ")
-T = input("Select simulation time (years): ")
-N = input("Select number of integration points: ")
+problem = input("Choose system: \n [1] The Sun and Earth \n [2] Sun, Earth and Jupiter \n [3] The solar system \n [4] The Sun and Mercury")
 if problem == '1':
     Nobjects = '2'
     name_of_problem = 'sun_earth'
@@ -33,6 +31,9 @@ else:
     print('Problem must be 1, 2, 3 or 4!')
     sys.exit()
 
+T = input("Select simulation time (years): ")
+N = input("Select number of integration points: ")
+
 initial_values = "./datasets/initial_conditions/initial_conditions_" + name_of_problem + ".txt"
 masses = "./datasets/masses/masses_" + name_of_problem + ".txt"
 
@@ -47,9 +48,9 @@ if not os.path.exists(path):
     os.makedirs(path) #Creates the directory
 
 euler_file = "Euler_" + N + ".txt"
-# verlet_file = "Verlet_" + N + ".txt"
+verlet_file = "Verlet_" + N + ".txt"
 os.system("mv" + " " + euler_file + " " + path)         # Move Euler data to results directory.
-# os.system("mv" + " " + verlet_file + " " + path)         # Move Euler data to results directory.
+os.system("mv" + " " + verlet_file + " " + path)         # Move Euler data to results directory.
 os.system("python3 plot.py " + name_of_problem + " " + N + " " + Nobjects)
 
 
