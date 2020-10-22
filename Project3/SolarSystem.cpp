@@ -12,7 +12,7 @@ SolarSystem::SolarSystem(double T, int N, int Nobjects){
   m_Nobjects = Nobjects;
   m_h = m_T/(m_N-1);
   m_hh = m_h*m_h;
-  // Initialize arrays of positions and velocities
+  // Initialize arrays containing positions and velocities for all the planets
   m_masses = new double[m_N];
   m_x = new double[m_N*m_Nobjects];
   m_y = new double[m_N*m_Nobjects];
@@ -116,16 +116,20 @@ void SolarSystem::solve_euler() {
 
 void SolarSystem::solve_velocity_verlet() {
     cout << "Solving with Verlet method ..." << endl;
+    // Find initial acceleration for all the objects:
+
     for (int i = 0; i < m_N; i++) {
       for (int j = 0; j < m_Nobjects; j++) {
-        Gravitational_acc(i, j); // Fiks på akselerasjonen 
-        m_x[(i+1)*m_Nobjects + j] = m_x[i*m_Nobjects + j] + m_h*m_vx[i*m_Nobjects + j] + m_hh./2*a;
-        m_y[(i+1)*m_Nobjects + j] = m_y[i*m_Nobjects + j] + m_h*m_vy[i*m_Nobjects + j];
-        m_z[(i+1)*m_Nobjects + j] = m_z[i*m_Nobjects + j] + m_h*m_vz[i*m_Nobjects + j];
-        m_vx[(i+1)*m_Nobjects + j] = m_vx[i*m_Nobjects + j] + m_h*m_ax;
-        m_vy[(i+1)*m_Nobjects + j] = m_vy[i*m_Nobjects + j] + m_h*m_ay;
-        m_vz[(i+1)*m_Nobjects + j] = m_vz[i*m_Nobjects + j] + m_h*m_az;
+        Gravitational_acc(i, j); //
+        double ax_old = m_ax;  double ay_old = m_ay; double az_old = m_az;
+        m_x[(i+1)*m_Nobjects + j] = m_x[i*m_Nobjects + j] + m_h*m_vx[i*m_Nobjects + j] + m_hh*0.5*ax_old;
+        m_y[(i+1)*m_Nobjects + j] = m_y[i*m_Nobjects + j] + m_h*m_vy[i*m_Nobjects + j] + m_hh*0.5*ay_old;
+        m_z[(i+1)*m_Nobjects + j] = m_z[i*m_Nobjects + j] + m_h*m_vz[i*m_Nobjects + j] + m_hh*0.5*az_old;
 
+        Gravitational_acc(i+1, j); // Acceleration in the next time step
+        m_vx[(i+1)*m_Nobjects + j] = m_vx[i*m_Nobjects + j] + m_h*0.5*(ax_old + m_ax);
+        m_vy[(i+1)*m_Nobjects + j] = m_vy[i*m_Nobjects + j] + m_h*0.5*(ay_old + m_ay);
+        m_vz[(i+1)*m_Nobjects + j] = m_vz[i*m_Nobjects + j] + m_h*0.5*(az_old + m_az);
       }
 
   /*

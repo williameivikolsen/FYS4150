@@ -63,7 +63,7 @@ void SolveEuler(int N, double h, double *rx, double *ry, double *vx, double *vy)
     for(int i = 0; i < N-1; i++){
         r3 = pow(rx[i]*rx[i] + ry[i]*ry[i], 1.5);
         vx[i+1] = vx[i] - k*rx[i]/r3;
-        vy[i+1] = vy[i] - k*ry[i]/r3;       
+        vy[i+1] = vy[i] - k*ry[i]/r3;
         rx[i+1] = rx[i] + h*vx[i];
         ry[i+1] = ry[i] + h*vy[i];
     }
@@ -104,7 +104,7 @@ void TestEarthSun(int N, double eps, double tn, double *rx, double *ry){
     cout << "--------------------------------------------------------------------------------" << endl;
     cout << "Testing Earth orbit with circle. Max trajectory deviation allowed is eps=" << eps << "..." << endl;
     cout << "--------------------------------------------------------------------------------" << endl;
-    
+
     // Start by finding coordinates of circle
     double *rx_test = new double[N];            // x-vals of circle
     double *ry_test = new double[N];            // y-vals of circle
@@ -115,7 +115,7 @@ void TestEarthSun(int N, double eps, double tn, double *rx, double *ry){
         rx_test[i] = cos(theta_0 + i*delta_theta);
         ry_test[i] = sin(theta_0 + i*delta_theta);
     }
-    
+
     // Check that distance from circle doesn't exceed tolerance
     int i_problem = 0;                                                          // First index that exceeds tolerance
     int num_problems = 0;                                                       // Number of indexes with problems
@@ -135,7 +135,7 @@ void TestEarthSun(int N, double eps, double tn, double *rx, double *ry){
         }
         deviance = new_deviance;
     }
-    
+
     // Print out results
     if(num_problems == 0){
         cout << "The test was passed successfully!" << endl;

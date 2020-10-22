@@ -1,0 +1,5 @@
+Method       t0       tn       N         h
+ Euler        0        1       1       inf
+
+x  -  y  -  z  -  vx  -  vy  -  vz .........
+  -2.883410e-06            inf            inf            inf            inf            inf   9.607842e-01           -inf            nan            nan            nan            nan
