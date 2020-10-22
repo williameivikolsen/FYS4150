@@ -20,4 +20,5 @@ Dato          Loggtid        Person         Hva skjedde
 19.10.20      12:00          Peder          Tester og shit (99%) ferdig
 19.10.20      12:00          William        Store endringer, se what_to_do.txt
 20.10.20      11:00          Alle           Møte - William store fremskritt
-20.10.20      23:00          Benny          Endret til velocity verlet i rapport - begynt med å implementere
+20.10.20      23:00          Benny          Endret til velocity Verlet i rapport - begynt med å implementere
+22.10.20      11:00          Benny          Fått Verlet til å funke :-))) 
