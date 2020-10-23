@@ -131,24 +131,6 @@ void SolarSystem::solve_velocity_verlet() {
         m_vy[(i+1)*m_Nobjects + j] = m_vy[i*m_Nobjects + j] + m_h*0.5*(ay_old + m_ay);
         m_vz[(i+1)*m_Nobjects + j] = m_vz[i*m_Nobjects + j] + m_h*0.5*(az_old + m_az);
       }
-
-  /*
-    double k1 = 2*m_h*m_h*M_PI*M_PI;                            // Define k1 = 2*pi*pi*h*h
-    double k2 = 2*m_h*M_PI*M_PI;                                // Define k2 = 2*pi*pi*h
-    double r3_old;                                              // Distance r^3 current step
-    double r3_new;                                              // Distance r^3 next step
-    r3_old = pow(m_x[0]*m_x[0] + m_y[0]*m_y[0] + m_z[0]*m_z[0], 1.5);
-    for(int i = 0; i < m_N-1; i++){
-        m_x[i+1] = m_x[i] + m_h*m_vx[i] - k1*m_x[i]/r3_old;
-        m_y[i+1] = m_y[i] + m_h*m_vy[i] - k1*m_y[i]/r3_old;
-        m_z[i+1] = m_z[i] + m_h*m_vz[i] - k1*m_z[i]/r3_old;
-
-        r3_new  = pow(m_x[i+1]*m_x[i+1] + m_y[i+1]*m_y[i+1] + m_z[i+1]*m_z[i+1], 1.5);
-        m_vx[i+1] = m_vx[i] - k2*(m_x[i]/r3_old + m_x[i+1]/r3_new);
-        m_vy[i+1] = m_vy[i] - k2*(m_y[i]/r3_old + m_y[i+1]/r3_new);
-        m_vz[i+1] = m_vz[i] - k2*(m_z[i]/r3_old + m_z[i+1]/r3_new);
-        r3_old = r3_new;
-      */
     }
 }
 
