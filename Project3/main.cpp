@@ -40,7 +40,7 @@ int main(int argc, char *argv[]) {
     // Set initial conditions
     my_solver.initialize_objects(x, y, z, vx, vy, vz, mass);
 
-    if (mercury == 0) {
+    if (mercury == 0) { 
       // Run simulation with Newtonian gravotational force and write to file
       if (Nobjects == 2){
         my_solver.solve_euler();
