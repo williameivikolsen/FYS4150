@@ -6,7 +6,7 @@ import sys
 # ------------- Compilation -------------
 all_cpp_codes = "./*.cpp"
 os.system("echo compiling...")
-os.system("c++ -o main.exe" + " " + all_cpp_codes)
+os.system("c++ -O3 -o main.exe" + " " + all_cpp_codes)
 # ---------------------------------------
 
 # -------------- Execution --------------
@@ -47,15 +47,14 @@ path = "./results/" + name_of_problem
 if not os.path.exists(path):
     os.makedirs(path) #Creates the directory
 
-if name_of_problem == "sun_earth":
-    euler_file = "Euler_" + N + ".txt"
+if name_of_problem == 'sun_earth':
+    euler_file = "Euler_" + N + "_" + T + ".txt"
     os.system("mv" + " " + euler_file + " " + path)         # Move Euler data to results directory.
 
-
-verlet_file = "Verlet_" + N + ".txt"
+verlet_file = "Verlet_" + N + "_" + T + ".txt"
 os.system("mv" + " " + verlet_file + " " + path)         # Move Euler data to results directory.
 
-os.system("python3 plot.py " + name_of_problem + " " + N + " " + Nobjects)
+os.system("python3 plot.py " + name_of_problem + " " + N + " " + Nobjects + " " + T)
 
 
 

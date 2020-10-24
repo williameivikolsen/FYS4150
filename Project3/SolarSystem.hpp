@@ -24,6 +24,9 @@ protected:
     double m_ax;                  // Acceleration along x-axis
     double m_ay;                  // Acceleration along y-axis
     double m_az;                  // Acceleration along z-axis
+    double *m_axold;              // Old acceleration along x-axis
+    double *m_ayold;              // Old acceleration along y-axis
+    double *m_azold;              // Old acceleration along z-axis
 
 public:
     SolarSystem(double T, int N, int Nobjects);   // Initialize class object
