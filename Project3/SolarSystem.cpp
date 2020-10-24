@@ -118,6 +118,8 @@ void SolarSystem::solve_velocity_verlet() {
     cout << "Solving with Verlet method ..." << endl;
     // Find initial acceleration for all the objects:
 
+    new double *a = new double[m_Nobjects];
+
     for (int i = 0; i < m_N; i++) {
       for (int j = 0; j < m_Nobjects; j++) {
         Gravitational_acc(i, j); //
@@ -132,6 +134,7 @@ void SolarSystem::solve_velocity_verlet() {
         m_vz[(i+1)*m_Nobjects + j] = m_vz[i*m_Nobjects + j] + m_h*0.5*(az_old + m_az);
       }
 
+    delete[] a;
   /*
     double k1 = 2*m_h*m_h*M_PI*M_PI;                            // Define k1 = 2*pi*pi*h*h
     double k2 = 2*m_h*M_PI*M_PI;                                // Define k2 = 2*pi*pi*h
