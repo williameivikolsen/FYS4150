@@ -36,7 +36,7 @@ int main(int argc, char *argv[]) {
     fclose(fp_init); //Close file with initial conditions
     fclose(fp_mass); //Close file with masses.
 
-    SolarSystem my_solver(T, N, Nobjects);
+    SolarSystem my_solver(T, N, Nobjects, mercury);
     // Set initial conditions
     my_solver.initialize_objects(x, y, z, vx, vy, vz, mass);
 
@@ -51,6 +51,8 @@ int main(int argc, char *argv[]) {
     }
     else if (mercury == 1) {
         // Run simulation with relativistically corrected gravotational force
+        my_solver.solve_velocity_verlet();
+        my_solver.write_to_file("Verlet");
     }
 
     return 0;

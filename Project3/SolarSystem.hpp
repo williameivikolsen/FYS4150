@@ -27,12 +27,14 @@ protected:
     double *m_axold;              // Old acceleration along x-axis
     double *m_ayold;              // Old acceleration along y-axis
     double *m_azold;              // Old acceleration along z-axis
+    int m_mercury;                // Mercury test parameter
+    double m_lc;                  // Mercury angular momentum divided by speed of light * 3
 
 public:
-    SolarSystem(double T, int N, int Nobjects);   // Initialize class object
+    SolarSystem(double T, int N, int Nobjects, int mercury);   // Initialize class object
     void initialize_objects(double *x, double *y, double *z, double *vx, double *vy, double *vz, double *masses); // Sets initial values
     void Gravitational_acc(int t, int p);
-    void Relativistic_gravitational_force();
+    void Relativistic_gravitational_force(int t, int p);
     void solve_euler();                    // Solve differential equation using the Euler method
     void solve_velocity_verlet();          // Solve differential equation using the Verlet method
     void write_to_file(string name);       // Write results to file

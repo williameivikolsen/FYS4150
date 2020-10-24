@@ -18,7 +18,7 @@ infile_verlet.readline()                                 # Skip one line
 params = infile_verlet.readline().split()          # Parameters located in line 2
 t0 = params[1]
 tn = params[2]
-h = params[4]
+# h = params[4]
 infile_verlet.seek(0)
 
 if name_of_problem == "sun_earth":

@@ -4,7 +4,7 @@ using namespace std;
 ofstream ofile;
 
 
-SolarSystem::SolarSystem(double T, int N, int Nobjects){
+SolarSystem::SolarSystem(double T, int N, int Nobjects, int mercury){
   // Constants
   m_G = 4*M_PI*M_PI;
   m_T = T;
@@ -12,6 +12,7 @@ SolarSystem::SolarSystem(double T, int N, int Nobjects){
   m_Nobjects = Nobjects;
   m_h = m_T/(m_N-1);
   m_hh = m_h*m_h;
+  m_mercury = mercury;
   // Initialize arrays containing positions and velocities for all the planets
   m_masses = new double[m_N];
   m_x = new double[m_N*m_Nobjects];
@@ -35,6 +36,11 @@ void SolarSystem::initialize_objects(double *x, double *y, double *z, double *vx
     m_vy[i] = vy[i];
     m_vz[i] = vz[i];
     m_masses[i] = masses[i];
+  }
+  if (m_mercury == 1) {
+        m_lc = 3*(pow(m_y[1]*m_vz[1] - m_z[1]*m_vy[1], 2)
+        + pow(m_x[1]*m_vz[1] - m_z[1]*m_vx[1], 2)
+        + pow(m_x[1]*m_vy[1] - m_y[1]*m_vx[1], 2))/3999424081;
   }
   // Adjust initial conditions to move to C.O.M system
   double *R = new double[3];              // COM position
@@ -93,14 +99,14 @@ void SolarSystem::Gravitational_acc(int t, int p) {
       m_ax += -m_G*m_masses[i]/r3*xdiff;
       m_ay += -m_G*m_masses[i]/r3*ydiff;
       m_az += -m_G*m_masses[i]/r3*zdiff;
+      if (m_mercury == 1) {
+        m_ax += -m_G*m_masses[i]/pow(r3, 2/3)*xdiff*m_lc;
+        m_ay += -m_G*m_masses[i]/pow(r3, 2/3)*ydiff*m_lc;
+        m_az += -m_G*m_masses[i]/pow(r3, 2/3)*zdiff*m_lc;
+      }
     }
   }
 }
-
-void SolarSystem::Relativistic_gravitational_force() {
-  cout << "Denne er ikke implementert enda." << endl;
-}
-
 
 void SolarSystem::solve_euler() {
     cout << "Solving with Euler method..." << endl;
