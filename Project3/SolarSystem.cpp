@@ -17,9 +17,12 @@ SolarSystem::SolarSystem(double T, int N, int Nobjects){
   m_x = new double[m_N*m_Nobjects];
   m_y = new double[m_N*m_Nobjects];
   m_z = new double[m_N*m_Nobjects];
-  m_vx = new double[m_N*m_Nobjects];
-  m_vy = new double[m_N*m_Nobjects];
-  m_vz = new double[m_N*m_Nobjects];
+  m_vx = new double[m_Nobjects];
+  m_vy = new double[m_Nobjects];
+  m_vz = new double[m_Nobjects];
+  m_axold = new double[m_Nobjects];
+  m_ayold = new double[m_Nobjects];
+  m_azold = new double[m_Nobjects];
 }
 
 void SolarSystem::initialize_objects(double *x, double *y, double *z, double *vx, double *vy, double *vz, double *masses) {
@@ -103,66 +106,52 @@ void SolarSystem::solve_euler() {
     cout << "Solving with Euler method..." << endl;
     for (int i = 0; i < m_N; i++) {
       for (int j = 0; j < m_Nobjects; j++) {
-        Gravitational_acc(i, j); // Fiks på denne
-        m_vx[(i+1)*m_Nobjects + j] = m_vx[i*m_Nobjects + j] + m_h*m_ax;
-        m_vy[(i+1)*m_Nobjects + j] = m_vy[i*m_Nobjects + j] + m_h*m_ay;
-        m_vz[(i+1)*m_Nobjects + j] = m_vz[i*m_Nobjects + j] + m_h*m_az;
-        m_x[(i+1)*m_Nobjects + j] = m_x[i*m_Nobjects + j] + m_h*m_vx[i*m_Nobjects + j];
-        m_y[(i+1)*m_Nobjects + j] = m_y[i*m_Nobjects + j] + m_h*m_vy[i*m_Nobjects + j];
-        m_z[(i+1)*m_Nobjects + j] = m_z[i*m_Nobjects + j] + m_h*m_vz[i*m_Nobjects + j];
+        Gravitational_acc(i, j);
+        m_vx[j] += m_h*m_ax;
+        m_vy[j] += m_h*m_ay;
+        m_vz[j] += m_h*m_az;
+        m_x[(i+1)*m_Nobjects + j] = m_x[i*m_Nobjects + j] + m_h*m_vx[j];
+        m_y[(i+1)*m_Nobjects + j] = m_y[i*m_Nobjects + j] + m_h*m_vy[j];
+        m_z[(i+1)*m_Nobjects + j] = m_z[i*m_Nobjects + j] + m_h*m_vz[j];
       }
     }
 }
 
 void SolarSystem::solve_velocity_verlet() {
     cout << "Solving with Verlet method ..." << endl;
-    // Find initial acceleration for all the objects:
-
     for (int i = 0; i < m_N; i++) {
       for (int j = 0; j < m_Nobjects; j++) {
-        Gravitational_acc(i, j); //
-        double ax_old = m_ax;  double ay_old = m_ay; double az_old = m_az;
-        m_x[(i+1)*m_Nobjects + j] = m_x[i*m_Nobjects + j] + m_h*m_vx[i*m_Nobjects + j] + m_hh*0.5*ax_old;
-        m_y[(i+1)*m_Nobjects + j] = m_y[i*m_Nobjects + j] + m_h*m_vy[i*m_Nobjects + j] + m_hh*0.5*ay_old;
-        m_z[(i+1)*m_Nobjects + j] = m_z[i*m_Nobjects + j] + m_h*m_vz[i*m_Nobjects + j] + m_hh*0.5*az_old;
-
-        Gravitational_acc(i+1, j); // Acceleration in the next time step
-        m_vx[(i+1)*m_Nobjects + j] = m_vx[i*m_Nobjects + j] + m_h*0.5*(ax_old + m_ax);
-        m_vy[(i+1)*m_Nobjects + j] = m_vy[i*m_Nobjects + j] + m_h*0.5*(ay_old + m_ay);
-        m_vz[(i+1)*m_Nobjects + j] = m_vz[i*m_Nobjects + j] + m_h*0.5*(az_old + m_az);
+        Gravitational_acc(i, j);
+        m_axold[j] = m_ax; m_ayold[j] = m_ay; m_azold[j] = m_az;
+        m_x[(i+1)*m_Nobjects + j] = m_x[i*m_Nobjects + j] + m_h*m_vx[j] + m_hh*0.5*m_ax;
+        m_y[(i+1)*m_Nobjects + j] = m_y[i*m_Nobjects + j] + m_h*m_vy[j] + m_hh*0.5*m_ay;
+        m_z[(i+1)*m_Nobjects + j] = m_z[i*m_Nobjects + j] + m_h*m_vz[j] + m_hh*0.5*m_az;
       }
-
-  /*
-    double k1 = 2*m_h*m_h*M_PI*M_PI;                            // Define k1 = 2*pi*pi*h*h
-    double k2 = 2*m_h*M_PI*M_PI;                                // Define k2 = 2*pi*pi*h
-    double r3_old;                                              // Distance r^3 current step
-    double r3_new;                                              // Distance r^3 next step
-    r3_old = pow(m_x[0]*m_x[0] + m_y[0]*m_y[0] + m_z[0]*m_z[0], 1.5);
-    for(int i = 0; i < m_N-1; i++){
-        m_x[i+1] = m_x[i] + m_h*m_vx[i] - k1*m_x[i]/r3_old;
-        m_y[i+1] = m_y[i] + m_h*m_vy[i] - k1*m_y[i]/r3_old;
-        m_z[i+1] = m_z[i] + m_h*m_vz[i] - k1*m_z[i]/r3_old;
-
-        r3_new  = pow(m_x[i+1]*m_x[i+1] + m_y[i+1]*m_y[i+1] + m_z[i+1]*m_z[i+1], 1.5);
-        m_vx[i+1] = m_vx[i] - k2*(m_x[i]/r3_old + m_x[i+1]/r3_new);
-        m_vy[i+1] = m_vy[i] - k2*(m_y[i]/r3_old + m_y[i+1]/r3_new);
-        m_vz[i+1] = m_vz[i] - k2*(m_z[i]/r3_old + m_z[i+1]/r3_new);
-        r3_old = r3_new;
-      */
+      for (int j = 0; j < m_Nobjects; j++) {
+        Gravitational_acc(i+1, j); // Acceleration in the next time step
+        m_vx[j] += m_h*0.5*(m_axold[j] + m_ax);
+        m_vy[j] += m_h*0.5*(m_ayold[j] + m_ay);
+        m_vz[j] += m_h*0.5*(m_azold[j] + m_az);
+      }
     }
 }
 
 void SolarSystem::write_to_file(string name) {
-    string outfilename = name + "_" + to_string(m_N) + ".txt";
+    int jump = 1;
+    if (m_N >= 100000) {
+      jump = 100;
+    }
+    int T_int = (int) m_T;
+    string outfilename = name + "_" + to_string(m_N) + "_" + to_string(T_int) + ".txt";
     cout << "Printing to " << outfilename << endl;
     ofile.open(outfilename);
     ofile << setw(6) << "Method" << setw(9) << "t0" << setw(9) << "tn" << setw(8) << "N" << setw(10) << "h" << endl;
     ofile << setw(6) << setprecision(1) << name << setw(9) << 0 << setw(9) << m_T << setw(8) << m_N << setprecision(3) << setw(10) << m_h << endl;
     ofile << endl;
-    ofile << "x  -  y  -  z  -  vx  -  vy  -  vz ........." << endl;
-    for(int i = 0; i < m_N; i++){
+    ofile << "x  -  y  -  z  ........." << endl;
+    for(int i = 0; i < m_N; i+=jump){
         for (int j = 0; j < m_Nobjects; j++)
-          ofile << setw(15) << scientific << setprecision(6) << m_x[i*m_Nobjects + j] << setw(15) << m_y[i*m_Nobjects + j] << setw(15) << m_z[i*m_Nobjects + j] << setw(15) << m_vx[i*m_Nobjects + j] << setw(15) << m_vy[i*m_Nobjects + j] << setw(15) << m_vz[i*m_Nobjects + j];
+          ofile << setw(15) << scientific << setprecision(6) << m_x[i*m_Nobjects + j] << setw(15) << m_y[i*m_Nobjects + j] << setw(15) << m_z[i*m_Nobjects + j];
         ofile << endl;
     }
     ofile.close();
