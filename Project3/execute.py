@@ -47,9 +47,11 @@ path = "./results/" + name_of_problem
 if not os.path.exists(path):
     os.makedirs(path) #Creates the directory
 
-euler_file = "Euler_" + N + ".txt"
+if name_of_problem == "sun_earth":
+    euler_file = "Euler_" + N + ".txt"
+    os.system("mv" + " " + euler_file + " " + path)         # Move Euler data to results directory.
+
 verlet_file = "Verlet_" + N + ".txt"
-os.system("mv" + " " + euler_file + " " + path)         # Move Euler data to results directory.
 os.system("mv" + " " + verlet_file + " " + path)         # Move Euler data to results directory.
 
 os.system("python3 plot.py " + name_of_problem + " " + N + " " + Nobjects)

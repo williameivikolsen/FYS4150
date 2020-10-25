@@ -94,11 +94,6 @@ void SolarSystem::Gravitational_acc(int t, int p) {
   }
 }
 
-void SolarSystem::Relativistic_gravitational_force() {
-  cout << "Denne er ikke implementert enda." << endl;
-}
-
-
 void SolarSystem::solve_euler() {
     cout << "Solving with Euler method..." << endl;
     for (int i = 0; i < m_N; i++) {
@@ -135,6 +130,10 @@ void SolarSystem::solve_velocity_verlet() {
 }
 
 void SolarSystem::write_to_file(string name) {
+    int jump = 1;
+    if (m_N >= 100000) {
+      jump = 100;
+    }
     string outfilename = name + "_" + to_string(m_N) + ".txt";
     cout << "Printing to " << outfilename << endl;
     ofile.open(outfilename);
@@ -142,7 +141,7 @@ void SolarSystem::write_to_file(string name) {
     ofile << setw(6) << setprecision(1) << name << setw(9) << 0 << setw(9) << m_T << setw(8) << m_N << setprecision(3) << setw(10) << m_h << endl;
     ofile << endl;
     ofile << "x  -  y  -  z  -  vx  -  vy  -  vz ........." << endl;
-    for(int i = 0; i < m_N; i++){
+    for(int i = 0; i*jump < m_N; i++){
         for (int j = 0; j < m_Nobjects; j++)
           ofile << setw(15) << scientific << setprecision(6) << m_x[i*m_Nobjects + j] << setw(15) << m_y[i*m_Nobjects + j] << setw(15) << m_z[i*m_Nobjects + j] << setw(15) << m_vx[i*m_Nobjects + j] << setw(15) << m_vy[i*m_Nobjects + j] << setw(15) << m_vz[i*m_Nobjects + j];
         ofile << endl;

@@ -9,7 +9,9 @@ name_of_problem = sys.argv[1]           # Name of the system we have calculated
 N = sys.argv[2]                         # Number of integration points
 Nobjects = int(sys.argv[3])             # Number of objects/planets
 path = "./results/" + name_of_problem   # path to data
+
 os.chdir(path)
+
 
 filename_verlet = "Verlet_" + N + ".txt"
 infile_verlet = open(filename_verlet, 'r')
