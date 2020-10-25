@@ -61,7 +61,7 @@ plt.ylabel("y [AU]")
 plt.legend()
 #plt.title("T = " + tn + " N = " + N)
 figname = "plot" + "N_" + N + "_T" + T + ".pdf"
-if beta != 2:
+if beta != "2":
     nums = beta.split(".")
     figname = "plot" + "N_" + N + "_T" + T + "_beta" + nums[0] + nums[1] + ".pdf"
 plt.savefig(figname)
