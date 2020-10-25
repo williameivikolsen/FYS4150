@@ -40,15 +40,26 @@ if name_of_problem == "sun_earth":
         beta = input("What value should beta have? ")
     elif beta_prompt != "N" or beta_prompt != "Y":
         print("Keeping beta = 2")
+    ellipse_prompt = input("Keep default initial values of Earth position? Y/N: ")
+    if  ellipse_prompt == "N":
+        print("You shall see an ellipse")
+        additional_params = "1 0 0 5"                   # x0 - y0 - vx0 - vy0 
+    elif ellipse_prompt != "N" or ellipse_prompt != "Y":
+        print("Keeping default values")
+
 
 if name_of_problem == "sun_earth_jupiter":
     scaling_prompt = input("Keep default mass of Jupiter? Y/N: ")
     if  scaling_prompt == "N":
         scaling = input("How should Jupiter's mass be scaled? ")
         additional_params = scaling
+        scaling_str0 = scaling.split(".")
+        if len(scaling_str0) > 1:                                       # If decimal number in scaling
+            scaling_str = scaling_str0[0] + "_" + scaling_str0[1]
+        else:
+            scaling_str = scaling_str0[0]
     elif scaling_prompt != "N" or scaling_prompt != "Y":
         print("Keeping original mass of Jupiter")
-    
 
 initial_values = "./datasets/initial_conditions/initial_conditions_" + name_of_problem + ".txt"
 masses = "./datasets/masses/masses_" + name_of_problem + ".txt"
@@ -62,6 +73,9 @@ os.system("./main.exe" + " " + N + " " + T + " " + Nobjects + " " + initial_valu
 path = "./results/" + name_of_problem
 if beta != '2':
     path += '/beta_tests'
+elif name_of_problem == 'sun_earth_jupiter' and additional_params != "":
+    path += "/" + scaling_str
+    
 if not os.path.exists(path):
     os.makedirs(path) #Creates the directory
 
@@ -72,7 +86,7 @@ if name_of_problem == 'sun_earth':
 verlet_file = "Verlet_" + N + "_" + T + ".txt"
 os.system("mv" + " " + verlet_file + " " + path)         # Move Euler data to results directory.
 
-os.system("python3 plot.py " + name_of_problem + " " + N + " " + Nobjects + " " + T + " " + beta)
+os.system("python3 plot.py " + name_of_problem + " " + N + " " + Nobjects + " " + T + " " + beta + " " + additional_params)
 
 # If we are doing beta tests, change name of result files to include beta value
 if beta != '2':
@@ -82,4 +96,10 @@ if beta != '2':
         euler_rename = "Euler_" + N + "_" + T + "_beta_" + nums[0] + nums[1] + ".txt"
         os.rename(euler_file, euler_rename)
     verlet_rename = "Verlet_" + N + "_" + T + "_beta_" + nums[0] + nums[1] + ".txt"
+    os.rename(verlet_file, verlet_rename)
+
+# If changeing mass of Jupiter, put files in appopriate subfolder (named afet scaling factor)
+if name_of_problem == 'sun_earth_jupiter' and additional_params != "":
+    os.chdir(path)
+    verlet_rename = "Verlet_" + N + "_" + T + "_jupiter_scaling_" + scaling_str + ".txt"
     os.rename(verlet_file, verlet_rename)

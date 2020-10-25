@@ -10,9 +10,23 @@ N = sys.argv[2]                         # Number of integration points
 Nobjects = int(sys.argv[3])             # Number of objects/planets
 T = sys.argv[4]                         # Simulation time
 beta = sys.argv[5]                      # Beta parameter
+
 path = "./results/" + name_of_problem   # path to data
 if beta != '2':
     path += '/beta_tests'               # HUSK å legge inn beta-verdien i plott!
+
+if len(sys.argv) > 6:
+    additional_params = sys.argv[6]         # Additional params for special cases (Jupiter scaling, Earth inital values)
+    if name_of_problem == "sun_earth_jupiter" and additional_params != "":
+        scaling = additional_params
+        scaling_str0 = scaling.split(".")
+        if len(scaling_str0) > 1:                                       # If decimal number in scaling
+            scaling_str = scaling_str0[0] + "_" + scaling_str0[1]
+        else:
+            scaling_str = scaling_str0[0]
+
+        path += "/" + scaling_str
+
 os.chdir(path)
 
 filename_verlet = "Verlet_" + N + "_" + T + ".txt"
@@ -31,7 +45,7 @@ if name_of_problem == "sun_earth":
 
 data_verlet = np.loadtxt(filename_verlet, skiprows=4)       # Structure is [x y z vx vy vz ...]
 
-for i in range(0,Nobjects):                                 # Skips sun
+for i in range(1,Nobjects):                                 # Skips sun
     plt.plot(data_verlet[:,3*i], data_verlet[:,3*i+1], label="Verlet")
     if name_of_problem == "sun_earth":
         plt.plot(data_euler[:,3*i], data_euler[:,3*i+1], label = "Euler")
