@@ -1,16 +1,6 @@
-Nå kjører klassen hvis man bruker sun_earth, sun_earth_jupiter eller full_system. Beregningene ser ut til å bli riktige, men:
-- Vi må bytte referansesystem til massesentersystemet, for akkurat nå flyr sola avsted.
-- plot.py plotter foreløpig bare jorda og sola. Fiks den slik at den plotter alle planetene! Sammen med dette må det gjøres endringer i hvordan den kalles på i execute.py
-
-Noe av det jeg har gjort er å:
-- Legge inn en parameter "mercury" som blir lest inn fra execute.py. 0 = vanlig gravitasjonskraft, 1 = relativistisk modifisert gravitasjonskraft.
-  I main.cpp sjekker vi verdien før vi kaller på løserne til klassen.
-- Fikse solve_euler til å bruke arrayene som vi ønsker og kalle på Gravitational_acc (legg merke til indeksene!!!)
-- Fikse Gravitational_acc til å beregne akselerasjonen til alle planetene generelt
-- Gjøre at execute.py lagrer filene vi får ut i mapper etter navnet på problemet som løses
-
 Neste ting vi må gjøre er:
-- Fikse at programmet tar inn forskjellige verdier av beta. Dette kan f. eks. gjøres ved å sende inn beta som input til Gravitational_acc(), men det kan bli vanskelig å få det inn som en array.
-- Lage relativistic_gravitational_force() (egentlig akselerasjon, som med Gravitational_acc)
-- Fikse solve_velocity_verlet til å fungere på samme vis som solve_euler
-- Gjøre at solve_euler og solve_velocity_verlet virker på alle gravitasjonsfunksjoner
+- Fikse initialverdier 
+- Fikse special cases -> legg resultater i undermappe
+- Appende navn på beta? Kanskje også legge inn i undermappe.
+- Timer for algoritme (fra P1) -> Lagre tid i txt.fil
+- 3d plot hele solsystem.

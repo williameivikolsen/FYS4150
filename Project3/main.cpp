@@ -41,13 +41,13 @@ int main(int argc, char *argv[]) {
     my_solver.initialize_objects(x, y, z, vx, vy, vz, mass);
 
     if (mercury == 0) {
-      // Run simulation with Newtonian gravitational force and write to file
-      if (Nobjects == 2){
-        my_solver.solve_euler();
-        my_solver.write_to_file("Euler");
-      }
-      my_solver.solve_velocity_verlet();
-      my_solver.write_to_file("Verlet");
+      // Run simulation with Newtonian gravotational force and write to file
+        if (Nobjects == 2) {
+            my_solver.solve_euler();
+            my_solver.write_to_file("Euler");
+        }
+        my_solver.solve_velocity_verlet();
+        my_solver.write_to_file("Verlet");
     }
     else if (mercury == 1) {
         // Run simulation with relativistically corrected gravotational force
