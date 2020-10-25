@@ -28,7 +28,7 @@ if name_of_problem == "sun_earth":
 
 data_verlet = np.loadtxt(filename_verlet, skiprows=4)       # Structure is [x y z vx vy vz ...]
 
-for i in range(1,Nobjects):                                 # Skips sun
+for i in range(0,Nobjects):                                 # Skips sun
     plt.plot(data_verlet[:,3*i], data_verlet[:,3*i+1], label="Verlet")
     if name_of_problem == "sun_earth":
         plt.plot(data_euler[:,3*i], data_euler[:,3*i+1], label = "Euler")

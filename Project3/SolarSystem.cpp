@@ -141,7 +141,6 @@ void SolarSystem::solve_velocity_verlet() {
         m_vz[j] += m_h*0.5*(m_azold[j] + m_az);
       }
     }
-    cout << "beta = " << m_beta << endl;
 }
 
 void SolarSystem::write_to_file(string name) {

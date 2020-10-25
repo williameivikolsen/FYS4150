@@ -12,6 +12,8 @@ os.system("c++ -o main.exe" + " " + all_cpp_codes)
 # -------------- Execution --------------
 mercury = '0'         # Parameter to check if we consider the mercury perihelion
 beta = '2'            # Beta parameter for force
+additional_params = '' # Possible additional parameters (filled later)
+
 problem = input( " [1] The Sun and Earth \n [2] Sun, Earth and Jupiter \n [3] The solar system \n [4] The Sun and Mercury \nChoose system: ")
 if problem == '1':
     Nobjects = '2'
@@ -39,11 +41,20 @@ if name_of_problem == "sun_earth":
     elif beta_prompt != "N" or beta_prompt != "Y":
         print("Keeping beta = 2")
 
+if name_of_problem == "sun_earth_jupiter":
+    scaling_prompt = input("Keep default mass of Jupiter? Y/N: ")
+    if  scaling_prompt == "N":
+        scaling = input("How should Jupiter's mass be scaled? ")
+        additional_params = scaling
+    elif scaling_prompt != "N" or scaling_prompt != "Y":
+        print("Keeping original mass of Jupiter")
+    
+
 initial_values = "./datasets/initial_conditions/initial_conditions_" + name_of_problem + ".txt"
 masses = "./datasets/masses/masses_" + name_of_problem + ".txt"
 
 os.system("echo executing...")
-os.system("./main.exe" + " " + N + " " + T + " " + Nobjects + " " + initial_values + " " + masses + " " + mercury + " " + beta)    # Execute code
+os.system("./main.exe" + " " + N + " " + T + " " + Nobjects + " " + initial_values + " " + masses + " " + mercury + " " + beta + " " + additional_params)    # Execute code
 # -----------------------------------------
 
 # ------ File handling and plotting -------
