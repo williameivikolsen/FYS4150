@@ -153,8 +153,8 @@ void SolarSystem::write_to_file(string name) {
     string outfilename = name + "_" + to_string(m_N) + "_" + to_string(T_int) + ".txt";
     cout << "Printing to " << outfilename << endl;
     ofile.open(outfilename);
-    ofile << setw(6) << "Method" << setw(9) << "t0" << setw(9) << "tn" << setw(8) << "N" << setw(10) << "h" << endl;
-    ofile << setw(6) << setprecision(1) << name << setw(9) << 0 << setw(9) << m_T << setw(8) << m_N << setprecision(3) << setw(10) << m_h << endl;
+    ofile << setw(6) << "Method" << setw(9) << "t0" << setw(9) << "tn" << setw(8) << "N" << setw(10) << "h" << setw(6) << "beta" << endl;
+    ofile << setw(6) << setprecision(1) << name << setw(9) << 0 << setw(9) << m_T << setw(8) << m_N << setprecision(3) << setw(10) << m_h << setw(10) << to_string(m_beta) << endl;
     ofile << endl;
     ofile << "x  -  y  -  z  ........." << endl;
     for(int i = 0; i < m_N; i+=jump){

@@ -49,6 +49,8 @@ os.system("./main.exe" + " " + N + " " + T + " " + Nobjects + " " + initial_valu
 # ------ File handling and plotting -------
 #First check if the directory exists. Otherwise, create it.
 path = "./results/" + name_of_problem
+if beta != '2':
+    path += '/beta_tests'
 if not os.path.exists(path):
     os.makedirs(path) #Creates the directory
 
@@ -59,11 +61,14 @@ if name_of_problem == 'sun_earth':
 verlet_file = "Verlet_" + N + "_" + T + ".txt"
 os.system("mv" + " " + verlet_file + " " + path)         # Move Euler data to results directory.
 
-os.system("python3 plot.py " + name_of_problem + " " + N + " " + Nobjects + " " + T)
+os.system("python3 plot.py " + name_of_problem + " " + N + " " + Nobjects + " " + T + " " + beta)
 
-
-
-# Open plot:
-# os.chdir(path)
-# os.system("code " + plot + "_" + N + ".png")
-# -----------------------------------------
+# If we are doing beta tests, change name of result files to include beta value
+if beta != '2':
+    os.chdir(path)
+    nums = beta.split(".")
+    if name_of_problem == 'sun_earth':
+        euler_rename = "Euler_" + N + "_" + T + "_beta_" + nums[0] + nums[1] + ".txt"
+        os.rename(euler_file, euler_rename)
+    verlet_rename = "Verlet_" + N + "_" + T + "_beta_" + nums[0] + nums[1] + ".txt"
+    os.rename(verlet_file, verlet_rename)

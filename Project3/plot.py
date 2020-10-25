@@ -9,7 +9,10 @@ name_of_problem = sys.argv[1]           # Name of the system we have calculated
 N = sys.argv[2]                         # Number of integration points
 Nobjects = int(sys.argv[3])             # Number of objects/planets
 T = sys.argv[4]                         # Simulation time
+beta = sys.argv[5]                      # Beta parameter
 path = "./results/" + name_of_problem   # path to data
+if beta != '2':
+    path += '/beta_tests'               # HUSK å legge inn beta-verdien i plott!
 os.chdir(path)
 
 filename_verlet = "Verlet_" + N + "_" + T + ".txt"
@@ -40,5 +43,9 @@ plt.axis('equal')
 # plt.ylim([-2,2])
 plt.legend()
 plt.title("T = " + tn + " N = " + N)
-plt.savefig("plot_" + N + "_" + T + ".pdf")
+figname = "plot" + "_N" + N + "_T" + T + ".pdf"
+if beta != '2':
+    nums = beta.split(".")
+    figname = "plot" + "_N" + N + "_T" + T + "_beta" + nums[0] + nums[1] + ".pdf"
+plt.savefig(figname)
 plt.show()
