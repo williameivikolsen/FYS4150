@@ -36,7 +36,6 @@ int main(int argc, char *argv[]) {
     fclose(fp_init); //Close file with initial conditions
     fclose(fp_mass); //Close file with masses.
 
-    // Special initial consitions for Mercury when studying precession
     if (mercury == 1) {
         // Set initial conditions for sun:
         x[0] = 0; y[0] = 0; z[0] = 0;
@@ -67,7 +66,7 @@ int main(int argc, char *argv[]) {
         my_solver.write_to_file("Verlet");
     }
     else if (mercury == 1) {
-        // Run simulation with relativistically corrected gravotational force
+        // Run simulation with relativistically corrected gravitational force
         my_solver.solve_velocity_verlet();
         my_solver.write_to_file("Verlet");
     }
