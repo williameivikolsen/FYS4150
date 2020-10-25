@@ -36,6 +36,15 @@ int main(int argc, char *argv[]) {
     fclose(fp_init); //Close file with initial conditions
     fclose(fp_mass); //Close file with masses.
 
+    if (mercury == 0) {
+        // Set initial conditions for sun:
+        x[0] = 0; y[0] = 0; z[0] = 0;
+        vx[0] = 0; vy[0] = 0; vz[0] = 0;
+        // Set initial conditions for Mercury:
+        x[1] = 0.3075; y[1] = 0; z[1] = 0;
+        vx[1] = 0; vy[1] = 12.44; vz[1] = 0;
+    }
+
     SolarSystem my_solver(T, N, Nobjects, mercury);
     // Set initial conditions
     my_solver.initialize_objects(x, y, z, vx, vy, vz, mass);
