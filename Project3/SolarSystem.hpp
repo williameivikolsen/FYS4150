@@ -27,9 +27,10 @@ protected:
     double *m_axold;              // Old acceleration along x-axis
     double *m_ayold;              // Old acceleration along y-axis
     double *m_azold;              // Old acceleration along z-axis
+    double m_beta;                  // Beta parameter of gravitational force (default value = 2)
 
 public:
-    SolarSystem(double T, int N, int Nobjects);   // Initialize class object
+    SolarSystem(double T, int N, int Nobjects, double beta);   // Initialize class object
     void initialize_objects(double *x, double *y, double *z, double *vx, double *vy, double *vz, double *masses); // Sets initial values
     void Gravitational_acc(int t, int p);
     void Relativistic_gravitational_force();

@@ -11,7 +11,7 @@ int main(int argc, char *argv[]) {
     char* initial_conditions = argv[4];                 // File containing initial conditions for chosen system
     char* masses = argv[5];                             // File containing masses for chosen system
     int mercury = atoi(argv[6]);                        // Parameter to check if we consider the mercury perihelion
-
+    double beta = atof(argv[7]);                        // Beta parameter in gravitational force
     double *x, *y, *z, *vx, *vy, *vz;                   //To store initial conditions for each particle.
     double *mass;                                       //Store mass of particles.
     x = new double[Nobjects];
@@ -36,7 +36,7 @@ int main(int argc, char *argv[]) {
     fclose(fp_init); //Close file with initial conditions
     fclose(fp_mass); //Close file with masses.
 
-    SolarSystem my_solver(T, N, Nobjects);
+    SolarSystem my_solver(T, N, Nobjects, beta);
     // Set initial conditions
     my_solver.initialize_objects(x, y, z, vx, vy, vz, mass);
 
