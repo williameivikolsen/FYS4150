@@ -111,6 +111,8 @@ void SolarSystem::Gravitational_acc(int t, int p) {
 
 void SolarSystem::solve_euler() {
     cout << "Solving with Euler method..." << endl;
+    clock_t start, finish;
+    start = clock();
     for (int i = 0; i < m_N; i++) {
       for (int j = 0; j < m_Nobjects; j++) {
         Gravitational_acc(i, j);
@@ -122,10 +124,14 @@ void SolarSystem::solve_euler() {
         m_z[(i+1)*m_Nobjects + j] = m_z[i*m_Nobjects + j] + m_h*m_vz[j];
       }
     }
+    finish = clock();
+    m_timeused = (double)(finish - start) / (CLOCKS_PER_SEC);
 }
 
 void SolarSystem::solve_velocity_verlet() {
     cout << "Solving with Verlet method ..." << endl;
+    clock_t start, finish;
+    start = clock();
     for (int i = 0; i < m_N; i++) {
       for (int j = 0; j < m_Nobjects; j++) {
         Gravitational_acc(i, j);
@@ -141,6 +147,8 @@ void SolarSystem::solve_velocity_verlet() {
         m_vz[j] += m_h*0.5*(m_azold[j] + m_az);
       }
     }
+    finish = clock();
+    m_timeused = (double)(finish - start) / (CLOCKS_PER_SEC);
 }
 
 void SolarSystem::write_to_file(string name) {
@@ -152,8 +160,8 @@ void SolarSystem::write_to_file(string name) {
     string outfilename = name + "_" + to_string(m_N) + "_" + to_string(T_int) + ".txt";
     cout << "Printing to " << outfilename << endl;
     ofile.open(outfilename);
-    ofile << setw(6) << "Method" << setw(9) << "t0" << setw(9) << "tn" << setw(8) << "N" << setw(10) << "h" << setw(6) << "beta" << endl;
-    ofile << setw(6) << setprecision(1) << name << setw(9) << 0 << setw(9) << m_T << setw(8) << m_N << setprecision(3) << setw(10) << m_h << setw(10) << to_string(m_beta) << endl;
+    ofile << setw(6) << "Method" << setw(9) << "t0" << setw(9) << "tn" << setw(8) << "N" << setw(10) << "h" << setw(6) << "beta" << setw(19) << "Time used [s]" << endl;
+    ofile << setw(6) << setprecision(1) << name << setw(9) << 0 << setw(9) << m_T << setw(8) << m_N << setprecision(3) << setw(10) << m_h << setw(10) << to_string(m_beta) << setw(15) << to_string(m_timeused) << endl;
     ofile << endl;
     ofile << "x  -  y  -  z  ........." << endl;
     for(int i = 0; i < m_N; i+=jump){
