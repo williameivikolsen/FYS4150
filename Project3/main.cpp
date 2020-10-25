@@ -11,7 +11,7 @@ int main(int argc, char *argv[]) {
     char* initial_conditions = argv[4];                 // File containing initial conditions for chosen system
     char* masses = argv[5];                             // File containing masses for chosen system
     int mercury = atoi(argv[6]);                        // Parameter to check if we consider the mercury perihelion
-
+    double beta = atof(argv[7]);                        // Beta parameter in gravitational force
     double *x, *y, *z, *vx, *vy, *vz;                   //To store initial conditions for each particle.
     double *mass;                                       //Store mass of particles.
     x = new double[Nobjects];
@@ -36,7 +36,16 @@ int main(int argc, char *argv[]) {
     fclose(fp_init); //Close file with initial conditions
     fclose(fp_mass); //Close file with masses.
 
-    SolarSystem my_solver(T, N, Nobjects);
+    if (mercury == 0) {
+        // Set initial conditions for sun:
+        x[0] = 0; y[0] = 0; z[0] = 0;
+        vx[0] = 0; vy[0] = 0; vz[0] = 0;
+        // Set initial conditions for Mercury:
+        x[1] = 0.3075; y[1] = 0; z[1] = 0;
+        vx[1] = 0; vy[1] = 12.44; vz[1] = 0;
+    }
+
+    SolarSystem my_solver(T, N, Nobjects, mercury);
     // Set initial conditions
     my_solver.initialize_objects(x, y, z, vx, vy, vz, mass);
 
@@ -51,6 +60,8 @@ int main(int argc, char *argv[]) {
     }
     else if (mercury == 1) {
         // Run simulation with relativistically corrected gravotational force
+        my_solver.solve_velocity_verlet();
+        my_solver.write_to_file("Verlet");
     }
 
     return 0;

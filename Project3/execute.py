@@ -6,7 +6,7 @@ import sys
 # ------------- Compilation -------------
 all_cpp_codes = "./*.cpp"
 os.system("echo compiling...")
-os.system("c++ -O3 -o main.exe" + " " + all_cpp_codes)
+os.system("c++ -o main.exe" + " " + all_cpp_codes)
 # ---------------------------------------
 
 # -------------- Execution --------------
@@ -16,7 +16,6 @@ problem = input( " [1] The Sun and Earth \n [2] Sun, Earth and Jupiter \n [3] Th
 if problem == '1':
     Nobjects = '2'
     name_of_problem = 'sun_earth'
-    # beta = input('Select value for beta: ')
 elif problem == '2':
     Nobjects = '3'
     name_of_problem = 'sun_earth_jupiter'
@@ -33,12 +32,18 @@ else:
 
 T = input("Select simulation time (years): ")
 N = input("Select number of integration points: ")
+if name_of_problem == "sun_earth":
+    beta_prompt = input("Keep default value of beta (β=2)? Y/N: ")
+    if  beta_prompt == "N":
+        beta = input("What value should beta have? ")
+    elif beta_prompt != "N" or beta_prompt != "Y":
+        print("Keeping beta = 2")
 
 initial_values = "./datasets/initial_conditions/initial_conditions_" + name_of_problem + ".txt"
 masses = "./datasets/masses/masses_" + name_of_problem + ".txt"
 
 os.system("echo executing...")
-os.system("./main.exe" + " " + N + " " + T + " " + Nobjects + " " + initial_values + " " + masses + " " + mercury)    # Execute code
+os.system("./main.exe" + " " + N + " " + T + " " + Nobjects + " " + initial_values + " " + masses + " " + mercury + " " + beta)    # Execute code
 # -----------------------------------------
 
 # ------ File handling and plotting -------
