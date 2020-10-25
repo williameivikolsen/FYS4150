@@ -8,8 +8,8 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 
-# N = int(input("Which value of step size N to test for? "))
-# assert open("Euler_%i.txt" % N), "Output files not found for this value of N. Try again after computing results."
+N = int(input("Which value of step size N to test for? "))
+assert open("Euler_%i.txt" % N), "Output files not found for this value of N. Try again after computing results."
 N=73001
 
 # Start by reading data from files
@@ -188,8 +188,8 @@ plt.legend()
 
 # Plot 3: Constant angular velocity: check if area swept over is constant
 plt.figure(3)
-area_diff_ratio_verlet, num_checks_verlet = test_ang_moment_conservation(data_verlet, "Verlet", dT=0.01)
-area_diff_ratio_euler, num_checks_euler = test_ang_moment_conservation(data_euler, "Euler", dT = 0.01)
+area_diff_ratio_verlet, num_checks_verlet = test_ang_moment_conservation(data_verlet, "Verlet", dT=0.1)
+area_diff_ratio_euler, num_checks_euler = test_ang_moment_conservation(data_euler, "Euler", dT = 0.1)
 
 plt.plot(area_diff_ratio_euler, label="Total energy Euler")
 plt.plot(area_diff_ratio_verlet,label="Total energy Verlet")
