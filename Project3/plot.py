@@ -35,15 +35,14 @@ if name_of_problem == "sun_earth":
     infile_euler = open(filename_euler,'r')
     data_euler = np.loadtxt(filename_euler, skiprows=4)
 
-    for i in range(1,Nobjects):                       # Skips sun
-        plt.plot(data_verlet[:,3*i], data_verlet[:,3*i+1], label= "Velocity Verlet")
-        plt.plot(data_euler[:,3*i], data_euler[:,3*i+1], label = "Forward Euler")
+    plt.plot(data_verlet[:,3], data_verlet[:,4], label= "Velocity Verlet")
+    plt.plot(data_euler[:,3], data_euler[:,4], label = "Forward Euler")
 
     plt.plot(0,0, marker="*", markerfacecolor="yellow", markersize=10, markeredgecolor="black", markeredgewidth=1)
 
 elif name_of_problem == "sun_earth_jupiter":
     name = ["Sun","Earth", "Jupiter"]
-    for i in range(0,Nobjects):
+    for i in range(Nobjects):
         plt.plot(data_verlet[:,3*i], data_verlet[:,3*i+1], label = name[i])
 
 else:
@@ -53,7 +52,7 @@ else:
 
 
 plt.grid(ls="--")
-#plt.axis('equal')
+plt.axis('equal')
 plt.xlabel("x [AU]")
 plt.ylabel("y [AU]")
 # plt.xlim([-2,2])

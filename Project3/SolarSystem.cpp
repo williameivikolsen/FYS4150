@@ -25,6 +25,9 @@ SolarSystem::SolarSystem(double T, int N, int Nobjects, int mercury, double beta
   m_axold = new double[m_Nobjects];
   m_ayold = new double[m_Nobjects];
   m_azold = new double[m_Nobjects];
+  m_v0x = new double[m_Nobjects];
+  m_v0y = new double[m_Nobjects];
+  m_v0z = new double[m_Nobjects];
 }
 
 void SolarSystem::initialize_objects(double *x, double *y, double *z, double *vx, double *vy, double *vz, double *masses) {
@@ -74,6 +77,10 @@ void SolarSystem::initialize_objects(double *x, double *y, double *z, double *vx
     m_vx[i] -= V[0];
     m_vy[i] -= V[1];
     m_vz[i] -= V[2];
+    // Store initial velocities:
+    m_v0x[i] = m_vx[i];
+    m_v0y[i] = m_vy[i];
+    m_v0z[i] = m_vz[i];
   }
 
   delete[] x;
@@ -126,6 +133,10 @@ void SolarSystem::solve_euler() {
     }
     finish = clock();
     m_timeused = (double)(finish - start) / (CLOCKS_PER_SEC);
+    // Reset velocity arrays to initial values
+    for (int j = 0; j < m_Nobjects; j++) {
+      m_vx[j] = m_v0x[j]; m_vy[j] = m_v0y[j]; m_vz[j] = m_v0z[j];
+    }
 }
 
 void SolarSystem::solve_velocity_verlet() {
@@ -149,6 +160,10 @@ void SolarSystem::solve_velocity_verlet() {
     }
     finish = clock();
     m_timeused = (double)(finish - start) / (CLOCKS_PER_SEC);
+    // Reset velocity arrays to initial values
+    for (int j = 0; j < m_Nobjects; j++) {
+      m_vx[j] = m_v0x[j]; m_vy[j] = m_v0y[j]; m_vz[j] = m_v0z[j];
+    }
 }
 
 void SolarSystem::write_to_file(string name) {

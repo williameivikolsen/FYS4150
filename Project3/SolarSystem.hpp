@@ -32,6 +32,9 @@ protected:
     double m_lc;                  // Mercury angular momentum divided by speed of light * 3
     double m_beta;                // Beta parameter of gravitational force (default value = 2)
     double m_timeused;            // Time used in solve methods
+    double *m_v0x;                // Initial velocity along x axis
+    double *m_v0y;                // Initial velocity along y axis
+    double *m_v0z;                // Initial velocity along z axis
 
 public:
     SolarSystem(double T, int N, int Nobjects, int mercury, double beta);   // Initialize class object
