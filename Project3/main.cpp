@@ -65,15 +65,12 @@ int main(int argc, char *argv[]) {
     // If we study Sun-Earth system (equivalent to N=2 and mercury==0), allow for custom inital vals
     // These additional params are on form x0 - y0 - vx0 - vy0
     if (Nobjects == 2 && mercury == 0 && argc > 8) {
-        cout << "Made it here" << endl;
         // Set initial conditions for Sun:
         x[0] = 0; y[0] = 0; z[0] = 0;
         vx[0] = 0; vy[0] = 0; vz[0] = 0;
         // Set initial conditions for Earth:
         x[1] = atof(argv[8]); y[1] = atof(argv[9]); z[1] = 0;
         vx[1] = atof(argv[10]); vy[1] = atof(argv[11]); vz[1] = 0;
-
-          cout << x[1] << y[1] <<  vx[1] << vy[1] << endl;
     }
 
     SolarSystem my_solver(T, N, Nobjects, mercury, beta);
