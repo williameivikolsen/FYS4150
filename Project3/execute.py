@@ -36,19 +36,29 @@ else:
 
 T = input("Select simulation time (years): ")
 N = input("Select number of integration points: ")
+circtest = '0'
 if name_of_problem == "sun_earth":
     beta_prompt = input("Keep default value of beta (β=2)? Y/N: ")
     if  beta_prompt == "N":
         beta = input("What value should beta have? ")
+
     elif beta_prompt != "N" or beta_prompt != "Y":
         print("Keeping beta = 2")
-    ellipse_prompt = input("Keep default initial values of Earth position? Y/N: ")
+        circtest = input("Perform circle test? Y/N: ")
+        if circtest == 'Y':
+            print("Performing circle test.")
+            circtest = '1'
+        else:
+            print("Skipping circle test.")
+
+    ellipse_prompt = input("Keep default initial values of Earth position? ('N' gives ellipse) Y/N: ")
     if  ellipse_prompt == "N":
         # This can be changed so that the initial values of the Earth is arbitrary. The Sun is fixed at the origin.
         print("You shall see an ellipse")
         additional_params = "1 0 0 5"                   # x0 - y0 - vx0 - vy0 
-    elif ellipse_prompt != "N" or ellipse_prompt != "Y":
+    else:
         print("Keeping default values")
+
 
 
 if name_of_problem == "sun_earth_jupiter":
@@ -61,7 +71,7 @@ if name_of_problem == "sun_earth_jupiter":
             scaling_str = scaling_str0[0] + "_" + scaling_str0[1]
         else:
             scaling_str = scaling_str0[0]
-    elif scaling_prompt != "N" or scaling_prompt != "Y":
+    else:
         print("Keeping original mass of Jupiter")
 
 initial_values = "./datasets/initial_conditions/initial_conditions_" + name_of_problem + ".txt"
@@ -69,20 +79,25 @@ masses = "./datasets/masses/masses_" + name_of_problem + ".txt"
 
 os.system("echo  ")
 os.system("echo executing...")
-os.system("./main.exe" + " " + N + " " + T + " " + Nobjects + " " + initial_values + " " + masses + " " + mercury + " " + beta + " " + additional_params)    # Execute code
+os.system("./main.exe" + " " + N + " " + T + " " + Nobjects + " " + initial_values + " " + masses + " " + mercury + " " + beta + " " + additional_params + " " + circtest)    # Execute code
 # -----------------------------------------
 
 # ------ File handling and plotting -------
 
 path = "./results/" + name_of_problem
 
-# Make subfolder if beta not equal to 2
+# Make subfolder if beta not equal to 2 (Sun-Earth)
 if beta != '2':
     path += '/beta_tests'
-elif name_of_problem == 'sun_earth_jupiter' and additional_params != "":
+# Make subfolder for circtests (Sun-Earth)
+if circtest == '1':
+    path += '/circ_tests'
+# Make subfolder for scaled Jupiter mass (Sun-Earth-Jupiter)
+if name_of_problem == 'sun_earth_jupiter' and additional_params != "":
     path += "/" + scaling_str
 
 # First check if the directory exists. Otherwise, create it.    
+
 if not os.path.exists(path):
     os.makedirs(path) #Creates the directory
 
@@ -93,7 +108,7 @@ if name_of_problem == 'sun_earth':
 verlet_file = "Verlet_" + N + "_" + T + ".txt"
 os.system("mv" + " " + verlet_file + " " + path)            # Move Euler data to results directory.
 
-os.system("python3 plot.py " + name_of_problem + " " + N + " " + Nobjects + " " + T + " " + beta + " " + additional_params)
+os.system("python3 plot.py " + name_of_problem + " " + N + " " + Nobjects + " " + T + " " + beta + " " + circtest + " " + additional_params)
 
 # If we are doing beta tests, change name of result files to include beta value
 if beta != '2':

@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import sys
 import os
+from set_axes_equal import set_axes_equal
 
 # Program to make plots from SolarSystem class
 
@@ -12,13 +13,16 @@ N = sys.argv[2]                         # Number of integration points
 Nobjects = int(sys.argv[3])             # Number of objects/planets
 T = sys.argv[4]                         # Simulation time
 beta = sys.argv[5]                      # Beta parameter
+circtest = sys.argv[6]                  # Check if circle test
 
 path = "./results/" + name_of_problem   # path to data
+
 if beta != '2':
     path += '/beta_tests'               # HUSK å legge inn beta-verdien i plott!
-
-if len(sys.argv) > 6:
-    additional_params = sys.argv[6]         # Additional params for special cases (Jupiter scaling, Earth inital values)
+if circtest == '1':
+    path += '/circ_tests'
+elif len(sys.argv) > 7:
+    additional_params = sys.argv[7]         # Additional params for special cases (Jupiter scaling, Earth inital values)
     if name_of_problem == "sun_earth_jupiter" and additional_params != "":
         scaling = additional_params
         scaling_str0 = scaling.split(".")
@@ -42,9 +46,11 @@ if name_of_problem == "sun_earth":
     data_euler = np.loadtxt(filename_euler, skiprows=4)
 
     plt.plot(data_verlet[:,3], data_verlet[:,4], label= "Velocity Verlet")
-    plt.plot(data_euler[:,3], data_euler[:,4], label = "Forward Euler")
+    plt.plot(data_euler[:,3], data_euler[:,4], label = "Forward Euler", ls='--')
 
     plt.plot(0,0, marker="*", markerfacecolor="yellow", markersize=10, markeredgecolor="black", markeredgewidth=1)
+    plt.xlim(-1.5, 1.5)
+    plt.ylim(-1.5, 1.5)
 
 elif name_of_problem == "sun_earth_jupiter":
     name = ["Sun","Earth", "Jupiter"]
@@ -85,6 +91,9 @@ if name_of_problem == "full_system":
         ax.set_xlabel("x [AU]")
         ax.set_ylabel("y [AU]")
         plt.legend()
-        figname = "plot3D" + "_N" + N + "_T" + T + ".pdf"
-        plt.savefig(figname)
+        plt.tight_layout()
+        set_axes_equal(ax)
+        # plt.savefig("3D" + figname)
+        # plt.plot(0,0, marker="*", markerfacecolor="yellow", markersize=10, markeredgecolor="black", markeredgewidth=1)
+        # plt.savefig("3D" + "inner" + "N_" + N + "_T" + T + ".pdf")
         plt.show()

@@ -110,10 +110,9 @@ void SolarSystem::Gravitational_acc(int t, int p) {
       m_ay += -m_G*m_masses[i]/r3*ydiff;
       m_az += -m_G*m_masses[i]/r3*zdiff;
       if (m_mercury == 1) {
-        // Add relativistic correction to gravitational force from Sun if studying Mercury 
-        m_ax += -m_G*m_masses[i]/pow(r3, 2.0/3)*xdiff*m_lc;
-        m_ay += -m_G*m_masses[i]/pow(r3, 2.0/3)*ydiff*m_lc;
-        m_az += -m_G*m_masses[i]/pow(r3, 2.0/3)*zdiff*m_lc;
+        m_ax += -m_G*m_masses[i]/pow(r3, 5.0/3)*xdiff*m_lc;
+        m_ay += -m_G*m_masses[i]/pow(r3, 5.0/3)*ydiff*m_lc;
+        m_az += -m_G*m_masses[i]/pow(r3, 5.0/3)*zdiff*m_lc;
       }
     }
   }
