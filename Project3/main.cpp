@@ -12,6 +12,7 @@ int main(int argc, char *argv[]) {
     char* masses = argv[5];                             // File containing masses for chosen system
     int mercury = atoi(argv[6]);                        // Parameter to check if we consider the mercury perihelion
     double beta = atof(argv[7]);                        // Beta parameter in gravitational force
+    int circtest = atoi(argv[8]);                       // Parameter to check if we consider circular orbit test
     double jupiter_scaling;                             // Jupiter mass scaling factor
     double *x, *y, *z, *vx, *vy, *vz;                   //To store initial conditions for each particle.
     double *mass;                                       //Store mass of particles.
@@ -35,6 +36,15 @@ int main(int argc, char *argv[]) {
 
     fclose(fp_init); //Close file with initial conditions
     fclose(fp_mass); //Close file with masses.
+
+    if (circtest == 1) {
+        // Set initial conditions for sun:
+        x[0] = 0; y[0] = 0; z[0] = 0;
+        vx[0] = 0; vy[0] = 0; vz[0] = 0;
+        // Set initial conditions for Earth:
+        x[1] = 1; y[1] = 0; z[0] = 0;
+        vx[1] = 0; vy[1] = 1; vz[1] = 0;
+    }
 
     if (mercury == 1) {
         // Set initial conditions for sun:
