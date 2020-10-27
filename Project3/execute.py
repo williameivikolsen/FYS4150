@@ -9,9 +9,11 @@ os.system("echo compiling...")
 os.system("c++ -o main.exe" + " " + all_cpp_codes)
 # ---------------------------------------
 
-# -------------- Execution --------------
-mercury = '0'         # Parameter to check if we consider the mercury perihelion
-beta = '2'            # Beta parameter for force
+# -------------- Execution -------------- 
+
+# Default values of parameters
+mercury = '0'          # Parameter to check if we consider the mercury perihelion
+beta = '2'             # Beta parameter for force
 additional_params = '' # Possible additional parameters (filled later)
 
 problem = input( " [1] The Sun and Earth \n [2] Sun, Earth and Jupiter \n [3] The solar system \n [4] The Sun and Mercury \nChoose system: ")
@@ -42,6 +44,7 @@ if name_of_problem == "sun_earth":
         print("Keeping beta = 2")
     ellipse_prompt = input("Keep default initial values of Earth position? Y/N: ")
     if  ellipse_prompt == "N":
+        # This can be changed so that the initial values of the Earth is arbitrary. The Sun is fixed at the origin.
         print("You shall see an ellipse")
         additional_params = "1 0 0 5"                   # x0 - y0 - vx0 - vy0 
     elif ellipse_prompt != "N" or ellipse_prompt != "Y":
@@ -64,18 +67,22 @@ if name_of_problem == "sun_earth_jupiter":
 initial_values = "./datasets/initial_conditions/initial_conditions_" + name_of_problem + ".txt"
 masses = "./datasets/masses/masses_" + name_of_problem + ".txt"
 
+os.system("echo  ")
 os.system("echo executing...")
 os.system("./main.exe" + " " + N + " " + T + " " + Nobjects + " " + initial_values + " " + masses + " " + mercury + " " + beta + " " + additional_params)    # Execute code
 # -----------------------------------------
 
 # ------ File handling and plotting -------
-#First check if the directory exists. Otherwise, create it.
+
 path = "./results/" + name_of_problem
+
+# Make subfolder if beta not equal to 2
 if beta != '2':
     path += '/beta_tests'
 elif name_of_problem == 'sun_earth_jupiter' and additional_params != "":
     path += "/" + scaling_str
-    
+
+# First check if the directory exists. Otherwise, create it.    
 if not os.path.exists(path):
     os.makedirs(path) #Creates the directory
 
@@ -84,7 +91,7 @@ if name_of_problem == 'sun_earth':
     os.system("mv" + " " + euler_file + " " + path)         # Move Euler data to results directory.
 
 verlet_file = "Verlet_" + N + "_" + T + ".txt"
-os.system("mv" + " " + verlet_file + " " + path)         # Move Euler data to results directory.
+os.system("mv" + " " + verlet_file + " " + path)            # Move Euler data to results directory.
 
 os.system("python3 plot.py " + name_of_problem + " " + N + " " + Nobjects + " " + T + " " + beta + " " + additional_params)
 
@@ -98,7 +105,7 @@ if beta != '2':
     verlet_rename = "Verlet_" + N + "_" + T + "_beta_" + nums[0] + nums[1] + ".txt"
     os.rename(verlet_file, verlet_rename)
 
-# If changeing mass of Jupiter, put files in appopriate subfolder (named afet scaling factor)
+# If changing mass of Jupiter, put files in appopriate subfolder (named after scaling factor)
 if name_of_problem == 'sun_earth_jupiter' and additional_params != "":
     os.chdir(path)
     verlet_rename = "Verlet_" + N + "_" + T + "_jupiter_scaling_" + scaling_str + ".txt"

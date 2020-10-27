@@ -56,20 +56,3 @@ with open(outfilename, "w") as outfile:
     outfile.write(" ".join(l))
     outfile.write("\n")
 
-
-infilename = "../masses/masses.txt"
-m = []
-with open(infilename, "r") as infile:
-    lines = infile.readlines()
-    for line in lines:
-        vals = line.split()
-        m.append(float(vals[0]))
-
-m = [i/m[0] for i in m]
-
-outfilename = "../masses/masses_scaled.txt"
-
-with open(outfilename, "w") as outfile:
-    for i in range(len(m)):
-        outfile.write(str(m[i]))
-        outfile.write("\n")

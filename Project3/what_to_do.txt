@@ -1,6 +1,0 @@
-Neste ting vi må gjøre er:
-- Fikse initialverdier 
-- Fikse special cases -> legg resultater i undermappe
-- Appende navn på beta? Kanskje også legge inn i undermappe.
-- Timer for algoritme (fra P1) -> Lagre tid i txt.fil
-- 3d plot hele solsystem.
