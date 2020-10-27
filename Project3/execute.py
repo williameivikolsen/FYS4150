@@ -15,6 +15,7 @@ os.system("c++ -o main.exe" + " " + all_cpp_codes)
 mercury = '0'          # Parameter to check if we consider the mercury perihelion
 beta = '2'             # Beta parameter for force
 additional_params = '' # Possible additional parameters (filled later)
+circtest = '0'
 
 problem = input( " [1] The Sun and Earth \n [2] Sun, Earth and Jupiter \n [3] The solar system \n [4] The Sun and Mercury \nChoose system: ")
 if problem == '1':
@@ -36,7 +37,7 @@ else:
 
 T = input("Select simulation time (years): ")
 N = input("Select number of integration points: ")
-circtest = '0'
+
 if name_of_problem == "sun_earth":
     beta_prompt = input("Keep default value of beta (β=2)? Y/N: ")
     if  beta_prompt == "N":
@@ -44,8 +45,8 @@ if name_of_problem == "sun_earth":
 
     elif beta_prompt != "N" or beta_prompt != "Y":
         print("Keeping beta = 2")
-        circtest = input("Perform circle test? Y/N: ")
-        if circtest == 'Y':
+        circtest_prompt = input("Perform circle test? Y/N: ")
+        if circtest_prompt == 'Y':
             print("Performing circle test.")
             circtest = '1'
         else:
@@ -79,7 +80,8 @@ masses = "./datasets/masses/masses_" + name_of_problem + ".txt"
 
 os.system("echo  ")
 os.system("echo executing...")
-os.system("./main.exe" + " " + N + " " + T + " " + Nobjects + " " + initial_values + " " + masses + " " + mercury + " " + beta + " " + additional_params + " " + circtest)    # Execute code
+print("./main.exe" + " " + N + " " + T + " " + Nobjects + " " + initial_values + " " + masses + " " + mercury + " " + beta + " " + circtest + " " + additional_params)
+os.system("./main.exe" + " " + N + " " + T + " " + Nobjects + " " + initial_values + " " + masses + " " + mercury + " " + beta + " " + circtest + " " + additional_params)    # Execute code
 # -----------------------------------------
 
 # ------ File handling and plotting -------
