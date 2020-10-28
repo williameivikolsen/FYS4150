@@ -77,9 +77,10 @@ if beta != "2":
     else:
         figname = "plot" + "N_" + N + "_T" + T + "_beta" + nums[0] + ".pdf"
 plt.savefig(figname)
+plt.tight_layout()
 plt.show()
 
-# If looking at whole solar system, ask if user wants 3D plot 
+# If looking at whole solar system, ask if user wants 3D plot
 if name_of_problem == "full_system":
     plot3d = input("Do you want to plot the solar system in 3D? Y/N: ")
     if plot3d == "Y":
