@@ -56,13 +56,12 @@ int main(int argc, char *argv[]) {
     }
 
     // If we study Sun-Earth-Jupiter system (equivalent to N=3), allow for scaling of Jupiter mass:
-    if (Nobjects == 3 && argc > 8) {
+    if (Nobjects == 3 && argc > 9) {
         jupiter_scaling = atof(argv[9]);
         cout << jupiter_scaling << endl;
         mass[2] *= jupiter_scaling;
-
-
     }
+
 
     // If we study Sun-Earth system (equivalent to N=2 and mercury==0), allow for custom inital vals
     // These additional params are on form x0 - y0 - vx0 - vy0
@@ -75,9 +74,11 @@ int main(int argc, char *argv[]) {
         vx[1] = atof(argv[10]); vy[1] = atof(argv[11]); vz[1] = 0;
     }
 
+
     SolarSystem my_solver(T, N, Nobjects, mercury, beta);
     // Set initial conditions
     my_solver.initialize_objects(x, y, z, vx, vy, vz, mass);
+
 
     if (mercury == 0) {
       // Run simulation with Newtonian gravitational force and write to file
@@ -85,8 +86,10 @@ int main(int argc, char *argv[]) {
             my_solver.solve_euler();
             my_solver.write_to_file("Euler");
         }
+
         my_solver.solve_velocity_verlet();
         my_solver.write_to_file("Verlet");
+
     }
     else if (mercury == 1) {
         // Run simulation with relativistically corrected gravitational force

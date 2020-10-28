@@ -9,7 +9,7 @@ os.system("echo compiling...")
 os.system("c++ -o main.exe" + " " + all_cpp_codes)
 # ---------------------------------------
 
-# -------------- Execution -------------- 
+# -------------- Execution --------------
 
 # Default values of parameters
 mercury = '0'          # Parameter to check if we consider the mercury perihelion
@@ -56,7 +56,7 @@ if name_of_problem == "sun_earth":
     if  ellipse_prompt == "N":
         # This can be changed so that the initial values of the Earth is arbitrary. The Sun is fixed at the origin.
         print("You shall see an ellipse")
-        additional_params = "1 0 0 5"                   # x0 - y0 - vx0 - vy0 
+        additional_params = "1 0 0 5"                   # x0 - y0 - vx0 - vy0
     else:
         print("Keeping default values")
 
@@ -80,7 +80,6 @@ masses = "./datasets/masses/masses_" + name_of_problem + ".txt"
 
 os.system("echo  ")
 os.system("echo executing...")
-print("./main.exe" + " " + N + " " + T + " " + Nobjects + " " + initial_values + " " + masses + " " + mercury + " " + beta + " " + circtest + " " + additional_params)
 os.system("./main.exe" + " " + N + " " + T + " " + Nobjects + " " + initial_values + " " + masses + " " + mercury + " " + beta + " " + circtest + " " + additional_params)    # Execute code
 # -----------------------------------------
 
@@ -98,7 +97,7 @@ if circtest == '1':
 if name_of_problem == 'sun_earth_jupiter' and additional_params != "":
     path += "/" + scaling_str
 
-# First check if the directory exists. Otherwise, create it.    
+# First check if the directory exists. Otherwise, –––create it.
 
 if not os.path.exists(path):
     os.makedirs(path) #Creates the directory
@@ -111,6 +110,7 @@ verlet_file = "Verlet_" + N + "_" + T + ".txt"
 os.system("mv" + " " + verlet_file + " " + path)            # Move Euler data to results directory.
 
 os.system("python3 plot.py " + name_of_problem + " " + N + " " + Nobjects + " " + T + " " + beta + " " + circtest + " " + additional_params)
+
 
 # If we are doing beta tests, change name of result files to include beta value
 if beta != '2':

@@ -6,7 +6,7 @@ ofstream ofile;
 SolarSystem::SolarSystem(double T, int N, int Nobjects, int mercury, double beta){
   // Constants
   m_G = 4*M_PI*M_PI;                // Gravitational constant times Sun mass [AU^3/yr^2]
-  m_T = T;                      
+  m_T = T;
   m_N = N;
   m_Nobjects = Nobjects;
   m_h = m_T/(m_N-1);

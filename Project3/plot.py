@@ -21,6 +21,7 @@ if beta != '2':
     path += '/beta_tests'               # HUSK å legge inn beta-verdien i plott!
 if circtest == '1':
     path += '/circ_tests'
+
 elif len(sys.argv) > 7:
     additional_params = sys.argv[7]         # Additional params for special cases (Jupiter scaling, Earth inital values)
     if name_of_problem == "sun_earth_jupiter" and additional_params != "":
@@ -76,6 +77,7 @@ if beta != "2":
         figname = "plot" + "N_" + N + "_T" + T + "_beta" + nums[0] + nums[1] + ".pdf"
     else:
         figname = "plot" + "N_" + N + "_T" + T + "_beta" + nums[0] + ".pdf"
+
 plt.savefig(figname)
 plt.tight_layout()
 plt.show()
