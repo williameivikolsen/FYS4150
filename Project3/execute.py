@@ -127,3 +127,12 @@ if name_of_problem == 'sun_earth_jupiter' and additional_params != "":
     os.chdir(path)
     verlet_rename = "Verlet_" + N + "_" + T + "_jupiter_scaling_" + scaling_str + ".txt"
     os.rename(verlet_file, verlet_rename)
+
+if beta_prompt == "N":
+    print(os.getcwd())
+    # os.chdir('..')
+if name_of_problem == 'sun_earth':
+    test_check = input("Test results? Y/N: ")
+    if test_check == 'Y':
+        print(os.getcwd())
+        os.system("python3 algorithms_test.py " + name_of_problem + " " + N + " " + Nobjects + " " + T + " " + beta + " " + circtest)
