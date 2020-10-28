@@ -80,7 +80,6 @@ masses = "./datasets/masses/masses_" + name_of_problem + ".txt"
 
 os.system("echo  ")
 os.system("echo executing...")
-print("./main.exe" + " " + N + " " + T + " " + Nobjects + " " + initial_values + " " + masses + " " + mercury + " " + beta + " " + circtest + " " + additional_params)
 os.system("./main.exe" + " " + N + " " + T + " " + Nobjects + " " + initial_values + " " + masses + " " + mercury + " " + beta + " " + circtest + " " + additional_params)    # Execute code
 # -----------------------------------------
 
@@ -110,7 +109,10 @@ if name_of_problem == 'sun_earth':
 verlet_file = "Verlet_" + N + "_" + T + ".txt"
 os.system("mv" + " " + verlet_file + " " + path)            # Move Euler data to results directory.
 
-os.system("python3 plot.py " + name_of_problem + " " + N + " " + Nobjects + " " + T + " " + beta + " " + circtest + " " + additional_params)
+
+# Only plot sun_mercury if N <= 10000 (too many data points)
+if name_of_problem != "sun_mercury" or int(N) <= 10000:
+    os.system("python3 plot.py " + name_of_problem + " " + N + " " + Nobjects + " " + T + " " + beta + " " + circtest + " " + additional_params)
 
 # If we are doing beta tests, change name of result files to include beta value
 if beta != '2':
@@ -128,11 +130,19 @@ if name_of_problem == 'sun_earth_jupiter' and additional_params != "":
     verlet_rename = "Verlet_" + N + "_" + T + "_jupiter_scaling_" + scaling_str + ".txt"
     os.rename(verlet_file, verlet_rename)
 
-if beta_prompt == "N":
-    print(os.getcwd())
-    # os.chdir('..')
+
+# ------ Testing -------
+
 if name_of_problem == 'sun_earth':
+    if beta_prompt == "N":
+        print(os.getcwd())
+        # os.chdir('..')
     test_check = input("Test results? Y/N: ")
     if test_check == 'Y':
         print(os.getcwd())
-        os.system("python3 algorithms_test.py " + name_of_problem + " " + N + " " + Nobjects + " " + T + " " + beta + " " + circtest)
+        os.system("python3 algorithms_test_sun_earth.py " + name_of_problem + " " + N + " " + Nobjects + " " + T + " " + beta + " " + circtest)
+
+if name_of_problem == 'sun_mercury':
+    test_check = input("Test results? Y/N: ")
+    if test_check == 'Y':
+        os.system("python3 algorithms_test_sun_mercury.py " + N + " " + T)

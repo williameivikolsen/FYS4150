@@ -170,15 +170,15 @@ void SolarSystem::solve_velocity_verlet() {
 
 void SolarSystem::write_to_file(string name) {
     int jump = 1;
-    if (m_N >= 100000) {
+    if (m_N >= 100000 && m_mercury != 1) { // Keep small increments for Mercury
       jump = 100;
     }
     int T_int = (int) m_T;
     string outfilename = name + "_" + to_string(m_N) + "_" + to_string(T_int) + ".txt";
     cout << "Printing to " << outfilename << endl;
     ofile.open(outfilename);
-    ofile << setw(6) << "Method" << setw(9) << "t0" << setw(9) << "tn" << setw(8) << "N" << setw(10) << "h" << setw(6) << "beta" << setw(19) << "Time used [s]" << setw(20) << "Initial vx, vy, vz" << endl;
-    ofile << setw(6) << setprecision(1) << name << setw(9) << 0 << setw(9) << m_T << setw(8) << m_N << setprecision(3) << setw(10) << m_h << setw(10) << to_string(m_beta) << setw(15) << to_string(m_timeused) << setw(15) << to_string(m_v0x[1]) << setw(15) << to_string(m_v0y[1]) << setw(15) << to_string(m_v0z[1]) << endl;
+    ofile << setw(6) << "Method" << setw(9) << "t0" << setw(9) << "tn" << setw(11) << "N" << setw(10) << "h" << setw(6) << "beta" << setw(19) << "Time used [s]" << setw(20) << "Initial vx, vy, vz" << endl;
+    ofile << setw(6) << setprecision(1) << name << setw(9) << 0 << setw(9) << m_T << setw(11) << m_N << setprecision(3) << setw(10) << m_h << setw(10) << to_string(m_beta) << setw(15) << to_string(m_timeused) << setw(15) << to_string(m_v0x[1]) << setw(15) << to_string(m_v0y[1]) << setw(15) << to_string(m_v0z[1]) << endl;
     ofile << endl;
     ofile << "x  -  y  -  z  ........." << endl;
     for(int i = 0; i < m_N; i+=jump){
