@@ -43,7 +43,7 @@ int main(int argc, char *argv[]) {
         vx[0] = 0; vy[0] = 0; vz[0] = 0;
         // Set initial conditions for Earth:
         x[1] = 1; y[1] = 0; z[0] = 0;
-        vx[1] = 0; vy[1] = 1; vz[1] = 0;
+        vx[1] = 0; vy[1] = 2*M_PI; vz[1] = 0;
     }
     
     if (mercury == 1) {
