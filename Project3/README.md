@@ -13,7 +13,7 @@ The files in this folder solves the [given assignment](http://compphysics.github
   4. Sun and Mercury
 * How long to simulate for (in years)
 * The number of integration points
-* In case of the Sun+Earth system: if changes are to be made to the radial dependency of the gravitational force. A parameter β is chosen so that <img src="https://render.githubusercontent.com/render/math?math=\vec{F}_G \propto \frac{1}{r^2} \to \vec{F}_G \propto \frac{1}{\beta^2}">
+* In case of the Sun+Earth system: if changes are to be made to the radial dependency of the gravitational force. A parameter β is chosen so that <img src="https://render.githubusercontent.com/render/math?math=F_G \propto \frac{1}{r^2} \to F_G \propto \frac{1}{\beta^2}">
 * In case of the Sun+Earth system: if we want to simulte Earth's orbit as a more eccentric ellipse
 * In case of the Sun+Earth+Jupiter system: if we want to scale Jupiter's mass with a chosen factor
 * In case of the Sun+Earth system: if we to test for circular path and conservation of energy/angular momentum. This will later run `algorithms_test_sun_earth.py`
