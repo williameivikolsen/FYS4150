@@ -31,4 +31,6 @@ The masses and the initial values of the Sun and the planets' position and veloc
 
 `log.txt` is a text file that was used to keep track of hours put into the project before we started to have daily briefing meetings.
 
+The files in `.\no_classes` implements the Euler and velocity Verlet algorithm without the use of object orientation. Compiling and executing  `.\no_classes\no_classes.cpp` is done with `.\no_classes\makefile`, and plots/tests of the results can be made with `.\no_classes\plot_no_classes.py` and `.\no_classes\test_no_classes.py`.
+
 Finally, `Project_3_complete.pdf` contains the final report for the project.
