@@ -1,4 +1,4 @@
-## Project 3 - FYS4150
+## :ringed_planet: Project 3 - FYS4150 :milky_way:
 
 ### A brief description of the different files in this folder
 
