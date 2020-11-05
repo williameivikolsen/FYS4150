@@ -1,4 +1,4 @@
-## :arrows_clockwise: Project 4 - FYS4150 :magnet:
+## :arrows_clockwise: :cowboy_hat_face: Project 4 - FYS4150 :stuck_out_tongue_winking_eye: :magnet:
 
 ### A brief description of the different files in this folder
 
