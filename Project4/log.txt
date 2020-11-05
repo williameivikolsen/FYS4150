@@ -2,3 +2,4 @@ Arbeidslogg
 
 Dato          Loggtid        Person         Hva skjedde
 05.11         10:00          Alle           Oppstartsmøte
+05.11         14:00          William        Lest gjennom pensum for oppgaven
