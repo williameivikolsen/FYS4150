@@ -1,4 +1,4 @@
-## :arrows_clockwise: :cowboy_hat_face: Project 4 - FYS4150 :stuck_out_tongue_winking_eye: :magnet:
+##  Project 4 - FYS4150 	:walking_woman: :walking: :magnet: :couple: :point_right: :ok_hand: :pregnant_woman: :breast_feeding: 	:family:
 
 ### A brief description of the different files in this folder
 
