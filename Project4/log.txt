@@ -1,3 +1,4 @@
 Arbeidslogg
 
 Dato          Loggtid        Person         Hva skjedde
+05.11         10:00          Alle           Oppstartsmøte
