@@ -4,7 +4,9 @@
 
 using namespace std;
 
-int main(int argc, char* argv[]){
-
-return 0;
+int main(){
+    IsingModel my_solver;
+    my_solver.Initialize(2, 1.0);
+    my_solver.Metropolis();
+    return 0;
 }
