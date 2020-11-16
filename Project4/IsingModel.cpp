@@ -32,6 +32,10 @@ void IsingModel::Initialize(int L, double temp){
     m_BoltzmannFactor[2] = exp(0);
     m_BoltzmannFactor[3] = exp(4*m_J);
     m_BoltzmannFactor[4] = exp(8*m_J);
+
+    // Initialiserer forventningsverdier
+    m_Eavg = 0.0;
+    m_Mavg = 0.0;
 }
 
 int IsingModel::Periodic(int i, int add){
@@ -70,11 +74,35 @@ void IsingModel::Metropolis(){
             }
         }
     }
-    // cout << m_E << endl;
-    // cout << m_M << endl;
-    // cout << m_spin[0] << " " << m_spin[1] << endl;
-    // cout << m_spin[2] << " " << m_spin[3] << endl;
+}
+
+void IsingModel::MonteCarlo(int cycles) {
+    double avg_M = 0.0;
+    double avg_E2 = 0.0;
+    double avg_M2 = 0.0;
+    for (int i = 0; i < cycles; i++) {
+        Metropolis();
+        m_Eavg += m_E;
+        m_Mavg += abs(m_M);
+        avg_M += m_M;
+        avg_E2 += m_E*m_E;
+        avg_M2 += m_M*m_M;
+    }
+    m_Eavg /= cycles;
+    m_Mavg /= cycles;
+    avg_M /= cycles;
+    avg_E2 /= cycles;
+    avg_M2 /= cycles;
+    m_CV = 1/(m_temp*m_temp)*(avg_E2 - m_Eavg*m_Eavg);
+    m_chi = 1/m_temp*(avg_M2 - avg_M*avg_M);
 }
 
 void IsingModel::Write_to_file(){
+    string filename = "results.txt";
+    ofile.open(filename);
+    ofile << setw(15) << setprecision(8) << m_temp;
+    ofile << setw(15) << setprecision(8) << m_Eavg;
+    ofile << setw(15) << setprecision(8) << m_Mavg;
+    ofile << setw(15) << setprecision(8) << m_CV;
+    ofile << setw(15) << setprecision(8) << m_chi << endl;
 }

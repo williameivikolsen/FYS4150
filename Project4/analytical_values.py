@@ -7,22 +7,16 @@ Boltzmanns constant k=1 so that temperature has unit energy
 and the coupling constant J = 1
 """
 
-def Z(beta):                        # The partition function
-    return 4*np.cosh(8*beta) + 12
-
-def mean_E(beta,Z):                 # Mean energy
-    return -32*np.sinh(8*beta)/Z
-
-def mean_E2(beta,Z):                # Mean energy squared
-    return 256*np.cosh(8*beta)/Z
-
-def mean_absM(beta,Z):              # Mean absolute value of magnetization
-    return 8*(np.exp(8*B)+2)/Z
-
-def mean_M2(beta,Z):                # Mean magnetization squared
-    return 32*(np.exp(8*B)+1)/Z
-
 T = 1                   # Temperature with dimension of energy
 beta = 1/T              # Boltzmann's constant k is set to 1
-
-print(mean_E(beta,Z(beta)))
+Z = 4*np.cosh(8*beta) + 12
+mean_E = -32*np.sinh(8*beta)/Z
+mean_E2 = 256*np.cosh(8*beta)/Z
+mean_absM = 8*(np.exp(8*beta)+2)/Z
+mean_M2 = 32*(np.exp(8*beta)+1)/Z
+CV = 1/T**2*(mean_E2 - mean_E**2)
+chi = 1/T*mean_M2
+print('E = ', mean_E)
+print('|M| = ', mean_absM)
+print('C_V = ', CV)
+print('chi = ', chi)

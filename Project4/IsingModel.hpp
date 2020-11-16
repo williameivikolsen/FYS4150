@@ -6,6 +6,7 @@
 #include <iomanip>      // Text formatting
 #include <cstdlib>
 #include <ctime>
+#include <string>
 
 using namespace std;
 
@@ -20,9 +21,15 @@ protected:
   double *m_BoltzmannFactor;
   int m_J;
   int Periodic(int i, int add);
+  void Metropolis();    // Solving using the Metropolis algorithm
+  double m_Eavg;        // Gjennomsnittlig energi
+  double m_Mavg;        // Gjennomsnittlig magnetisering (absoluttverdi!)
+  double m_CV;
+  double m_chi;
+
 public:
   void Initialize(int L, double T);
-  void Metropolis();    // Solving using the Metropolis algorithm
+  void MonteCarlo(int cycles);
   void Write_to_file(); // Write results to file
 };
 
