@@ -9,4 +9,4 @@ Dato          Loggtid        Person         Hva skjedde
 13.11         10:00          William        Skrev videre på teori og førte inn resultater fra 4a
 13.11         16:00          Benny          Laget filer + prøvd å skjønne hvordan å sette opp koden
 15.11         17:00          William        Lagt inn metropolisalgoritmen. Koden kjører!
-16.11         12:00          William        Prøvd å gå videre til å fine forventningsverdier. Blir ikke riktig
+16.11         12:00          William        Prøvd å gå videre til å finne forventningsverdier. Blir ikke riktig
