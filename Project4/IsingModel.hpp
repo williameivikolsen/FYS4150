@@ -15,11 +15,10 @@ protected:
   int m_L;
   double m_temp;
   int m_N;
-  double *m_spin;
-  double m_E;
-  double m_M;
+  int *m_spin;
+  int m_E;
+  int m_M;
   double *m_BoltzmannFactor;
-  int m_J;
   int Periodic(int i, int add);
   void Metropolis();    // Solving using the Metropolis algorithm
   double m_Eavg;        // Gjennomsnittlig energi

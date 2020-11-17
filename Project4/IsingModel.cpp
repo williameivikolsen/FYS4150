@@ -7,8 +7,7 @@ void IsingModel::Initialize(int L, double temp){
     m_L = L;
     m_temp = temp;
     m_N = m_L*m_L;
-    m_spin = new double[m_N];
-    m_J = 1; // Antar J = 1
+    m_spin = new int[m_N];
 
     // Initialiserer systemet til å starte med alle spinn opp
     for (int i = 0; i < m_L; i++) {
@@ -18,24 +17,22 @@ void IsingModel::Initialize(int L, double temp){
     }
     m_M = m_N;
     // Beregner energien med periodic boundary conditions
-    m_E = 0;
-    int jm = m_N;
-    for (int j = 1; j <= m_N; j++) {
-        m_E -= m_J*m_spin[j]*m_spin[jm];
-        jm = j;
-    }
+    // m_E = 0;
+    // int jm = m_N;
+    // for (int j = 1; j <= m_N; j++) {
+    //     m_E -= m_J*m_spin[j]*m_spin[jm];
+    //     jm = j;
+    // }
+    // cout << m_E << endl;
+    m_E = -8;
 
     // Setter opp mulige Boltzmann-faktorer:
-    m_BoltzmannFactor = new double[5];
-    m_BoltzmannFactor[0] = exp(-8*m_J);
-    m_BoltzmannFactor[1] = exp(-4*m_J);
-    m_BoltzmannFactor[2] = exp(0);
-    m_BoltzmannFactor[3] = exp(4*m_J);
-    m_BoltzmannFactor[4] = exp(8*m_J);
-
-    // Initialiserer forventningsverdier
-    m_Eavg = 0.0;
-    m_Mavg = 0.0;
+    m_BoltzmannFactor = new double[17];
+    m_BoltzmannFactor[0] = exp(-8);
+    m_BoltzmannFactor[4] = exp(-4);
+    m_BoltzmannFactor[8] = exp(0);
+    m_BoltzmannFactor[12] = exp(4);
+    m_BoltzmannFactor[16] = exp(8);
 }
 
 int IsingModel::Periodic(int i, int add){
@@ -44,7 +41,7 @@ int IsingModel::Periodic(int i, int add){
 
 void IsingModel::Metropolis(){
     int x; int y;           // Random positions to perform spin flip
-    double dE; double dM;   // Changes in energy and magnetization
+    int dE; int dM;         // Changes in energy and magnetization
     double w;               // Boltzmann factor
     double r;               // Random number
     srand(time(0));
@@ -55,7 +52,7 @@ void IsingModel::Metropolis(){
             x = rand()%m_L;
             y = rand()%m_L;
             m_spin[x*m_L + y] = -m_spin[x*m_L + y];
-            dE = -2*m_J*m_spin[x*m_L + y]*
+            dE = -2*m_spin[x*m_L + y]*
             (m_spin[Periodic(x, 1)*m_L + y] + 
             m_spin[Periodic(x, -1)*m_L + y] +
             m_spin[x*m_L + Periodic(y, 1)] +
@@ -65,7 +62,7 @@ void IsingModel::Metropolis(){
                 m_M += 2*m_spin[x*m_L + y];
             }
             else {
-                w = m_BoltzmannFactor[(int) (dE + 8*m_J)/(4*m_J)];
+                w = m_BoltzmannFactor[dE+8];
                 r = rand()*1./RAND_MAX;
                 if (r <= w) {
                     m_E += dE;
@@ -77,6 +74,9 @@ void IsingModel::Metropolis(){
 }
 
 void IsingModel::MonteCarlo(int cycles) {
+    // Initialiserer forventningsverdier
+    m_Eavg = 0.0;
+    m_Mavg = 0.0;
     double avg_M = 0.0;
     double avg_E2 = 0.0;
     double avg_M2 = 0.0;
@@ -105,4 +105,6 @@ void IsingModel::Write_to_file(){
     ofile << setw(15) << setprecision(8) << m_Mavg;
     ofile << setw(15) << setprecision(8) << m_CV;
     ofile << setw(15) << setprecision(8) << m_chi << endl;
+    delete[] m_BoltzmannFactor;
+    delete[] m_spin;
 }
