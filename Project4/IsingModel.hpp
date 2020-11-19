@@ -27,7 +27,7 @@ protected:
   double m_chi;
 
 public:
-  void Initialize(int L, double T);
+  void Initialize(int L, double T, bool random_config);
   void MonteCarlo(int cycles);
 };
 

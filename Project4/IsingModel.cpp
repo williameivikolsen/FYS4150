@@ -3,17 +3,19 @@
 using namespace std;
 ofstream ofile;
 
-void IsingModel::Initialize(int L, double temp){
+void IsingModel::Initialize(int L, double temp, bool random_config=false){
     m_L = L;
     m_temp = temp;
     m_N = m_L*m_L;
     m_spin = new int[m_N];
 
-    // Initialiserer systemet til å starte med alle spinn opp
-    for (int i = 0; i < m_L; i++) {
-        for (int j = 0; j < m_L; j++) {
-            m_spin[i*m_L + j] = -1;
-            m_M += m_spin[i*m_L + j];
+    if (random_config=false) {
+        // Initialiserer systemet til å starte med alle spinn opp
+        for (int i = 0; i < m_L; i++) {
+            for (int j = 0; j < m_L; j++) {
+                m_spin[i*m_L + j] = -1;
+                m_M += m_spin[i*m_L + j];
+            }
         }
     }
     // Beregner energien med periodic boundary conditions
