@@ -36,7 +36,7 @@ void IsingModel::Initialize(int L, double temp){
 }
 
 int IsingModel::Periodic(int i, int add){
-    return (m_L + i + add) % m_L;
+    return (i + add) % m_L;
 }
 
 void IsingModel::Metropolis(){
@@ -48,16 +48,16 @@ void IsingModel::Metropolis(){
     // Go through all elements and perform random spin flip each time
     for (int i = 0; i <=m_L; i++) {
         for (int j = 0; j < m_L; j++) {
-            // Generate random numbers x and y in range [0, L]
+            // Generate random numbers x and y in range [0, L-1]
             x = rand()%m_L;
             y = rand()%m_L;
-            m_spin[x*m_L + y] = -m_spin[x*m_L + y];
-            dE = -2*m_spin[x*m_L + y]*
+            dE = 2*m_spin[x*m_L + y]*
             (m_spin[Periodic(x, 1)*m_L + y] + 
             m_spin[Periodic(x, -1)*m_L + y] +
             m_spin[x*m_L + Periodic(y, 1)] +
             m_spin[x*m_L + Periodic(y, -1)]);
             if (dE <= 0) {
+                m_spin[x*m_L + y] *= -1;
                 m_E += dE;
                 m_M += 2*m_spin[x*m_L + y];
             }
@@ -65,6 +65,7 @@ void IsingModel::Metropolis(){
                 w = m_BoltzmannFactor[dE+8];
                 r = rand()*1./RAND_MAX;
                 if (r <= w) {
+                    m_spin[x*m_L + y] *= -1;
                     m_E += dE;
                     m_M += 2*m_spin[x*m_L + y];
                 }
