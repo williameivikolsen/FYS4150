@@ -4,3 +4,10 @@ Dato          Loggtid        Person         Hva skjedde
 05.11         10:00          Alle           Oppstartsmøte
 05.11         14:00          William        Lest gjennom pensum for oppgaven
 05.11         21:00          Benny          Lest pensum 
+11.11         23:00          Benny          ENDELIG gjennom openMP crash course og pensum!!!!!!!!
+12.11         12:30          William        Begynte å skrive teori og gjorde oppgave 4a
+13.11         10:00          William        Skrev videre på teori og førte inn resultater fra 4a
+13.11         16:00          Benny          Laget filer + prøvd å skjønne hvordan å sette opp koden
+15.11         17:00          William        Lagt inn metropolisalgoritmen. Koden kjører!
+16.11         12:00          William        Prøvd å gå videre til å finne forventningsverdier. Blir ikke riktig
+17.11         16:00          William        Forsøkt å rette på forventningsverdier. Fortsatt feil.
