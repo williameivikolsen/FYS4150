@@ -1,5 +1,4 @@
 #include "IsingModel.hpp"
-
 using namespace std;
 ofstream ofile;
 
@@ -9,8 +8,8 @@ void IsingModel::Initialize(int L, double temp, bool random_config=false){
     m_N = m_L*m_L;
     m_spin = new int[m_N];
 
-    if (random_config=false) {
-        // Initialiserer systemet til å starte med alle spinn opp
+    if (random_config==false) {
+        // Initialize lattice with all spins pointing the same direction (down)
         for (int i = 0; i < m_L; i++) {
             for (int j = 0; j < m_L; j++) {
                 m_spin[i*m_L + j] = -1;
@@ -18,6 +17,19 @@ void IsingModel::Initialize(int L, double temp, bool random_config=false){
             }
         }
     }
+    else {
+      // Initialize lattice with random spin configuration
+      random_device rand_nb;
+      mt19937_64 gen(rand_nb());
+      uniform_int_distribution<int> RandIntGen(0,1);
+      for (int i = 0; i < m_L; i++) {
+          for (int j = 0; j < m_L; j++) {
+              m_spin[i*m_L + j] = RandIntGen(gen)*2-1;
+              m_M += m_spin[i*m_L + j];
+          }
+      }
+    }
+
     // Beregner energien med periodic boundary conditions
     m_E = 0;
     for (int i = 0; i < m_L; i++) {
@@ -54,7 +66,7 @@ void IsingModel::Metropolis(){
             x = rand()%m_L;
             y = rand()%m_L;
             dE = 2*m_spin[x*m_L + y]*
-            (m_spin[Periodic(x, 1)*m_L + y] + 
+            (m_spin[Periodic(x, 1)*m_L + y] +
             m_spin[Periodic(x, -1)*m_L + y] +
             m_spin[x*m_L + Periodic(y, 1)] +
             m_spin[x*m_L + Periodic(y, -1)]);
