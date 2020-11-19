@@ -29,7 +29,6 @@ protected:
 public:
   void Initialize(int L, double T);
   void MonteCarlo(int cycles);
-  void Write_to_file(); // Write results to file
 };
 
 #endif

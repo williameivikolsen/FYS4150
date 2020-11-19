@@ -10,26 +10,21 @@ void IsingModel::Initialize(int L, double temp){
     m_spin = new int[m_N];
 
     // Initialiserer systemet til å starte med alle spinn opp
-    // for (int i = 0; i < m_L; i++) {
-    //     for (int j = 0; j < m_L; j++) {
-    //         m_spin[i*m_L + j] = 1;
-    //     }
-    // }
-    // m_M = m_N;
+    for (int i = 0; i < m_L; i++) {
+        for (int j = 0; j < m_L; j++) {
+            m_spin[i*m_L + j] = -1;
+            m_M += m_spin[i*m_L + j];
+        }
+    }
     // Beregner energien med periodic boundary conditions
-    // m_E = 0;
-    // int jm = m_N;
-    // for (int j = 1; j <= m_N; j++) {
-    //     m_E -= m_spin[j]*m_spin[jm];
-    //     jm = j;
-    // }
-    // cout << m_E << endl;
-    m_spin[0] = 1;
-    m_spin[1] = -1;
-    m_spin[2] = -1;
-    m_spin[3] = 1;
-    m_M = 0;
-    m_E = 8;
+    m_E = 0;
+    for (int i = 0; i < m_L; i++) {
+        for (int j = 0; j < m_L; j++) {
+            m_E -= m_spin[i*m_L + j]*
+            (m_spin[Periodic(i, 1)*m_L + j] +
+            m_spin[i*m_L + Periodic(j, 1)]);
+        }
+    }
 
     // Setter opp mulige Boltzmann-faktorer:
     m_BoltzmannFactor = new double[17];
@@ -89,8 +84,4 @@ void IsingModel::MonteCarlo(int cycles) {
     }
     delete[] m_BoltzmannFactor;
     delete[] m_spin;
-}
-
-void IsingModel::Write_to_file(){
-
 }
