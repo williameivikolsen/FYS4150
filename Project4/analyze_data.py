@@ -9,11 +9,13 @@ energy = data[:, 3]
 magnetization = data[:, 4]
 
 plt.plot(cycles, energy)
+plt.xscale('log')
 plt.xlabel('Cycles')
 plt.ylabel('Average energy')
 plt.show()
 
 plt.plot(cycles, magnetization)
+plt.xscale('log')
 plt.xlabel('Cycles')
 plt.ylabel('Average magnetization')
 plt.show()
