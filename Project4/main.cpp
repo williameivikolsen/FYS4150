@@ -4,10 +4,13 @@
 
 using namespace std;
 
-int main(){
+int main(int argc, char *argv[]){
+    int L = atoi(argv[1]);
+    double T = atof(argv[2]);
+    int cycles = atoi(argv[3]);
     IsingModel my_solver;
-    my_solver.Initialize(2, 1.0);
-    my_solver.MonteCarlo(10000);
-    my_solver.Write_to_file();
+    bool random_config;
+    my_solver.Initialize(L, T, random_config = true);
+    my_solver.MonteCarlo(cycles);
     return 0;
 }

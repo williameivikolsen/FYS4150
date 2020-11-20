@@ -7,6 +7,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <string>
+#include <random>
 
 using namespace std;
 
@@ -27,9 +28,8 @@ protected:
   double m_chi;
 
 public:
-  void Initialize(int L, double T);
+  void Initialize(int L, double T, bool random_config);
   void MonteCarlo(int cycles);
-  void Write_to_file(); // Write results to file
 };
 
 #endif

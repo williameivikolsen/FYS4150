@@ -4,4 +4,4 @@ compile:
 	c++ -o main.exe main.cpp IsingModel.cpp
 
 execute:
-	./main.exe
+	./main.exe 100 2.0 1000

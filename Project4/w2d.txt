@@ -1,0 +1,10 @@
+Dokument:
+- Skrive introduksjon
+- Lage flowchart
+
+Kode:
+- Fikse forskjellige temperaturer i main.cpp
+- Legge inn at første 10% av sykluser ikke bidrar til snitt
+- Gjøre at forskjellige temperaturer tar inn siste konfigurasjon fra forrige temperatur (4f)
+- Sannsynlighetsfordeling (4e)
+- Parallellisering (4f)
