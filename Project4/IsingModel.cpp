@@ -2,7 +2,7 @@
 using namespace std;
 ofstream ofile;
 
-void IsingModel::Initialize(int L, double temp, bool random_config=false){
+void IsingModel::Initialize(int L, double temp, bool random_config){
     m_L = L;
     m_temp = temp;
     m_N = m_L*m_L;
@@ -89,13 +89,22 @@ void IsingModel::Metropolis(){
 }
 
 void IsingModel::MonteCarlo(int cycles) {
+    m_Eavg = 0.0;
+    m_Mavg = 0.0;
     string filename = "results.txt";
-    ofile.open(filename);
+    ofile.open(filename, ios_base::app);
     for (int i = 0; i < cycles; i++) {
         Metropolis();
-        ofile << setw(15) << setprecision(8) << m_E;
-        ofile << setw(15) << setprecision(8) << m_M << endl;
+        m_Eavg += m_E;
+        m_Mavg += m_M;
     }
+    m_Eavg /= cycles;
+    m_Mavg /= cycles;
+    ofile << setw(15) << setprecision(8) << m_L;
+    ofile << setw(15) << setprecision(8) << m_temp;
+    ofile << setw(15) << setprecision(8) << cycles;
+    ofile << setw(15) << setprecision(8) << m_Eavg;
+    ofile << setw(15) << setprecision(8) << m_Mavg << endl;
     delete[] m_BoltzmannFactor;
     delete[] m_spin;
 }
