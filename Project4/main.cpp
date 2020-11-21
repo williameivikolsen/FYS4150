@@ -25,6 +25,7 @@ int main(int argc, char *argv[]){
         my_solver.Initialize(L, T, cycles, random_config = true);
         my_solver.MonteCarlo();
 
+
         finish = clock();
         double time_used = (double)(finish - start) / (CLOCKS_PER_SEC);
         my_solver.WriteToFile(time_used);
@@ -44,6 +45,7 @@ int main(int argc, char *argv[]){
         double start_time, end_time;
         #pragma omp parallel
         {
+            int ID = omp_get_thread_num();
             #pragma omp master
             {
                 if(threads > omp_get_num_threads()) cout << "Warning: Number of threads actually set to be" << omp_get_num_threads() << endl;
@@ -52,7 +54,7 @@ int main(int argc, char *argv[]){
             }
 
             IsingModel my_solver;
-            my_solver.Initialize(L, T, cycles_per_thread, random_config = true);
+            my_solver.Initialize(L, T, cycles_per_thread, random_config = true, ID);
             my_solver.MonteCarlo();
 
             #pragma omp barrier

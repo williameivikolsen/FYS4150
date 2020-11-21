@@ -25,11 +25,17 @@ protected:
   int Periodic(int i, int add);
   void Metropolis();    // Solving using the Metropolis algorithm
 
+  // std random number generators
+  mt19937 gen;
+  uniform_real_distribution<> zero_one_int_dist;
+  uniform_real_distribution<> zero_one_real_dist;
+  uniform_int_distribution<> zero_L_dist;
+
   double m_CV;
   double m_chi;
 
 public:
-  void Initialize(int L, double T, int cycles, bool random_config);
+  void Initialize(int L, double T, int cycles, bool random_config, int seed_shift = 0);
   void MonteCarlo();
   void WriteToFile(double time_used);
   void WriteToFileParallelized(double global_Eavg, double global_Mavg, int cycles, int threads, double time_used);

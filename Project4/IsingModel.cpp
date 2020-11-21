@@ -2,12 +2,16 @@
 using namespace std;
 ofstream ofile;
 
-void IsingModel::Initialize(int L, double temp, int cycles, bool random_config){
+void IsingModel::Initialize(int L, double temp, int cycles, bool random_config, int seed_shift){
     m_L = L;
     m_temp = temp;
     m_cycles = cycles;
     m_N = m_L*m_L;
     m_spin = new int[m_N];
+
+    // random_device rand_nb;
+    mt19937 gen(clock()+100*seed_shift);    
+    uniform_int_distribution<int> zero_one_int_dist(0, 1);
 
     if (random_config==false) {
         // Initialize lattice with all spins pointing the same direction (down)
@@ -20,12 +24,9 @@ void IsingModel::Initialize(int L, double temp, int cycles, bool random_config){
     }
     else {
       // Initialize lattice with random spin configuration
-      random_device rand_nb;
-      mt19937_64 gen(rand_nb());
-      uniform_int_distribution<int> RandIntGen(0,1);
       for (int i = 0; i < m_L; i++) {
           for (int j = 0; j < m_L; j++) {
-              m_spin[i*m_L + j] = RandIntGen(gen)*2-1;
+              m_spin[i*m_L + j] = zero_one_int_dist(gen)*2-1;
               m_M += m_spin[i*m_L + j];
           }
       }
@@ -59,13 +60,16 @@ void IsingModel::Metropolis(){
     int dE; int dM;         // Changes in energy and magnetization
     double w;               // Boltzmann factor
     double r;               // Random number
-    srand(time(0));
+
+    uniform_real_distribution<double> zero_one_real_dist(0, 1.0);
+    uniform_int_distribution<int> zero_L_dist(0, m_L-1);
+
     // Go through all elements and perform random spin flip each time
     for (int i = 0; i <=m_L; i++) {
         for (int j = 0; j < m_L; j++) {
             // Generate random numbers x and y in range [0, L-1]
-            x = rand()%m_L;
-            y = rand()%m_L;
+            x = zero_L_dist(gen);
+            y = zero_L_dist(gen);
             dE = 2*m_spin[x*m_L + y]*
             (m_spin[Periodic(x, 1)*m_L + y] +
             m_spin[Periodic(x, -1)*m_L + y] +
@@ -78,7 +82,7 @@ void IsingModel::Metropolis(){
             }
             else {
                 w = m_BoltzmannFactor[dE+8];
-                r = rand()*1./RAND_MAX;
+                r = zero_one_real_dist(gen);
                 if (r <= w) {
                     m_spin[x*m_L + y] *= -1;
                     m_E += dE;
