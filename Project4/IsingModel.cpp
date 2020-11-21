@@ -99,13 +99,13 @@ void IsingModel::MonteCarlo() {
 
     for (int i = 0; i < m_cycles; i++) {
         Metropolis();
-        if (i >= cycles*0.1){
+        if (i >= m_cycles*0.1){
           m_Eavg += m_E;
           m_Mavg += m_M;
         }
     }
-    m_Eavg /= (0.9*cycles*m_L*m_L);
-    m_Mavg /= (0.9*cycles*m_L*m_L);
+    m_Eavg /= (0.9*m_cycles*m_L*m_L);
+    m_Mavg /= (0.9*m_cycles*m_L*m_L);
     delete[] m_BoltzmannFactor;
     delete[] m_spin;
 }
