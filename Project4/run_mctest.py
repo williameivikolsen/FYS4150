@@ -13,6 +13,9 @@ os.system("c++ -o main.exe" + " " + all_cpp_codes)
 L = 20
 T = 1.0
 
+header_str = " Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)"
+os.system(f'echo "{header_str}"  >> results.txt')
+
 for i, cycles in enumerate(np.logspace(2, 6, 100), start=1):
     os.system("echo  ")
     os.system("echo execution " + str(i) + "...")
