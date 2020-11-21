@@ -10,7 +10,6 @@ os.system("c++ -o main.exe" + " " + all_cpp_codes)
 # ---------------------------------------
 
 cycles = 1000
-
 for L in [40, 60, 80, 100]:
     for T in [2.0, 2.05, 2.1, 2.15, 2.2, 2.25, 2.3]:
         os.system("echo  ")

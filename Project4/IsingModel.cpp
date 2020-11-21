@@ -95,11 +95,13 @@ void IsingModel::MonteCarlo(int cycles) {
     ofile.open(filename, ios_base::app);
     for (int i = 0; i < cycles; i++) {
         Metropolis();
-        m_Eavg += m_E;
-        m_Mavg += m_M;
+        if (i >= cycles*0.1){
+          m_Eavg += m_E;
+          m_Mavg += m_M;
+        }
     }
-    m_Eavg /= cycles;
-    m_Mavg /= cycles;
+    m_Eavg /= (0.9*cycles*pow(m_L,2));
+    m_Mavg /= (0.9*cycles*pow(m_L,2));
     ofile << setw(15) << setprecision(8) << m_L;
     ofile << setw(15) << setprecision(8) << m_temp;
     ofile << setw(15) << setprecision(8) << cycles;
