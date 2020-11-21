@@ -1,0 +1,206 @@
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+             20              2         100000     -792.93092       33161.92              1       1.662207
+             20              2         100000     -798.68324       399.5472              2      21.524757
+             20              2         100000     -795.26641      139.12416              3      7.6779072
+             20              2         100000     -797.74044      2.9036383              6      10.816902
+             20              2         100000     -794.93331      64.000067             12       18.73211
+
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+             20              2        1000000      -796.1472      33163.286              1      16.674759
+             20              2        1000000      -798.9032        0.01731              2      192.92297
+             20              2        1000000     -798.51697      131.49962              3      56.486933
+             20              2        1000000     -798.55085       265.2979              6      121.39183
+             20              2        1000000      -798.7543      133.30824             12      201.37729
+             
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+             20              2        1000000     -787.56924      22352.999              1      12.927785
+             20              2        1000000     -799.01879      399.72376              2      186.02437
+             20              2        1000000     -798.95484      -132.3754              3      87.654636
+             20              2        1000000     -798.55931       265.5556              6      95.796075
+             20              2        1000000     -798.51632     0.52152363             12      175.58118
+
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+             20              2         100000     -776.94436      33149.402              1       1.635088
+             20              2         100000     -798.04472        2.22184              2      18.024109
+             20              2         100000     -796.79328     -129.90691              3      7.3796962
+ 
+
+ 
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+             20              2         100000     -762.17028      32389.012              1       1.632426
+             20              2         100000              0              0              2      0.0001128
+             20              2         100000              0              0              3      0.0003767
+
+
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+             20              2         100000     -798.78568      33166.608              1       4.546078
+             20              2         100000 2.3434614e-310 2.3434611e-310              2      0.0003901
+             20              2         100000 1.5555491e-310 1.5555489e-310              3      0.0002294
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+             20              2         100000     -798.39396       32367.58              1       4.541774
+             20              2         100000 2.3427335e-310  2.342733e-310              2       0.000466
+             20              2         100000 1.5495431e-310 1.5495428e-310              3      0.0001567
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+             20              2         100000     -798.75888      33166.543              1       4.704014
+             20              2         100000 2.3448104e-310 2.3448103e-310              2      0.0001377
+             20              2         100000 1.5515887e-310 1.5515882e-310              3      0.0002539
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+             20              2         100000     -798.81324      33166.657              1       4.541266
+             20              2         100000 2.3335588e-310 2.3335586e-310              2      0.0003858
+             20              2         100000 1.5579835e-310  1.557983e-310              3  0.00031450001
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+             20              2         100000 2.3236977e-310 2.3236973e-310              2      0.0001505
+             20              2         100000 1.5474485e-310  1.547448e-310              3       0.000197
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+             20              2         100000 2.3347377e-310 4.9406565e-324              2      0.0002388
+             20              2         100000  1.560605e-310 4.9406565e-324              3  0.00029319999
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+             20              2         100000 2.3274965e-310  2.327496e-310              2  5.7099998e-05
+             20              2         100000 1.5584536e-310 1.5584535e-310              3      0.0001962
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+             20              2         100000 2.3211949e-310 2.3211945e-310              2  0.00019030001
+             20              2         100000 1.5570315e-310  1.557031e-310              3  0.00022289999
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+
+
+ Mersenne twister funker under:
+ 
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+             20              2         100000     -798.49052      398.79258              1       5.363012
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+             20              2         100000     -798.80136     -399.59064              1       5.169364
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+             20              2         100000     -798.81292      399.63696              1       5.193763
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+             20              2         100000     -798.83208       399.6697              1       5.159051
+             20              2         100000 2.3411483e-310 2.3411482e-310              2  4.5699999e-05
+             20              2         100000 1.5535556e-310 1.5535554e-310              3  5.4300006e-05
+             20              2         100000 7.7809527e-311 7.7809504e-311              6      0.0007071
+             20              2         100000 3.8662521e-311 3.8662513e-311             12      0.0007801
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+             20              2         100000     -798.57256     -399.03416              1        5.20952
+             20              2         100000 2.3230665e-310 2.3230659e-310              2  4.5299996e-05
+             20              2         100000 1.5566875e-310 1.5566871e-310              3      0.0003077
+             20              2         100000 7.7579817e-311 7.7579812e-311              6      0.0005547
+             20              2         100000 3.9064285e-311 3.9064275e-311             12      0.0014987
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+             20              2         100000      -798.7938       399.5706              1        5.33315
+             20              2         100000 2.3382288e-310 2.3382286e-310              2  4.4699991e-05
+             20              2         100000 1.5579177e-310 1.5579175e-310              3  0.00041350001
+             20              2         100000  7.729035e-311  7.729035e-311              6  0.00067089999
+             20              2         100000 3.8991201e-311 3.8991189e-311             12      0.0009787
+
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+             20              2         100000     -798.80088      -399.6326              1       5.104826
+             20              2         100000     -798.74088      399.54652              2      2.8218552
+             20              2         100000     -797.60685     -129.31439              3       2.085452
+             20              2         100000     -796.85567      6.9305339              6      1.1122212
+             20              2         100000     -794.86758      62.102155             12      0.7793337
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+             20              2        1000000     -798.78626      399.48948              1      51.823238
+             20              2        1000000     -798.56782      -1.060446              2       30.69567
+             20              2        1000000     -798.69665      133.44293              3      21.405819
+             20              2        1000000     -798.55921    0.090144197              6      11.962384
+             20              2        1000000     -798.59986      66.107101             12      8.4855902
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+             40              2        1000000     -3192.8018      516.98166             12      30.873426
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+            100              2        1000000     -19858.437     -6488.5741             12      209.25146
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+            100              2         100000     -19624.871      113.83045             12      20.329752
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+            100              2          10000     -19430.168      -2684.457              1       12.93049
+            100              2          10000      -19121.23      324.60693             12      1.7448003
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+            100              2          10000     -19858.811      8924.8232              1      13.030207
+            100              2          10000     -19158.108     -180.85305             12      1.7504767
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+            100              2          10000     -19429.894     -2466.7048              1      13.812584
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+            100              2          10000     -19905.975      9578.0202              1      14.165436
+            100              2          10000     -19172.567      2199.2766             12      2.0697482
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+            100              2          10000     -19432.447     -1069.5418              1      13.669694
+            100              2          10000     -19164.595      313.91796             12      1.7880201
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+            100              2          10000     -19914.554     -9697.4078              1      14.838589
+            100              2          10000     -19153.429      79.644962             12      2.0727907
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+            100              2          10000      -19890.68     -9431.2246              1       14.09902
+            100              2          10000     -19207.969     -1156.1464             12      2.0786896
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+            100              2          10000     -19431.673        992.731              1      14.190098
+            100              2          10000      -19105.15     -869.05117             12      1.7625082
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+            100              2          10000     -19434.634     -1480.0278              1      13.781941
+            100              2          10000      -19218.94     -1102.9405             12      1.8476461
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+            100              2          10000     -19892.408      9496.7826              1      14.129233
+            100              2          10000     -19105.925     -243.94604             12      2.0497537
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+            100              2          10000      -19930.73     -9822.4104              1      15.060324
+            100              2          10000     -19196.275      964.59279             12      2.0582669
+ Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)
+            100              2          10000     -19902.872        9539.78              1      13.777176
+            100              2          10000     -19069.024     -682.11191             12       1.835516

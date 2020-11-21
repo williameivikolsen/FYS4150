@@ -113,6 +113,8 @@ os.system("mv" + " " + verlet_file + " " + path)            # Move Euler data to
 # Only plot sun_mercury if N <= 10000 (too many data points)
 if name_of_problem != "sun_mercury" or int(N) <= 10000:
     os.system("python3 plot.py " + name_of_problem + " " + N + " " + Nobjects + " " + T + " " + beta + " " + circtest + " " + additional_params)
+else:
+    print("Orbit plots not made for sun_mercury system, too many data points")
 
 
 # If we are doing beta tests, change name of result files to include beta value

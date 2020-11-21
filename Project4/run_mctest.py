@@ -12,13 +12,14 @@ os.system("c++ -o main.exe" + " " + all_cpp_codes)
 
 L = 20
 T = 1.0
-i = 1
 
-for cycles in np.logspace(2, 6, 100):
+header_str = " Lattice size L  Temperature T      MC Cycles            <E>            <M>        Threads       Time (s)"
+os.system(f'echo "{header_str}"  >> results.txt')
+
+for i, cycles in enumerate(np.logspace(2, 6, 100), start=1):
     os.system("echo  ")
     os.system("echo execution " + str(i) + "...")
     os.system("./main.exe " + str(L) + " " + str(T) + " " + str(int(cycles)))    # Execute code
-    i += 1
 
 new_name = "mctest.txt"
 os.rename("results.txt", new_name)
