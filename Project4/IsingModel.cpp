@@ -95,18 +95,24 @@ void IsingModel::Metropolis(){
 }
 
 void IsingModel::MonteCarlo() {
+    double normalize = 1/((1.0-m_cutoff_fraction)*m_cycles*m_N);
     m_Eavg = 0.0;
     m_Mavg = 0.0;
-
+    m_Esqavg = 0.0;
+    m_Msqavg = 0.0;
     for (int i = 0; i < m_cycles; i++) {
         Metropolis();
         if (i >= m_cycles*m_cutoff_fraction - 1){
           m_Eavg += m_E;
           m_Mavg += abs(m_M);
+          m_Esqavg += m_E*m_E;
+          m_Msqavg += m_M*m_M;
         }
     }
-    m_Eavg /= ((1.0-m_cutoff_fraction)*m_cycles*m_N);
-    m_Mavg /= ((1.0-m_cutoff_fraction)*m_cycles*m_N);
+    m_Eavg *= normalize;
+    m_Mavg *= normalize;
+    m_Esqavg *= normalize;
+    m_Msqavg *= normalize;
     delete[] m_BoltzmannFactor;
     delete[] m_spin;
 }
@@ -118,20 +124,24 @@ void IsingModel::WriteToFile(double time_used){
     ofile << setw(15) << setprecision(8) << m_temp;
     ofile << setw(15) << setprecision(8) << m_cycles;
     ofile << setw(15) << setprecision(8) << m_Eavg;
-    ofile << setw(15) << setprecision(8) << m_Mavg; 
+    ofile << setw(15) << setprecision(8) << m_Mavg;
+    ofile << setw(15) << setprecision(8) << m_Esqavg;
+    ofile << setw(15) << setprecision(8) << m_Msqavg; 
     ofile << setw(15) << setprecision(8) << "1";                // Number threads
     ofile << setw(15) << setprecision(8) << time_used << endl;
     ofile.close();
 }
 
-void IsingModel::WriteToFileParallelized(double global_Eavg, double global_Mavg, int cycles, int threads, double time_used){
+void IsingModel::WriteToFileParallelized(double global_Eavg, double global_Mavg, double global_Esqavg, double global_Msqavg, int cycles, int threads, double time_used){
     string filename = "results.txt";
     ofile.open(filename, ios_base::app);
     ofile << setw(15) << setprecision(8) << m_L;
     ofile << setw(15) << setprecision(8) << m_temp;
     ofile << setw(15) << setprecision(8) << cycles;
     ofile << setw(15) << setprecision(8) << global_Eavg;
-    ofile << setw(15) << setprecision(8) << global_Mavg; 
+    ofile << setw(15) << setprecision(8) << global_Mavg;
+    ofile << setw(15) << setprecision(8) << global_Esqavg;
+    ofile << setw(15) << setprecision(8) << global_Msqavg; 
     ofile << setw(15) << setprecision(8) << threads;                // Number threads
     ofile << setw(15) << setprecision(8) << time_used << endl;
     ofile.close();
