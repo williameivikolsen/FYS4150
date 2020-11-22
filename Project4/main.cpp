@@ -6,23 +6,28 @@
 using namespace std;
 
 int main(int argc, char *argv[]){
+    if(argc < 6){
+        cout << "Not enough command line arguments provided." << endl;
+        cout << "Expected input: int L - double T - int cycles - bool random_config - int threads - double cutoff_fraction (optional)" << endl;
+        cout << "Aborting..." << endl;
+        return 1;
+    } 
     int L = atoi(argv[1]);
     double T = atof(argv[2]);
     int cycles = atoi(argv[3]);
-
-    int threads = 1;
-    if(argc > 4){
-        threads = atoi(argv[4]);
+    bool random_config = atoi(argv[4]);         // 1 gives random initialization of spin system, 0 gives fully aligned system
+    int threads = atoi(argv[5]);                // Requested number of threads to be used
+    double cutoff_fraction = 0.1;               // Fraction of cycles to be disgarded before computing expectation values
+    if(argc == 7){
+        cutoff_fraction = atof(argv[6]);
     }
-
-    bool random_config;
     
     if(threads==1){
         clock_t start, finish;
         start = clock();
 
         IsingModel my_solver;
-        my_solver.Initialize(L, T, cycles, random_config = true);
+        my_solver.Initialize(L, T, cycles, random_config, cutoff_fraction);
         my_solver.MonteCarlo();
 
 
@@ -54,7 +59,7 @@ int main(int argc, char *argv[]){
             }
 
             IsingModel my_solver;
-            my_solver.Initialize(L, T, cycles_per_thread, random_config = true, ID);
+            my_solver.Initialize(L, T, cycles_per_thread, random_config, cutoff_fraction, ID);
             my_solver.MonteCarlo();
 
             #pragma omp barrier

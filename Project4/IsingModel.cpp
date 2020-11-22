@@ -2,11 +2,12 @@
 using namespace std;
 ofstream ofile;
 
-void IsingModel::Initialize(int L, double temp, int cycles, bool random_config, int seed_shift){
+void IsingModel::Initialize(int L, double temp, int cycles, bool random_config, double cutoff_fraction, int seed_shift){
     m_L = L;
     m_temp = temp;
     m_cycles = cycles;
     m_N = m_L*m_L;
+    m_cutoff_fraction = cutoff_fraction;
     m_spin = new int[m_N];
 
     // random_device rand_nb;
@@ -99,13 +100,13 @@ void IsingModel::MonteCarlo() {
 
     for (int i = 0; i < m_cycles; i++) {
         Metropolis();
-        if (i >= m_cycles*0.1-1){
+        if (i >= m_cycles*m_cutoff_fraction - 1){
           m_Eavg += m_E;
           m_Mavg += abs(m_M);
         }
     }
-    m_Eavg /= (0.9*m_cycles*m_N);
-    m_Mavg /= (0.9*m_cycles*m_N);
+    m_Eavg /= ((1.0-m_cutoff_fraction)*m_cycles*m_N);
+    m_Mavg /= ((1.0-m_cutoff_fraction)*m_cycles*m_N);
     delete[] m_BoltzmannFactor;
     delete[] m_spin;
 }
