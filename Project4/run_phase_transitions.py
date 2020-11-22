@@ -9,7 +9,7 @@ os.system("echo compiling...")
 os.system("g++ -O3 -fopenmp -o main.exe" + " " + all_cpp_codes)
 # ---------------------------------------
 
-cycles = 1000
+cycles = 10000
 threads = 12
 
 header_str = " Lattice size L  Temperature T      MC Cycles          <E>/N          <M>/N        Threads       Time (s)"
@@ -21,6 +21,6 @@ for L in [40, 60, 80, 100]:
         os.system("echo executing for L = " + str(L) + ", T = " + str(T) + "...")
         os.system("./main.exe " + str(L) + " " + str(T) + " " + str(cycles) + " " + str(threads))    # Execute code
 
-# new_name = "phase_transitions.txt"
-# os.rename("results.txt", new_name)
-# os.system("mv " + new_name +  " results")           # Move data to results directory.
+new_name = "phase_transitions.txt"
+os.rename("results.txt", new_name)
+os.system("mv " + new_name +  " results")           # Move data to results directory.

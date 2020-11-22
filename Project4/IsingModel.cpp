@@ -44,11 +44,11 @@ void IsingModel::Initialize(int L, double temp, int cycles, bool random_config, 
 
     // Setter opp mulige Boltzmann-faktorer:
     m_BoltzmannFactor = new double[17];
-    m_BoltzmannFactor[0] = exp(8);
-    m_BoltzmannFactor[4] = exp(4);
+    m_BoltzmannFactor[0] = exp(8/m_temp);
+    m_BoltzmannFactor[4] = exp(4/m_temp);
     m_BoltzmannFactor[8] = exp(0);
-    m_BoltzmannFactor[12] = exp(-4);
-    m_BoltzmannFactor[16] = exp(-8);
+    m_BoltzmannFactor[12] = exp(-4/m_temp);
+    m_BoltzmannFactor[16] = exp(-8/m_temp);
 }
 
 int IsingModel::Periodic(int i, int add){
@@ -99,13 +99,13 @@ void IsingModel::MonteCarlo() {
 
     for (int i = 0; i < m_cycles; i++) {
         Metropolis();
-        if (i >= m_cycles*0.1){
+        if (i >= m_cycles*0.1-1){
           m_Eavg += m_E;
-          m_Mavg += m_M;
+          m_Mavg += abs(m_M);
         }
     }
-    m_Eavg /= (0.9*m_cycles*m_L*m_L);
-    m_Mavg /= (0.9*m_cycles*m_L*m_L);
+    m_Eavg /= (0.9*m_cycles*m_N);
+    m_Mavg /= (0.9*m_cycles*m_N);
     delete[] m_BoltzmannFactor;
     delete[] m_spin;
 }
