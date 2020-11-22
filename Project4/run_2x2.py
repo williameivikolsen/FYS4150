@@ -7,14 +7,15 @@ import numpy as np
 # ------------- Compilation -------------
 all_cpp_codes = "./*.cpp"
 os.system("echo compiling...")
-os.system("g++-10 -O3 -fopenmp -o main.exe" + " " + all_cpp_codes)
+os.system("g++ -O3 -fopenmp -o main.exe" + " " + all_cpp_codes)
 # ---------------------------------------
 
 L = 2
 T = 1.0
 beta = 1/T
 random_config = 1
-cycles = 1000000
+cycles = 100000
+threads = 12
 
 Z = 4*np.cosh(8*beta) + 12      #The partition function for A
 
@@ -27,8 +28,8 @@ analytical_M2 = 32*(np.exp(8*beta)+1)/Z
 CV = (analytical_E2 - analytical_E**2)/T**2
 chi = (analytical_M2 - analytical_absM**2)/T
 
-print('E = ', analytical_E)
-print('|M| = ', analytical_absM)
+print('E = ', analytical_E/4)
+print('|M| = ', analytical_absM/4)
 print('C_V = ', CV)
 print('chi = ', chi)
 
@@ -38,7 +39,7 @@ header_str = " Lattice size L  Temperature T      MC Cycles          <E>/N      
 os.system(f'echo "{header_str}"  >> results.txt')
 
 os.system("echo  ")
-os.system("./main.exe " + str(L) + " " + str(T) + " " + str(cycles) + " " + str(random_config) + " " + str(1))    # Execute code
+os.system("./main.exe " + str(L) + " " + str(T) + " " + str(cycles) + " " + str(random_config) + " " + str(threads))    # Execute code
 
 new_name = "2x2.txt"
 os.rename("results.txt", new_name)
