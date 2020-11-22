@@ -100,8 +100,9 @@ void IsingModel::MonteCarlo(int cycles) {
           m_Mavg += m_M;
         }
     }
-    m_Eavg /= (0.9*cycles*pow(m_L,2));
-    m_Mavg /= (0.9*cycles*pow(m_L,2));
+    double norm = 1.0/(0.9*cycles*pow(m_L,2));
+    m_Eavg *= norm;
+    m_Mavg *= norm;
     ofile << setw(15) << setprecision(8) << m_L;
     ofile << setw(15) << setprecision(8) << m_temp;
     ofile << setw(15) << setprecision(8) << cycles;

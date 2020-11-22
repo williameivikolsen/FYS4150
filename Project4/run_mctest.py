@@ -10,7 +10,7 @@ os.system("echo compiling...")
 os.system("c++ -o main.exe" + " " + all_cpp_codes)
 # ---------------------------------------
 
-L = 20
+L = 2
 T = 1.0
 i = 1
 
