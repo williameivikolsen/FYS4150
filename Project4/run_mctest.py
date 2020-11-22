@@ -14,13 +14,8 @@ L = 2
 T = 1.0
 random_config = 1
 
-header_str = " Lattice size L  Temperature T      MC Cycles          <E>/N          <M>/N      C_V            chi              Threads       Time (s)"
+header_str = " Lattice size L  Temperature T      MC Cycles          <E>/N          <M>/N            C_V            chi        Threads       Time (s)"
 os.system(f'echo "{header_str}"  >> results.txt')
-
-for i, cycles in enumerate(np.logspace(2, 6, 100), start=1):
-    os.system("echo  ")
-    os.system("echo execution " + str(i) + "...")
-    os.system("./main.exe " + str(L) + " " + str(T) + " " + str(int(cycles)) + " " + str(random_config) + " " + str(1))    # Execute code
 
 for i, cycles in enumerate(np.logspace(2, 6, 100), start=1):
     os.system("echo  ")
