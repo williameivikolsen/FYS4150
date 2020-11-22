@@ -14,8 +14,8 @@ L = 2
 T = 1.0
 beta = 1/T
 random_config = 1
-cycles = 100000
-threads = 12
+cycles = 1000000
+threads = 2
 
 Z = 4*np.cosh(8*beta) + 12      #The partition function for A
 
