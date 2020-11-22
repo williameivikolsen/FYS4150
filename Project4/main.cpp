@@ -6,23 +6,29 @@
 using namespace std;
 
 int main(int argc, char *argv[]){
+    if(argc < 6){
+        cout << "Not enough command line arguments provided." << endl;
+        cout << "Expected input: int L - double T - int cycles - bool random_config - int threads - double cutoff_fraction (optional)" << endl;
+        cout << "Aborting..." << endl;
+        return 1;
+    } 
     int L = atoi(argv[1]);
     double T = atof(argv[2]);
     int cycles = atoi(argv[3]);
-
-    int threads = 1;
-    if(argc > 4){
-        threads = atoi(argv[4]);
+    bool random_config = atoi(argv[4]);         // 1 gives random initialization of spin system, 0 gives fully aligned system
+    int threads = atoi(argv[5]);                // Requested number of threads to be used
+    double cutoff_fraction = 0.1;               // Fraction of cycles to be disgarded before computing expectation values
+    if(argc == 7){
+        cutoff_fraction = atof(argv[6]);
     }
-
-    bool random_config;
+    int N = L*L;
     
     if(threads==1){
         clock_t start, finish;
         start = clock();
 
         IsingModel my_solver;
-        my_solver.Initialize(L, T, cycles, random_config = true);
+        my_solver.Initialize(L, T, cycles, random_config, cutoff_fraction);
         my_solver.MonteCarlo();
 
 
@@ -42,6 +48,8 @@ int main(int argc, char *argv[]){
        
         double global_Eavg = 0.0;                   // Final Eavg will be average of Eavg for different threads
         double global_Mavg = 0.0;                   // Final Mavg will be average of Eavg for different threads
+        double global_Esqavg = 0.0;                 // Final Esqavg will be average of Esqavg for different threads
+        double global_Msqavg = 0.0;                 // Final Msqavg will be average of Msqavg for different threads
         double start_time, end_time;
         #pragma omp parallel
         {
@@ -54,7 +62,7 @@ int main(int argc, char *argv[]){
             }
 
             IsingModel my_solver;
-            my_solver.Initialize(L, T, cycles_per_thread, random_config = true, ID);
+            my_solver.Initialize(L, T, cycles_per_thread, random_config, cutoff_fraction, ID);
             my_solver.MonteCarlo();
 
             #pragma omp barrier
@@ -63,15 +71,21 @@ int main(int argc, char *argv[]){
             {
                 global_Eavg += my_solver.m_Eavg;
                 global_Mavg += my_solver.m_Mavg;
+                global_Esqavg += my_solver.m_Esqavg;
+                global_Msqavg += my_solver.m_Msqavg;
             }
             
             #pragma omp master
             {
                 global_Eavg /= threads;
                 global_Mavg /= threads;
+                global_Esqavg /= threads;
+                global_Msqavg /= threads;
+                double C_V = 1/(T*T)*(global_Esqavg*N - global_Eavg*global_Eavg*N*N);
+                double chi = 1/T*(global_Msqavg*N - global_Mavg*global_Mavg*N*N);
                 end_time = omp_get_wtime();
                 double time_used = end_time - start_time;
-                my_solver.WriteToFileParallelized(global_Eavg, global_Mavg, cycles, threads, time_used);
+                my_solver.WriteToFileParallelized(global_Eavg, global_Mavg, global_Esqavg, global_Msqavg, cycles, threads, time_used);
             }
         }
     }

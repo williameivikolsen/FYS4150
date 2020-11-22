@@ -20,9 +20,8 @@ analytical_absM = 8*(np.exp(8*beta)+2)/Z
 analytical_M2 = 32*(np.exp(8*beta)+1)/Z
 
 CV = 1/T**2*(mean_E2 - mean_E**2)
-chi = 1/T*mean_M2
-
-print('E = ', mean_E/4)
-print('|M| = ', mean_absM/4)
-print('C_V = ', CV/4)
-print('chi = ', chi/4)
+chi = 1/T*(mean_M2 - mean_absM**2)
+print('E = ', mean_E)
+print('|M| = ', mean_absM)
+print('C_V = ', CV)
+print('chi = ', chi)
