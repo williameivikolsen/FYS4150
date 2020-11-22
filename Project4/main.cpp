@@ -44,7 +44,6 @@ int main(int argc, char *argv[]){
             threads = omp_get_max_threads();
         }
         omp_set_num_threads(threads);
-        int cycles_per_thread = cycles/threads;     // Remainder will be added to master thread later
 
         double global_Eavg = 0.0;                   // Final Eavg will be average of Eavg for different threads
         double global_Mavg = 0.0;                   // Final Mavg will be average of Eavg for different threads
@@ -54,16 +53,17 @@ int main(int argc, char *argv[]){
         double global_chi;
 
         double start_time, end_time;
+
         #pragma omp parallel
         {
             int ID = omp_get_thread_num();
+            int cycles_per_thread = cycles/threads;     // Remainder will be added to master thread later
             #pragma omp master
             {
                 if(threads > omp_get_num_threads()) cout << "Warning: Number of threads actually set to be" << omp_get_num_threads() << endl;
                 cycles_per_thread += cycles % threads;  // Add remaining cycles
                 start_time = omp_get_wtime();    // Master thread keeps track of time
             }
-
             IsingModel my_solver;
             my_solver.Initialize(L, T, cycles_per_thread, random_config, cutoff_fraction, ID);
             my_solver.MonteCarlo();
