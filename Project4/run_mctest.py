@@ -20,11 +20,6 @@ os.system(f'echo "{header_str}"  >> results.txt')
 for i, cycles in enumerate(np.logspace(2, 6, 100), start=1):
     os.system("echo  ")
     os.system("echo execution " + str(i) + "...")
-    os.system("./main.exe " + str(L) + " " + str(T) + " " + str(int(cycles)) + " " + str(random_config) + " " + str(1))    # Execute code
-
-for i, cycles in enumerate(np.logspace(2, 6, 100), start=1):
-    os.system("echo  ")
-    os.system("echo execution " + str(i) + "...")
     os.system("./main.exe " + str(L) + " " + str(T) + " " + str(int(cycles)) + " " + str(random_config) + " " + str(12))    # Execute code
 
 new_name = "mctest.txt"
