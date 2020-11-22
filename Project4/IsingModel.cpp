@@ -100,15 +100,17 @@ void IsingModel::MonteCarlo() {
     m_Mavg = 0.0;
     m_Esqavg = 0.0;
     m_Msqavg = 0.0;
-    for (int i = 0; i < m_cycles; i++) {
+    for (int i = 0; i < m_cycles*m_cutoff_fraction; i++) {
         Metropolis();
-        if (i >= m_cycles*m_cutoff_fraction - 1){
-          m_Eavg += m_E;
-          m_Mavg += abs(m_M);
-          m_Esqavg += m_E*m_E;
-          m_Msqavg += m_M*m_M;
-        }
     }
+    for (int i = 0; i < m_cycles-m_cycles*m_cutoff_fraction; i++){
+        Metropolis();
+        m_Eavg += m_E;
+        m_Mavg += abs(m_M);
+        m_Esqavg += m_E*m_E;
+        m_Msqavg += m_M*m_M;
+    }
+
     m_Eavg *= normalize;
     m_Mavg *= normalize;
     m_Esqavg *= normalize;
@@ -125,6 +127,7 @@ void IsingModel::WriteToFile(double time_used){
     double M_varians = m_Msqavg*m_N - m_Mavg*m_Mavg*(m_N*m_N);
     double C_v =  (double) E_varians/(m_temp*m_temp);
     double chi = (double) M_varians/m_temp;
+    cout << "hallo" << endl;
 
     ofile.open(filename, ios_base::app);
     ofile << setw(15) << setprecision(8) << m_L;

@@ -24,14 +24,13 @@ analytical_E2 = 256*np.cosh(8*beta)/Z
 analytical_absM = 8*(np.exp(8*beta)+2)/Z
 analytical_M2 = 32*(np.exp(8*beta)+1)/Z
 
-CV = (analytical_E2 - analytical_E**2)/T**2
-chi = (analytical_M2 - analytical_absM**2)/T
+CV = (analytical_E2 - analytical_E**2)/T**2         # Heat capacity
+chi = (analytical_M2 - analytical_absM**2)/T        # Susceptibility
 
 print('E = ', analytical_E)
 print('|M| = ', analytical_absM)
 print('C_V = ', CV)
 print('chi = ', chi)
-
 
 
 header_str = " Lattice size L  Temperature T      MC Cycles          <E>/N          <M>/N            C_V            chi        Threads       Time (s)"
