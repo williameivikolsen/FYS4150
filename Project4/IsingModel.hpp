@@ -20,8 +20,8 @@ protected:
   double m_cutoff_fraction; // Fraction of cycles to be disgarded before computing expectation values
   int m_N;                  // Total number of spins
   int *m_spin;              // Spin matrix, flattened 2D array
-  int m_E;                  // Energy of system (per spin)
-  int m_M;                  // Magnetization of system (per spin)
+  double m_E;                  // Energy of system (per spin)
+  double m_M;                  // Magnetization of system (per spin)
   double *m_BoltzmannFactor;    // Array containing Boltmann factors related to energy changes
   int Periodic(int i, int add);
   void Metropolis();        // Solving using the Metropolis algorithm
@@ -41,7 +41,7 @@ public:
   void WriteToFile(double time_used);
   void WriteToFileParallelized(double global_Eavg, double global_Mavg, double global_Esqavg, double global_Msqavg, int cycles, int threads, double time_used);
 
-  // Følgende må være public for å kunne parallelliseres 
+  // Følgende må være public for å kunne parallelliseres
   double m_Eavg;        // Gjennomsnittlig energi
   double m_Mavg;        // Gjennomsnittlig magnetisering (absoluttverdi!)
   double m_Esqavg;      // Gjennomsnittlig energi kvadrert

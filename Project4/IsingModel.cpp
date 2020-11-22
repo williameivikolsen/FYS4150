@@ -24,13 +24,13 @@ void IsingModel::Initialize(int L, double temp, int cycles, bool random_config, 
         }
     }
     else {
-      // Initialize lattice with random spin configuration
-      for (int i = 0; i < m_L; i++) {
-          for (int j = 0; j < m_L; j++) {
-              m_spin[i*m_L + j] = zero_one_int_dist(gen)*2-1;
-              m_M += m_spin[i*m_L + j];
-          }
-      }
+        // Initialize lattice with random spin configuration
+        for (int i = 0; i < m_L; i++) {
+            for (int j = 0; j < m_L; j++) {
+                m_spin[i*m_L + j] = zero_one_int_dist(gen)*2-1;
+                m_M += m_spin[i*m_L + j];
+            }
+        }
     }
 
     // Beregner energien med periodic boundary conditions
@@ -57,41 +57,31 @@ int IsingModel::Periodic(int i, int add){
 }
 
 void IsingModel::Metropolis(){
-    int x; int y;           // Random positions to perform spin flip
-    int dE; int dM;         // Changes in energy and magnetization
-    double w;               // Boltzmann factor
-    double r;               // Random number
+    int x, y;           // Random positions to perform spin flip
+    int dE, dM;         // Changes in energy and magnetization
 
     uniform_real_distribution<double> zero_one_real_dist(0, 1.0);
     uniform_int_distribution<int> zero_L_dist(0, m_L-1);
 
-    // Go through all elements and perform random spin flip each time
-    for (int i = 0; i <=m_L; i++) {
-        for (int j = 0; j < m_L; j++) {
-            // Generate random numbers x and y in range [0, L-1]
-            x = zero_L_dist(gen);
-            y = zero_L_dist(gen);
-            dE = 2*m_spin[x*m_L + y]*
-            (m_spin[Periodic(x, 1)*m_L + y] +
-            m_spin[Periodic(x, -1)*m_L + y] +
-            m_spin[x*m_L + Periodic(y, 1)] +
-            m_spin[x*m_L + Periodic(y, -1)]);
-            if (dE <= 0) {
-                m_spin[x*m_L + y] *= -1;
-                m_E += dE;
-                m_M += 2*m_spin[x*m_L + y];
-            }
-            else {
-                w = m_BoltzmannFactor[dE+8];
-                r = zero_one_real_dist(gen);
-                if (r <= w) {
-                    m_spin[x*m_L + y] *= -1;
-                    m_E += dE;
-                    m_M += 2*m_spin[x*m_L + y];
-                }
-            }
-        }
+    // Generate random numbers x and y in range [0, L-1]
+    x = zero_L_dist(gen);
+    y = zero_L_dist(gen);
+    dE = 2*m_spin[x*m_L + y]*
+    (m_spin[Periodic(x, 1)*m_L + y] +
+    m_spin[Periodic(x, -1)*m_L + y] +
+    m_spin[x*m_L + Periodic(y, 1)] +
+    m_spin[x*m_L + Periodic(y, -1)]);
+    if (dE < 0) {
+        m_spin[x*m_L + y] *= -1;
+        m_E += dE;
+        m_M += 2*m_spin[x*m_L + y];
     }
+    else if(zero_one_real_dist(gen) < m_BoltzmannFactor[dE+8]){
+        m_spin[x*m_L + y] *= -1;
+        m_E += dE;
+        m_M += 2*m_spin[x*m_L + y];
+    }
+
 }
 
 void IsingModel::MonteCarlo() {
@@ -100,17 +90,17 @@ void IsingModel::MonteCarlo() {
     m_Mavg = 0.0;
     m_Esqavg = 0.0;
     m_Msqavg = 0.0;
-    for (int i = 0; i < m_cycles*m_cutoff_fraction; i++) {
+
+    for (int i = 0; i < m_cycles*m_cutoff_fraction; i++){
         Metropolis();
     }
-    for (int i = 0; i < m_cycles-m_cycles*m_cutoff_fraction; i++){
+    for (int i = 0; i < (1-m_cutoff_fraction)*m_cycles; i++) {
         Metropolis();
         m_Eavg += m_E;
         m_Mavg += abs(m_M);
         m_Esqavg += m_E*m_E;
         m_Msqavg += m_M*m_M;
     }
-
     m_Eavg *= normalize;
     m_Mavg *= normalize;
     m_Esqavg *= normalize;
@@ -125,9 +115,8 @@ void IsingModel::WriteToFile(double time_used){
     string filename = "results.txt";
     double E_varians = m_Esqavg*m_N - m_Eavg*m_Eavg*(m_N*m_N);
     double M_varians = m_Msqavg*m_N - m_Mavg*m_Mavg*(m_N*m_N);
-    double C_v =  (double) E_varians/(m_temp*m_temp);
-    double chi = (double) M_varians/m_temp;
-    cout << "hallo" << endl;
+    double C_v = E_varians/(m_temp*m_temp);
+    double chi = M_varians/m_temp;
 
     ofile.open(filename, ios_base::app);
     ofile << setw(15) << setprecision(8) << m_L;

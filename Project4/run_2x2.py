@@ -7,15 +7,15 @@ import numpy as np
 # ------------- Compilation -------------
 all_cpp_codes = "./*.cpp"
 os.system("echo compiling...")
-os.system("g++ -O2 -Xpreprocessor -fopenmp -o main.exe -lomp" + " " + all_cpp_codes)
+os.system("g++-10 -O3 -fopenmp -o main.exe" + " " + all_cpp_codes)
 # ---------------------------------------
 
 L = 2
 T = 1.0
 beta = 1/T
-random_config = 1
-cycles = 1000000
-threads = 2
+random_config = 0
+cycles = 1e7
+threads = 1
 
 Z = 4*np.cosh(8*beta) + 12      #The partition function for A
 
