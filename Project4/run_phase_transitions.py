@@ -13,7 +13,7 @@ cycles = 10000
 random_config = 1
 threads = 12
 
-header_str = " Lattice size L  Temperature T      MC Cycles          <E>/N          <M>/N      C_V            chi              Threads       Time (s)"
+header_str = " Lattice size L  Temperature T      MC Cycles          <E>/N          <M>/N            C_V            chi        Threads       Time (s)"
 os.system(f'echo "{header_str}"  >> results.txt')
 
 for L in [40, 60, 80, 100]:

@@ -15,7 +15,7 @@ T = 1.0
 random_config = 1
 cycles = 1000000
 
-header_str = " Lattice size L  Temperature T      MC Cycles          <E>/N          <M>/N      C_V            chi              Threads       Time (s)"
+header_str = " Lattice size L  Temperature T      MC Cycles          <E>/N          <M>/N            C_V            chi        Threads       Time (s)"
 os.system(f'echo "{header_str}"  >> results.txt')
 
 os.system("echo  ")
