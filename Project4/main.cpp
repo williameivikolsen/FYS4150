@@ -11,7 +11,7 @@ int main(int argc, char *argv[]){
         cout << "Expected input: int L - double T - int cycles - bool random_config - int threads - double cutoff_fraction (optional)" << endl;
         cout << "Aborting..." << endl;
         return 1;
-    } 
+    }
     int L = atoi(argv[1]);
     double T = atof(argv[2]);
     int cycles = atoi(argv[3]);
@@ -22,7 +22,7 @@ int main(int argc, char *argv[]){
         cutoff_fraction = atof(argv[6]);
     }
     int N = L*L;
-    
+
     if(threads==1){
         clock_t start, finish;
         start = clock();
@@ -45,11 +45,14 @@ int main(int argc, char *argv[]){
         }
         omp_set_num_threads(threads);
         int cycles_per_thread = cycles/threads;     // Remainder will be added to master thread later
-       
+
         double global_Eavg = 0.0;                   // Final Eavg will be average of Eavg for different threads
         double global_Mavg = 0.0;                   // Final Mavg will be average of Eavg for different threads
         double global_Esqavg = 0.0;                 // Final Esqavg will be average of Esqavg for different threads
         double global_Msqavg = 0.0;                 // Final Msqavg will be average of Msqavg for different threads
+        double global_C_v;
+        double global_chi;
+
         double start_time, end_time;
         #pragma omp parallel
         {
@@ -66,7 +69,7 @@ int main(int argc, char *argv[]){
             my_solver.MonteCarlo();
 
             #pragma omp barrier
-            #pragma omp for reduction (+:global_Eavg, global_Mavg) schedule(static)
+            #pragma omp for reduction (+:global_Eavg, global_Mavg, global_Esqavg, global_Msqavg) schedule(static)
             for (int i = 0; i < threads; i++)
             {
                 global_Eavg += my_solver.m_Eavg;
@@ -74,18 +77,23 @@ int main(int argc, char *argv[]){
                 global_Esqavg += my_solver.m_Esqavg;
                 global_Msqavg += my_solver.m_Msqavg;
             }
-            
+
             #pragma omp master
             {
                 global_Eavg /= threads;
                 global_Mavg /= threads;
                 global_Esqavg /= threads;
                 global_Msqavg /= threads;
-                double C_V = 1/(T*T)*(global_Esqavg*N - global_Eavg*global_Eavg*N*N);
-                double chi = 1/T*(global_Msqavg*N - global_Mavg*global_Mavg*N*N);
+
+                double E_varians = (global_Esqavg*N - global_Eavg*global_Eavg*(N*N));
+                double M_varians = (global_Msqavg*N - global_Mavg*global_Mavg*(N*N));
+
+                global_C_v = E_varians/(double)(T*T);
+                global_chi = M_varians/(double)T;
+
                 end_time = omp_get_wtime();
                 double time_used = end_time - start_time;
-                my_solver.WriteToFileParallelized(global_Eavg, global_Mavg, global_Esqavg, global_Msqavg, cycles, threads, time_used);
+                my_solver.WriteToFileParallelized(global_Eavg, global_Mavg, global_C_v, global_chi, cycles, threads, time_used);
             }
         }
     }
