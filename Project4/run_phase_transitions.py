@@ -10,9 +10,9 @@ os.system("g++ -O3 -fopenmp -o main.exe" + " " + all_cpp_codes)
 # ---------------------------------------
 
 cycles = 10000
-threads = 12
+threads = 1
 
-header_str = " Lattice size L  Temperature T      MC Cycles          <E>/N          <M>/N        Threads       Time (s)"
+header_str = " Lattice size L  Temperature T      MC Cycles          <E>/N          <M>/N        C_V          chi          Threads       Time (s)"
 os.system(f'echo "{header_str}"  >> results.txt')
 
 for L in [40, 60, 80, 100]:

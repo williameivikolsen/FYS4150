@@ -14,7 +14,7 @@ int main(int argc, char *argv[]){
     if(argc > 4){
         threads = atoi(argv[4]);
     }
-
+    int N = L*L;
     bool random_config;
     
     if(threads==1){
@@ -42,6 +42,8 @@ int main(int argc, char *argv[]){
        
         double global_Eavg = 0.0;                   // Final Eavg will be average of Eavg for different threads
         double global_Mavg = 0.0;                   // Final Mavg will be average of Eavg for different threads
+        double global_Esqavg = 0.0;                 // Final Esqavg will be average of Esqavg for different threads
+        double global_Msqavg = 0.0;                 // Final Msqavg will be average of Msqavg for different threads
         double start_time, end_time;
         #pragma omp parallel
         {
@@ -63,15 +65,21 @@ int main(int argc, char *argv[]){
             {
                 global_Eavg += my_solver.m_Eavg;
                 global_Mavg += my_solver.m_Mavg;
+                global_Esqavg += my_solver.m_Esqavg;
+                global_Msqavg += my_solver.m_Msqavg;
             }
             
             #pragma omp master
             {
                 global_Eavg /= threads;
                 global_Mavg /= threads;
+                global_Esqavg /= threads;
+                global_Msqavg /= threads;
+                double C_V = 1/(T*T)*(global_Esqavg*N - global_Eavg*global_Eavg*N*N);
+                double chi = 1/T*(global_Msqavg*N - global_Mavg*global_Mavg*N*N);
                 end_time = omp_get_wtime();
                 double time_used = end_time - start_time;
-                my_solver.WriteToFileParallelized(global_Eavg, global_Mavg, cycles, threads, time_used);
+                my_solver.WriteToFileParallelized(global_Eavg, global_Mavg, global_Esqavg, global_Msqavg, cycles, threads, time_used);
             }
         }
     }
