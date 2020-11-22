@@ -7,14 +7,14 @@ import numpy as np
 # ------------- Compilation -------------
 all_cpp_codes = "./*.cpp"
 os.system("echo compiling...")
-os.system("g++ -O3 -fopenmp -o main.exe" + " " + all_cpp_codes)
+os.system("g++-10 -O3 -fopenmp -o main.exe" + " " + all_cpp_codes)
 # ---------------------------------------
 
 L = 2
 T = 1.0
 
 header_str = " Lattice size L  Temperature T      MC Cycles          <E>/N          <M>/N        Threads       Time (s)"
-os.system(f'echo "{header_str}"  >> results.txt')
+#os.system(f'echo "{header_str}"  >> results.txt')
 
 for i, cycles in enumerate(np.logspace(2, 6, 100), start=1):
     os.system("echo  ")
