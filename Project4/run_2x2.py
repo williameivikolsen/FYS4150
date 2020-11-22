@@ -12,13 +12,14 @@ os.system("g++ -O3 -fopenmp -o main.exe" + " " + all_cpp_codes)
 
 L = 2
 T = 1.0
+random_config = 1
 cycles = 1000000
 
 header_str = " Lattice size L  Temperature T      MC Cycles          <E>/N          <M>/N      C_V            chi              Threads       Time (s)"
 os.system(f'echo "{header_str}"  >> results.txt')
 
 os.system("echo  ")
-os.system("./main.exe " + str(L) + " " + str(T) + " " + str(cycles) + " " + str(4))    # Execute code
+os.system("./main.exe " + str(L) + " " + str(T) + " " + str(cycles) + " " + str(random_config) + " " + str(4))    # Execute code
 
 new_name = "2x2.txt"
 os.rename("results.txt", new_name)
