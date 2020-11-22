@@ -1,0 +1,3 @@
+ Lattice size L  Temperature T      MC Cycles          <E>/N          <M>/N        Threads       Time (s)
+            100              2         100000     -1.9464172     -0.2231604              1      66.633983
+            100              2         100000     -1.9793169     0.34494013             12      11.380142

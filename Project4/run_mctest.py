@@ -7,18 +7,24 @@ import numpy as np
 # ------------- Compilation -------------
 all_cpp_codes = "./*.cpp"
 os.system("echo compiling...")
-os.system("c++ -o main.exe" + " " + all_cpp_codes)
+os.system("g++ -O3 -fopenmp -o main.exe" + " " + all_cpp_codes)
 # ---------------------------------------
 
 L = 2
 T = 1.0
-i = 1
 
-for cycles in np.logspace(2, 6, 100):
+header_str = " Lattice size L  Temperature T      MC Cycles          <E>/N          <M>/N        Threads       Time (s)"
+os.system(f'echo "{header_str}"  >> results.txt')
+
+for i, cycles in enumerate(np.logspace(2, 6, 100), start=1):
     os.system("echo  ")
     os.system("echo execution " + str(i) + "...")
-    os.system("./main.exe " + str(L) + " " + str(T) + " " + str(int(cycles)))    # Execute code
-    i += 1
+    os.system("./main.exe " + str(L) + " " + str(T) + " " + str(int(cycles)) + " " + str(1))    # Execute code
+
+for i, cycles in enumerate(np.logspace(2, 6, 100), start=1):
+    os.system("echo  ")
+    os.system("echo execution " + str(i) + "...")
+    os.system("./main.exe " + str(L) + " " + str(T) + " " + str(int(cycles)) + " " + str(12))    # Execute code
 
 new_name = "mctest.txt"
 os.rename("results.txt", new_name)
