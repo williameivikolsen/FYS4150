@@ -20,12 +20,14 @@ def produce_new_data():
     T2 = 2.4                # Temp above Tc
     threads = 12    
     cutoff_fraction = 0.0   # For this test: Don't cut away any results!
+    bool_write_spins = 0
+    bool_write_energies = 0
 
     header_str = " Lattice size L  Temperature T      MC Cycles          <E>/N          <M>/N            C_V            chi        Threads       Time (s)   Accept. rate"
    
     # Choose values for cycles linspace
-    start_cycle = 3     # Exponent of 10
-    end_cycle = 6       # Same
+    start_cycle = 3     # Exponent of 10 (used in logspace)
+    end_cycle = 6       # Exponent of 10 (used in logspace)
     steps = 100
 
     # First make system with random initialization
@@ -34,8 +36,8 @@ def produce_new_data():
     for i, cycles in enumerate(np.logspace(start_cycle, end_cycle, steps), start=1):
         os.system("echo  ")
         os.system("echo execution " + str(i) + "/"  + str(steps) +  "...")
-        os.system("./main.exe " + str(L) + " " + str(T1) + " " + str(int(cycles)) + " " + str(random_config) + " " + str(threads) + " " + str(cutoff_fraction))
-        os.system("./main.exe " + str(L) + " " + str(T2) + " " + str(int(cycles)) + " " + str(random_config) + " " + str(threads) + " " + str(cutoff_fraction))
+        os.system("./main.exe " + str(L) + " " + str(T1) + " " + str(int(cycles)) + " " + str(random_config) + " " + str(threads) + " " + str(cutoff_fraction) + " " + str(bool_write_spins) + " " + str(bool_write_energies))
+        os.system("./main.exe " + str(L) + " " + str(T2) + " " + str(int(cycles)) + " " + str(random_config) + " " + str(threads) + " " + str(cutoff_fraction) + " " + str(bool_write_spins) + " " + str(bool_write_energies))
 
     new_name = "4d_equilibrium_time_random.txt"
     os.rename("results.txt", new_name)
@@ -47,8 +49,8 @@ def produce_new_data():
     for i, cycles in enumerate(np.logspace(start_cycle, end_cycle, steps), start=1):
         os.system("echo  ")
         os.system("echo execution " + str(i) + "/"  + str(steps) +   "...")
-        os.system("./main.exe " + str(L) + " " + str(T1) + " " + str(int(cycles)) + " " + str(random_config) + " " + str(threads) + " " + str(cutoff_fraction))
-        os.system("./main.exe " + str(L) + " " + str(T2) + " " + str(int(cycles)) + " " + str(random_config) + " " + str(threads) + " " + str(cutoff_fraction))
+        os.system("./main.exe " + str(L) + " " + str(T1) + " " + str(int(cycles)) + " " + str(random_config) + " " + str(threads) + " " + str(cutoff_fraction) + " " + str(bool_write_spins) + " " + str(bool_write_energies))
+        os.system("./main.exe " + str(L) + " " + str(T2) + " " + str(int(cycles)) + " " + str(random_config) + " " + str(threads) + " " + str(cutoff_fraction) + " " + str(bool_write_spins) + " " + str(bool_write_energies))
 
     new_name = "4d_equilibrium_time_aligned.txt"
     os.rename("results.txt", new_name)
