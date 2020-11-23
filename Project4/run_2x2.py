@@ -39,7 +39,7 @@ header_str = " Lattice size L  Temperature T      MC Cycles          <E>/N      
 os.system(f'echo "{header_str}"  >> results.txt')
 
 os.system("echo  ")
-os.system("./main.exe " + str(L) + " " + str(T) + " " + str(cycles) + " " + str(random_config) + " " + str(threads))    # Execute code
+os.system("./main.exe " + str(L) + " " + str(T) + " " + str(int(cycles)) + " " + str(random_config) + " " + str(threads))    # Execute code
 
 new_name = "2x2.txt"
 os.rename("results.txt", new_name)
