@@ -38,6 +38,7 @@ protected:
 public:
   void Initialize(int L, double T, int cycles, bool random_config, double cutoff_fraction, int seed_shift = 0);
   void MonteCarlo();
+  void WriteSpins();
   void WriteToFile(double time_used);
   void WriteToFileParallelized(double global_Eavg, double global_Mavg, double global_Esqavg, double global_Msqavg, int cycles, int threads, double time_used);
 

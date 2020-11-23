@@ -93,6 +93,8 @@ int main(int argc, char *argv[]){
 
                 end_time = omp_get_wtime();
                 double time_used = end_time - start_time;
+                
+                my_solver.WriteSpins();
                 my_solver.WriteToFileParallelized(global_Eavg, global_Mavg, global_C_v, global_chi, cycles, threads, time_used);
             }
         }

@@ -110,10 +110,24 @@ void IsingModel::MonteCarlo() {
 
 
     delete[] m_BoltzmannFactor;
+//    delete[] m_spin;
+}
+
+void IsingModel::WriteSpins(){
+    string filename = "spins.txt";
+    ofile.open(filename, ios_base::app);
+    for (int i = 0; i < m_L; i++){
+        for (int j= 0; j < m_L; j++){
+            ofile << m_spin[i*m_L+j] << " ";
+        }
+        ofile << endl;
+    }
+    ofile.close();
     delete[] m_spin;
 }
 
 void IsingModel::WriteToFile(double time_used){
+
     string filename = "results.txt";
     double E_varians = m_Esqavg*m_N - m_Eavg*m_Eavg*(m_N*m_N);
     double M_varians = m_Msqavg*m_N - m_Mavg*m_Mavg*(m_N*m_N);
@@ -131,6 +145,8 @@ void IsingModel::WriteToFile(double time_used){
     ofile << setw(15) << setprecision(8) << "1";                // Number threads
     ofile << setw(15) << setprecision(8) << time_used << endl;
     ofile.close();
+
+    delete[] m_spin;
 }
 
 void IsingModel::WriteToFileParallelized(double global_Eavg, double global_Mavg, double global_C_v, double global_chi, int cycles, int threads, double time_used){
