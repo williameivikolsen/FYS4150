@@ -1,8 +1,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import seaborn as sns
 import os
 
+
 plt.style.use('seaborn')
+sns.set(font_scale=1.3)
 
 os.chdir('./results')
 data = np.loadtxt('phase_transitions.txt', skiprows=1)
@@ -22,15 +25,15 @@ idx_dict = {i: np.where(L == i) for i in Lvals}
 for L in Lvals:
     idx = idx_dict[L]
     plt.plot(T[idx], M[idx], 'o', label='L = %i' % L)
-plt.xlabel(r'$T$')
-plt.ylabel(r'$\langle|M|\rangle/L^2$')
+plt.xlabel(r'$T$ [kT/J]')
+plt.ylabel(r'$\langle |M| \rangle /N$')
 plt.legend()
+plt.tight_layout()
 plt.show()
 
+
+TC = {}
 for L in Lvals:
     idx = idx_dict[L]
-    plt.plot(T[idx], M[idx], 'o', label='L = %i' % L)
-plt.xlabel(r'$T$')
-plt.ylabel(r'$\langle|M|\rangle/L^2$')
-plt.legend()
-plt.show()
+    TC[L] = T[np.argmax(CV[idx])]
+print(TC)
