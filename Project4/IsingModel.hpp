@@ -37,8 +37,10 @@ public:
   void Initialize(int L, double T, int cycles, bool random_config, double cutoff_fraction, int seed_shift = 0);
   void MonteCarlo();
   void WriteSpins();
+  void WriteEnergies();
   void WriteToFile(double time_used);
   void WriteToFileParallelized(double global_Eavg, double global_Mavg, double global_Esqavg, double global_Msqavg, int cycles, int threads, double time_used, double global_acceptancerate);
+  ~IsingModel(); // Destructor
 
   // Følgende må være public for å kunne parallelliseres
   double m_Eavg;                // Gjennomsnittlig energi

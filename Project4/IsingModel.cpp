@@ -111,9 +111,6 @@ void IsingModel::MonteCarlo() {
     m_Esqavg *= normalize;
     m_Msqavg *= normalize;
     m_acceptancerate /= (m_cycles*m_N);  // Acceptance rate ignores cut-off fraction!
-
-    delete[] m_BoltzmannFactor;
-//    delete[] m_spin;
 }
 
 void IsingModel::WriteSpins(){
@@ -126,7 +123,10 @@ void IsingModel::WriteSpins(){
         ofile << endl;
     }
     ofile.close();
-    delete[] m_spin;
+}
+
+void IsingModel::WriteEnergies(){
+    cout << "Will implement later" << endl;
 }
 
 void IsingModel::WriteToFile(double time_used){
@@ -149,8 +149,6 @@ void IsingModel::WriteToFile(double time_used){
     ofile << setw(15) << setprecision(8) << time_used;
     ofile << setw(15) << setprecision(8) << m_acceptancerate << endl;
     ofile.close();
-
-    delete[] m_spin;
 }
 
 void IsingModel::WriteToFileParallelized(double global_Eavg, double global_Mavg, double global_C_v, double global_chi, int cycles, int threads, double time_used, double global_acceptancerate){
@@ -167,4 +165,9 @@ void IsingModel::WriteToFileParallelized(double global_Eavg, double global_Mavg,
     ofile << setw(15) << setprecision(8) << time_used;
     ofile << setw(15) << setprecision(8) << global_acceptancerate << endl;
     ofile.close();
+}
+
+IsingModel::~IsingModel(){
+    delete[] m_spin;
+    delete[] m_BoltzmannFactor;
 }

@@ -6,21 +6,21 @@
 using namespace std;
 
 int main(int argc, char *argv[]){
-    if(argc < 6){
+    if(argc < 9){
         cout << "Not enough command line arguments provided." << endl;
-        cout << "Expected input: int L - double T - int cycles - bool random_config - int threads - double cutoff_fraction (optional)" << endl;
-        cout << "Aborting..." << endl;
+        cout << "Expected input: int L - double T - int cycles - bool random_config - int threads - double cutoff_fraction - bool write_final_spins - bool write_energy_distribution" << endl;
+        cout << "where bool values are 0/1. Aborting..." << endl;
         return 1;
     }
     int L = atoi(argv[1]);
     double T = atof(argv[2]);
     int cycles = atoi(argv[3]);
-    bool random_config = atoi(argv[4]);         // 1 gives random initialization of spin system, 0 gives fully aligned system
-    int threads = atoi(argv[5]);                // Requested number of threads to be used
-    double cutoff_fraction = 0.1;               // Fraction of cycles to be disgarded before computing expectation values
-    if(argc == 7){
-        cutoff_fraction = atof(argv[6]);
-    }
+    bool random_config = atoi(argv[4]);                 // 1 gives random initialization of spin system, 0 gives fully aligned system
+    int threads = atoi(argv[5]);                        // Requested number of threads to be used
+    double cutoff_fraction = atof(argv[6]);             // Fraction of cycles to be disgarded before computing expectation values
+    bool write_final_spins = atoi(argv[7]);             // If "1" the final spin state will be printed to file
+    bool write_energy_distribution = atoi(argv[8]);     // If "1" the different energy values will be printed to file
+
     int N = L*L;
 
     if(threads==1){
