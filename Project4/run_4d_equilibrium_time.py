@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn
 
-# File that compiles and runs c++ codes, plotting resulting data.
+# This file solves solves task 4d of the assignment. 
 
 def produce_new_data():
 
