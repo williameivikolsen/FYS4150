@@ -6,6 +6,8 @@ plt.style.use('seaborn')
 
 os.chdir('./results')
 data = np.loadtxt('phase_transitions.txt', skiprows=1)
+# data = np.loadtxt('phase_transitions_copy_nov22.txt', skiprows=1)
+
 L = data[:, 0]
 T = data[:, 1]
 cycles = data[:, 2]

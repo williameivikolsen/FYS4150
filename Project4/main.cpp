@@ -68,7 +68,6 @@ int main(int argc, char *argv[]){
             my_solver.Initialize(L, T, cycles_per_thread, random_config, cutoff_fraction, ID);
             my_solver.MonteCarlo();
 
-
             #pragma omp for reduction (+:global_Eavg, global_Mavg, global_Esqavg, global_Msqavg) schedule(static)
             for (int i = 0; i < threads; i++)
             {
