@@ -57,8 +57,8 @@ int IsingModel::Periodic(int i, int add){
 }
 
 void IsingModel::Metropolis(){
-    int x, y;           // Random positions to perform spin flip
-    int dE, dM;         // Changes in energy and magnetization
+    int x, y;               // Random positions to perform spin flip
+    int dE, dM;             // Changes in energy and magnetization
 
     uniform_real_distribution<double> zero_one_real_dist(0, 1.0);
     uniform_int_distribution<int> zero_L_dist(0, m_L-1);
@@ -77,21 +77,24 @@ void IsingModel::Metropolis(){
             m_spin[x*m_L + y] *= -1;
             m_E += dE;
             m_M += 2*m_spin[x*m_L + y];
+            m_acceptancerate++;
         }
         else if(zero_one_real_dist(gen) < m_BoltzmannFactor[dE+8]){
             m_spin[x*m_L + y] *= -1;
             m_E += dE;
             m_M += 2*m_spin[x*m_L + y];
+            m_acceptancerate++;
         }
     }
 }
 
 void IsingModel::MonteCarlo() {
-    double normalize = 1/((1.0-m_cutoff_fraction)*m_cycles*m_N);
+    double normalize = 1/((1.0-m_cutoff_fraction)*m_cycles*m_N);    //
     m_Eavg = 0.0;
     m_Mavg = 0.0;
     m_Esqavg = 0.0;
     m_Msqavg = 0.0;
+    m_acceptancerate = 0.0; // Initialize acceptance rate to zero
 
     for (int i = 0; i < m_cycles*m_cutoff_fraction; i++){
         Metropolis();
@@ -107,7 +110,7 @@ void IsingModel::MonteCarlo() {
     m_Mavg *= normalize;
     m_Esqavg *= normalize;
     m_Msqavg *= normalize;
-
+    m_acceptancerate /= (m_cycles*m_N);  // Acceptance rate ignores cut-off fraction!
 
     delete[] m_BoltzmannFactor;
 //    delete[] m_spin;
@@ -143,13 +146,14 @@ void IsingModel::WriteToFile(double time_used){
     ofile << setw(15) << setprecision(8) << C_v;
     ofile << setw(15) << setprecision(8) << chi;
     ofile << setw(15) << setprecision(8) << "1";                // Number threads
-    ofile << setw(15) << setprecision(8) << time_used << endl;
+    ofile << setw(15) << setprecision(8) << time_used;
+    ofile << setw(15) << setprecision(8) << m_acceptancerate << endl;
     ofile.close();
 
     delete[] m_spin;
 }
 
-void IsingModel::WriteToFileParallelized(double global_Eavg, double global_Mavg, double global_C_v, double global_chi, int cycles, int threads, double time_used){
+void IsingModel::WriteToFileParallelized(double global_Eavg, double global_Mavg, double global_C_v, double global_chi, int cycles, int threads, double time_used, double global_acceptancerate){
     string filename = "results.txt";
     ofile.open(filename, ios_base::app);
     ofile << setw(15) << setprecision(8) << m_L;
@@ -160,6 +164,7 @@ void IsingModel::WriteToFileParallelized(double global_Eavg, double global_Mavg,
     ofile << setw(15) << setprecision(8) << global_C_v;
     ofile << setw(15) << setprecision(8) << global_chi;
     ofile << setw(15) << setprecision(8) << threads;                // Number threads
-    ofile << setw(15) << setprecision(8) << time_used << endl;
+    ofile << setw(15) << setprecision(8) << time_used;
+    ofile << setw(15) << setprecision(8) << global_acceptancerate << endl;
     ofile.close();
 }
