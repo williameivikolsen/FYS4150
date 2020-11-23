@@ -36,7 +36,7 @@ def produce_new_data():
     os.system("mv " + new_name +  " results")           # Move data to results directory.
 
 # If not data doesn't already exist, run simulation
-path = "./results/4d_equillibrium_time.txt"
+path = "./results/4d_equilibrium_time.txt"
 if not os.path.exists(path):
     print("Simulation data not found in results subfolder. Running simulations...")
     produce_new_data()

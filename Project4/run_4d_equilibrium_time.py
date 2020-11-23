@@ -37,7 +37,7 @@ def produce_new_data():
         os.system("./main.exe " + str(L) + " " + str(T1) + " " + str(int(cycles)) + " " + str(random_config) + " " + str(threads) + " " + str(cutoff_fraction))
         os.system("./main.exe " + str(L) + " " + str(T2) + " " + str(int(cycles)) + " " + str(random_config) + " " + str(threads) + " " + str(cutoff_fraction))
 
-    new_name = "4d_equillibrium_time_random.txt"
+    new_name = "4d_equilibrium_time_random.txt"
     os.rename("results.txt", new_name)
     os.system("mv " + new_name +  " results")           # Move data to results directory.
 
@@ -50,15 +50,15 @@ def produce_new_data():
         os.system("./main.exe " + str(L) + " " + str(T1) + " " + str(int(cycles)) + " " + str(random_config) + " " + str(threads) + " " + str(cutoff_fraction))
         os.system("./main.exe " + str(L) + " " + str(T2) + " " + str(int(cycles)) + " " + str(random_config) + " " + str(threads) + " " + str(cutoff_fraction))
 
-    new_name = "4d_equillibrium_time_aligned.txt"
+    new_name = "4d_equilibrium_time_aligned.txt"
     os.rename("results.txt", new_name)
     os.system("mv " + new_name +  " results")           # Move data to results directory.
 
 """ -------------------- Load data --------------------  """
 
 # If not data doesn't already exist, run simulation
-path1 = "./results/4d_equillibrium_time_aligned.txt"
-path2 = "./results/4d_equillibrium_time_random.txt"
+path1 = "./results/4d_equilibrium_time_aligned.txt"
+path2 = "./results/4d_equilibrium_time_random.txt"
 if not os.path.exists(path1) or not os.path.exists(path2) :
     print("Simulation data not found in results subfolder. Running simulations...")
     produce_new_data()
@@ -79,10 +79,10 @@ plt.style.use('seaborn')
 seaborn.set(font_scale=1.3)
 os.chdir('./results')
 
-data_aligned = np.loadtxt('4d_equillibrium_time_aligned.txt', skiprows=1)
+data_aligned = np.loadtxt('4d_equilibrium_time_aligned.txt', skiprows=1)
 T, cycles, E_aligned, acceptancerate_aligned = data_aligned[:, 1], data_aligned[:, 2], data_aligned[:, 3], data_aligned[:,9]
 
-data_random = np.loadtxt('4d_equillibrium_time_random.txt', skiprows=1)
+data_random = np.loadtxt('4d_equilibrium_time_random.txt', skiprows=1)
 E_random, acceptancerate_random = data_random[:, 3], data_random[:,9]
 
 
@@ -96,6 +96,7 @@ plt.figure(1)
 plt.plot(cycles[idx_dict[T1]], E_aligned[idx_dict[T1]], '-o', label='Aligned initialization')
 plt.plot(cycles[idx_dict[T1]], E_random[idx_dict[T1]], '-o', label='Random initialization')
 plt.xlabel("Monte Carlo cycles")
+plt.ylabel(r'Average energy per spin $\langle E\rangle/L^2$ [J]')
 plt.xscale('log')
 plt.legend()
 plt.tight_layout()
@@ -104,6 +105,7 @@ plt.tight_layout()
 plt.figure(2)
 plt.plot(cycles[idx_dict[T2]], E_aligned[idx_dict[T2]], '-o', label='Aligned initialization')
 plt.plot(cycles[idx_dict[T2]], E_random[idx_dict[T2]], '-o', label='Random initialization')
+plt.ylabel(r'Average energy per spin $\langle E\rangle/L^2$ [J]')
 plt.xlabel("Monte Carlo cycles")
 
 plt.xscale('log')
@@ -112,10 +114,10 @@ plt.tight_layout()
 
 # Figure 3: Acceptance rate for T = 1
 plt.figure(3)
-plt.plot(cycles[idx_dict[T1]], acceptancerate_aligned[idx_dict[T1]], '-o', label='Aligned initialization, rate')
+plt.plot(cycles[idx_dict[T1]], acceptancerate_aligned[idx_dict[T1]], '-o', label='Aligned initialization')
 plt.plot(cycles[idx_dict[T1]], acceptancerate_random[idx_dict[T1]], '-o', label='Random initialization')
 plt.xlabel("Monte Carlo cycles")
-
+plt.ylabel(r'Acceptance rate proposed spin flips [1]')
 plt.xscale('log')
 plt.legend()
 plt.tight_layout()
@@ -125,7 +127,7 @@ plt.figure(4)
 plt.plot(cycles[idx_dict[T2]], acceptancerate_aligned[idx_dict[T2]], '-o', label='Aligned initialization')
 plt.plot(cycles[idx_dict[T2]], acceptancerate_random[idx_dict[T2]], '-o', label='Random initialization')
 plt.xlabel("Monte Carlo cycles")
-
+plt.ylabel(r'Acceptance rate proposed spin flips [1]')
 plt.xscale('log')
 plt.legend()
 plt.tight_layout()
