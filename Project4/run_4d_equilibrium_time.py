@@ -90,7 +90,7 @@ T1 = 1.0    # Temp below Tc
 T2 = 2.4    # Temp above Tc
 
 idx_dict = {i: np.where(T == i) for i in [T1, T2]}
-
+    
 # Figure 1: Energies for T = 1
 plt.figure(1)
 plt.plot(cycles[idx_dict[T1]], E_aligned[idx_dict[T1]], '-o', label='Aligned initialization')
@@ -100,6 +100,8 @@ plt.ylabel(r'Average energy per spin $\langle E\rangle/L^2$ [J]')
 plt.xscale('log')
 plt.legend()
 plt.tight_layout()
+plt.savefig("4d_equilibrium_time_lowT_energy.pdf")
+os.system("mv 4d_equilibrium_time_lowT_energy.pdf ../plots")
 
 # Figure 2: Energies for T = 2.4
 plt.figure(2)
@@ -107,10 +109,11 @@ plt.plot(cycles[idx_dict[T2]], E_aligned[idx_dict[T2]], '-o', label='Aligned ini
 plt.plot(cycles[idx_dict[T2]], E_random[idx_dict[T2]], '-o', label='Random initialization')
 plt.ylabel(r'Average energy per spin $\langle E\rangle/L^2$ [J]')
 plt.xlabel("Monte Carlo cycles")
-
 plt.xscale('log')
 plt.legend()
 plt.tight_layout()
+plt.savefig("4d_equilibrium_time_lowT_acceptance_rate.pdf")
+os.system("mv 4d_equilibrium_time_lowT_acceptance_rate.pdf ../plots")
 
 # Figure 3: Acceptance rate for T = 1
 plt.figure(3)
@@ -121,6 +124,8 @@ plt.ylabel(r'Acceptance rate proposed spin flips [1]')
 plt.xscale('log')
 plt.legend()
 plt.tight_layout()
+plt.savefig("4d_equilibrium_time_highT_energy.pdf")
+os.system("mv 4d_equilibrium_time_highT_energy.pdf ../plots")
 
 # Figure 4: Acceptance rate for T = 2.4
 plt.figure(4)
@@ -131,6 +136,8 @@ plt.ylabel(r'Acceptance rate proposed spin flips [1]')
 plt.xscale('log')
 plt.legend()
 plt.tight_layout()
+plt.savefig("4d_equilibrium_time_highT_acceptance_rate.pdf")
+os.system("mv 4d_equilibrium_time_highT_acceptance_rate.pdf ../plots")
 
 # Show produced plots
 plt.show()
