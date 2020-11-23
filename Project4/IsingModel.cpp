@@ -115,8 +115,8 @@ void IsingModel::WriteToFile(double time_used){
     string filename = "results.txt";
     double E_varians = m_Esqavg*m_N - m_Eavg*m_Eavg*(m_N*m_N);
     double M_varians = m_Msqavg*m_N - m_Mavg*m_Mavg*(m_N*m_N);
-    double C_v = E_varians/(m_temp*m_temp);
-    double chi = M_varians/m_temp;
+    double C_v = E_varians/(m_temp*m_temp*m_N);
+    double chi = M_varians/(m_temp*m_N);
 
     ofile.open(filename, ios_base::app);
     ofile << setw(15) << setprecision(8) << m_L;
