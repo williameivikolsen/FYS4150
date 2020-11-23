@@ -114,8 +114,8 @@ plt.xlabel("Monte Carlo cycles")
 plt.xscale('log')
 plt.legend()
 plt.tight_layout()
-plt.savefig("4d_equilibrium_time_lowT_acceptance_rate.pdf")
-os.system("mv 4d_equilibrium_time_lowT_acceptance_rate.pdf ../plots")
+plt.savefig("4d_equilibrium_time_highT_energy.pdf")
+os.system("mv 4d_equilibrium_time_highT_energy.pdf ../plots")
 
 # Figure 3: Acceptance rate for T = 1
 plt.figure(3)
@@ -126,8 +126,8 @@ plt.ylabel(r'Acceptance rate proposed spin flips [1]')
 plt.xscale('log')
 plt.legend()
 plt.tight_layout()
-plt.savefig("4d_equilibrium_time_highT_energy.pdf")
-os.system("mv 4d_equilibrium_time_highT_energy.pdf ../plots")
+plt.savefig("4d_equilibrium_time_lowT_acceptance_rate.pdf")
+os.system("mv 4d_equilibrium_time_lowT_acceptance_rate.pdf ../plots")
 
 # Figure 4: Acceptance rate for T = 2.4
 plt.figure(4)
