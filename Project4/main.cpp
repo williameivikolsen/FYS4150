@@ -31,10 +31,12 @@ int main(int argc, char *argv[]){
         my_solver.Initialize(L, T, cycles, random_config, cutoff_fraction);
         my_solver.MonteCarlo();
 
-
         finish = clock();
         double time_used = (double)(finish - start) / (CLOCKS_PER_SEC);
         my_solver.WriteToFile(time_used);
+        if(write_final_spins==1) my_solver.WriteSpins();
+        if(write_energy_distribution==1) my_solver.WriteEnergies();
+        
     }
 
     else{
@@ -96,8 +98,10 @@ int main(int argc, char *argv[]){
                 end_time = omp_get_wtime();
                 double time_used = end_time - start_time;
 
-                my_solver.WriteSpins();
                 my_solver.WriteToFileParallelized(global_Eavg, global_Mavg, global_C_v, global_chi, cycles, threads, time_used, global_acceptancerate);
+                if(write_final_spins==1) my_solver.WriteSpins();
+                if(write_energy_distribution==1) my_solver.WriteEnergies();
+        
             }
         }
     }
