@@ -19,7 +19,7 @@ idx_dict = {i: np.where(L == i) for i in Lvals}
 
 for L in Lvals:
     idx = idx_dict[L]
-    plt.plot(T[idx], M[idx], '-o', label='L = %i' % L)
+    plt.plot(T[idx], M[idx], 'o', label='L = %i' % L)
 plt.xlabel(r'$T$')
 plt.ylabel(r'$\langle|M|\rangle/L^2$')
 plt.legend()
