@@ -24,6 +24,9 @@ protected:
   double m_M;                  // Magnetization of system
   double *m_BoltzmannFactor;   // Array containing Boltmann factors related to energy changes
 
+  bool m_E_distribution_bool;  // Bool variable set to "1" when system energies are to be printed 
+  double *m_E_distribution;    // Array containing system energy value after every cycle (used to make distribution of energies)
+
   int Periodic(int i, int add); // Function that takes care of periodic boundary conditions
   void Metropolis();            // Solving using the Metropolis algorithm
 
@@ -34,10 +37,10 @@ protected:
   uniform_int_distribution<> zero_L_dist;
 
 public:
-  void Initialize(int L, double T, int cycles, bool random_config, double cutoff_fraction, int seed_shift = 0);
+  void Initialize(int L, double T, int cycles, bool random_config, double cutoff_fraction, bool E_distribution_bool, int seed_shift = 0);
   void MonteCarlo();
-  void WriteSpins();
-  void WriteEnergies();
+  void WriteSpins();            // Writes last spin config to file
+  void WriteEnergies();         // Writes all energy values to file
   void WriteToFile(double time_used);
   void WriteToFileParallelized(double global_Eavg, double global_Mavg, double global_Esqavg, double global_Msqavg, int cycles, int threads, double time_used, double global_acceptancerate);
   ~IsingModel(); // Destructor

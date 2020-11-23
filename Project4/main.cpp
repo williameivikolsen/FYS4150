@@ -28,7 +28,7 @@ int main(int argc, char *argv[]){
         start = clock();
 
         IsingModel my_solver;
-        my_solver.Initialize(L, T, cycles, random_config, cutoff_fraction);
+        my_solver.Initialize(L, T, cycles, random_config, cutoff_fraction, write_energy_distribution);
         my_solver.MonteCarlo();
 
         finish = clock();
@@ -52,6 +52,11 @@ int main(int argc, char *argv[]){
         }
         omp_set_num_threads(threads);
 
+        if(write_energy_distribution == 1){
+            cout << "Function WriteEnergies() not implemented for multithreading. Aborting." << endl;;
+            return 1;
+        }
+
         double global_Eavg = 0.0;                   // Final Eavg will be average of Eavg for different threads
         double global_Mavg = 0.0;                   // Final Mavg will be average of Eavg for different threads
         double global_Esqavg = 0.0;                 // Final Esqavg will be average of Esqavg for different threads
@@ -73,7 +78,7 @@ int main(int argc, char *argv[]){
                 start_time = omp_get_wtime();    // Master thread keeps track of time
             }
             IsingModel my_solver;
-            my_solver.Initialize(L, T, cycles_per_thread, random_config, cutoff_fraction, ID);
+            my_solver.Initialize(L, T, cycles_per_thread, random_config, cutoff_fraction, write_energy_distribution, ID);
             my_solver.MonteCarlo();
 
             #pragma omp for reduction (+:global_Eavg, global_Mavg, global_Esqavg, global_Msqavg, global_acceptancerate) schedule(static)

@@ -2,13 +2,15 @@
 using namespace std;
 ofstream ofile;
 
-void IsingModel::Initialize(int L, double temp, int cycles, bool random_config, double cutoff_fraction, int seed_shift){
+void IsingModel::Initialize(int L, double temp, int cycles, bool random_config, double cutoff_fraction, bool E_distribution_bool, int seed_shift){
     m_L = L;
     m_temp = temp;
     m_cycles = cycles;
     m_N = m_L*m_L;
     m_cutoff_fraction = cutoff_fraction;
     m_spin = new int[m_N];
+    m_E_distribution_bool = E_distribution_bool;
+    m_E_distribution = new double[int ((1-m_cutoff_fraction)*m_cycles)];
 
     // random_device rand_nb;
     mt19937 gen(clock()+100*seed_shift);
@@ -105,6 +107,8 @@ void IsingModel::MonteCarlo() {
         m_Mavg += abs(m_M);
         m_Esqavg += m_E*m_E;
         m_Msqavg += m_M*m_M;
+        if(m_E_distribution_bool == 1) m_E_distribution[i] = m_E;
+ 
     }
     m_Eavg *= normalize;
     m_Mavg *= normalize;
@@ -126,7 +130,12 @@ void IsingModel::WriteSpins(){
 }
 
 void IsingModel::WriteEnergies(){
-    cout << "Will implement later" << endl;
+    string filename = "energies.txt";
+    ofile.open(filename, ios_base::app);
+    for (int i = 0; i < int ((1-m_cutoff_fraction)*m_cycles); i++){
+        ofile << m_E_distribution[i] << endl;
+    }
+    ofile.close();
 }
 
 void IsingModel::WriteToFile(double time_used){
@@ -170,4 +179,5 @@ void IsingModel::WriteToFileParallelized(double global_Eavg, double global_Mavg,
 IsingModel::~IsingModel(){
     delete[] m_spin;
     delete[] m_BoltzmannFactor;
+    delete[] m_E_distribution;
 }
