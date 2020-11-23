@@ -1,6 +1,7 @@
 import os
 import sys
 import numpy as np
+import matplotlib.pyplot as plt
 
 # File that compiles and runs c++ codes, plotting resulting data.
 
@@ -52,4 +53,20 @@ else:
 
 """ -------------------- Plot --------------------  """
 
+plt.style.use('seaborn')
+os.chdir('./results')
+data = np.loadtxt('4d_equillibrium_time.txt', skiprows=1)
+
+L, T, E = data[:, 0], data[:, 1], data[:, 3]
+
+Lvals = [40, 60, 80, 100]
+idx_dict = {i: np.where(L == i) for i in Lvals}
+
+for L in Lvals:
+    idx = idx_dict[L]
+    plt.plot(T[idx], E[idx], 'o', label='L = %i' % L)
+plt.xlabel(r'$T$')
+plt.ylabel(r'$\langle|M|\rangle/L^2$')
+plt.legend()
+plt.show()
 print("Made it here!!!!!!!")
