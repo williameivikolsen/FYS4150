@@ -1,7 +1,5 @@
 ## 🎲 FYS4150 - Project 4: Studies of Phase Transitions in Magnetic Systems 🧲
 
-### A brief description of the different files in this folder
-
 The files in this folder solves the [given assignment](http://compphysics.github.io/ComputationalPhysics/doc/Projects/2020/Project4/pdf/Project4.pdf).
 
 The simulations are performed with the class IsingModel defined in `IsingModel.hpp` and `IsingModel.cpp`.
