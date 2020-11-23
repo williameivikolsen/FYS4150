@@ -4,7 +4,7 @@ The files in this folder solves the [given assignment](http://compphysics.github
 
 The simulations are performed with the class IsingModel defined in `IsingModel.hpp` and `IsingModel.cpp`.
 
-The main program `main.cpp` takes in command line arguments for the lattice length `L`, tmeperature `T`, number of cycles `cycles`, a variable `random_config`, the number of threads `threads` and the cutoff fraction `cutoff_fraction` for the equilibration time of the lattice. The following example makefile compiles and executes the program:
+The main program `main.cpp` takes in command line arguments for the lattice length `L`, temperature `T`, number of cycles `cycles`, a variable `random_config`, the number of threads `threads` and the cutoff fraction `cutoff_fraction` for the equilibration time of the lattice. The following example makefile compiles and executes the program:
 ``` Ruby
 all: compile execute
 
