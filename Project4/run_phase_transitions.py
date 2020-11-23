@@ -6,7 +6,7 @@ import sys
 # ------------- Compilation -------------
 all_cpp_codes = "./*.cpp"
 os.system("echo compiling...")
-os.system("g++ -O3 -fopenmp -o main.exe" + " " + all_cpp_codes)
+os.system("g++-10 -O3 -fopenmp -o main.exe" + " " + all_cpp_codes)
 # ---------------------------------------
 
 cycles = 1000000

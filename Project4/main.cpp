@@ -49,6 +49,7 @@ int main(int argc, char *argv[]){
         double global_Mavg = 0.0;                   // Final Mavg will be average of Eavg for different threads
         double global_Esqavg = 0.0;                 // Final Esqavg will be average of Esqavg for different threads
         double global_Msqavg = 0.0;                 // Final Msqavg will be average of Msqavg for different threads
+        double global_acceptancerate = 0.0;         // Acceptance rate will also be averaged over threads
         double global_C_v;
         double global_chi;
 
@@ -68,13 +69,14 @@ int main(int argc, char *argv[]){
             my_solver.Initialize(L, T, cycles_per_thread, random_config, cutoff_fraction, ID);
             my_solver.MonteCarlo();
 
-            #pragma omp for reduction (+:global_Eavg, global_Mavg, global_Esqavg, global_Msqavg) schedule(static)
+            #pragma omp for reduction (+:global_Eavg, global_Mavg, global_Esqavg, global_Msqavg, global_acceptancerate) schedule(static)
             for (int i = 0; i < threads; i++)
             {
                 global_Eavg += my_solver.m_Eavg;
                 global_Mavg += my_solver.m_Mavg;
                 global_Esqavg += my_solver.m_Esqavg;
                 global_Msqavg += my_solver.m_Msqavg;
+                global_acceptancerate += my_solver.m_acceptancerate;
             }
 
             #pragma omp master
@@ -83,6 +85,7 @@ int main(int argc, char *argv[]){
                 global_Mavg /= threads;
                 global_Esqavg /= threads;
                 global_Msqavg /= threads;
+                global_acceptancerate /= threads;
 
                 double E_varians = (global_Esqavg*N - global_Eavg*global_Eavg*(N*N));
                 double M_varians = (global_Msqavg*N - global_Mavg*global_Mavg*(N*N));
@@ -92,7 +95,7 @@ int main(int argc, char *argv[]){
 
                 end_time = omp_get_wtime();
                 double time_used = end_time - start_time;
-                my_solver.WriteToFileParallelized(global_Eavg, global_Mavg, global_C_v, global_chi, cycles, threads, time_used);
+                my_solver.WriteToFileParallelized(global_Eavg, global_Mavg, global_C_v, global_chi, cycles, threads, time_used, global_acceptancerate);
             }
         }
     }

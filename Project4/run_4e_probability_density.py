@@ -22,7 +22,7 @@ def produce_new_data():
     random_config = 1
     cutoff_fraction = 0.1   # Set cutoff_fraction to 0.1
 
-    header_str = " Lattice size L  Temperature T      MC Cycles          <E>/N          <M>/N            C_V            chi        Threads       Time (s)"
+    header_str = " Lattice size L  Temperature T      MC Cycles          <E>/N          <M>/N            C_V            chi        Threads       Time (s)   Accept. rate"
     os.system(f'echo "{header_str}"  >> results.txt')
 
     for i, cycles in enumerate(np.linspace(10, 1e6, 100), start=1):
@@ -36,7 +36,7 @@ def produce_new_data():
     os.system("mv " + new_name +  " results")           # Move data to results directory.
 
 # If not data doesn't already exist, run simulation
-path = "./results/4d_equillibrium_time.txt"
+path = "./results/4d_equilibrium_time.txt"
 if not os.path.exists(path):
     print("Simulation data not found in results subfolder. Running simulations...")
     produce_new_data()
