@@ -14,7 +14,7 @@ L = 2
 T = 1.0
 beta = 1/T
 random_config = 0
-cycles = 1e7
+cycles = 1e9
 threads = 1
 
 Z = 4*np.cosh(8*beta) + 12      #The partition function for A
@@ -25,8 +25,8 @@ analytical_E2 = 256*np.cosh(8*beta)/Z
 analytical_absM = 8*(np.exp(8*beta)+2)/Z
 analytical_M2 = 32*(np.exp(8*beta)+1)/Z
 
-CV = (analytical_E2 - analytical_E**2)/T**2         # Heat capacity
-chi = (analytical_M2 - analytical_absM**2)/T        # Susceptibility
+CV = (analytical_E2 - analytical_E**2)/(T**2*L**2)         # Heat capacity
+chi = (analytical_M2 - analytical_absM**2)/(T*L**2)        # Susceptibility
 
 print('E = ', analytical_E/4)
 print('|M| = ', analytical_absM/4)

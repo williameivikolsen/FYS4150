@@ -88,8 +88,8 @@ int main(int argc, char *argv[]){
                 double E_varians = (global_Esqavg*N - global_Eavg*global_Eavg*(N*N));
                 double M_varians = (global_Msqavg*N - global_Mavg*global_Mavg*(N*N));
 
-                global_C_v = E_varians/(double)(T*T);
-                global_chi = M_varians/(double)T;
+                global_C_v = E_varians/(double)(T*T*N);
+                global_chi = M_varians/(double)(T*N);
 
                 end_time = omp_get_wtime();
                 double time_used = end_time - start_time;

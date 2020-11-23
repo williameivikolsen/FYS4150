@@ -9,7 +9,7 @@ os.system("echo compiling...")
 os.system("g++-10 -O3 -fopenmp -o main.exe" + " " + all_cpp_codes)
 # ---------------------------------------
 
-cycles = 1000000
+cycles = 1e7
 random_config = 1
 threads = 12
 
