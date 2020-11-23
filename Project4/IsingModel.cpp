@@ -63,25 +63,27 @@ void IsingModel::Metropolis(){
     uniform_real_distribution<double> zero_one_real_dist(0, 1.0);
     uniform_int_distribution<int> zero_L_dist(0, m_L-1);
 
-    // Generate random numbers x and y in range [0, L-1]
-    x = zero_L_dist(gen);
-    y = zero_L_dist(gen);
-    dE = 2*m_spin[x*m_L + y]*
-    (m_spin[Periodic(x, 1)*m_L + y] +
-    m_spin[Periodic(x, -1)*m_L + y] +
-    m_spin[x*m_L + Periodic(y, 1)] +
-    m_spin[x*m_L + Periodic(y, -1)]);
-    if (dE < 0) {
-        m_spin[x*m_L + y] *= -1;
-        m_E += dE;
-        m_M += 2*m_spin[x*m_L + y];
+    // Go through all elements and perform random spin flip each time
+    for (int i = 0; i <=m_N; i++) {
+        // Generate random numbers x and y in range [0, L-1]
+        x = zero_L_dist(gen);
+        y = zero_L_dist(gen);
+        dE = 2*m_spin[x*m_L + y]*
+        (m_spin[Periodic(x, 1)*m_L + y] +
+        m_spin[Periodic(x, -1)*m_L + y] +
+        m_spin[x*m_L + Periodic(y, 1)] +
+        m_spin[x*m_L + Periodic(y, -1)]);
+        if (dE <= 0) {
+            m_spin[x*m_L + y] *= -1;
+            m_E += dE;
+            m_M += 2*m_spin[x*m_L + y];
+        }
+        else if(zero_one_real_dist(gen) < m_BoltzmannFactor[dE+8]){
+            m_spin[x*m_L + y] *= -1;
+            m_E += dE;
+            m_M += 2*m_spin[x*m_L + y];
+        }
     }
-    else if(zero_one_real_dist(gen) < m_BoltzmannFactor[dE+8]){
-        m_spin[x*m_L + y] *= -1;
-        m_E += dE;
-        m_M += 2*m_spin[x*m_L + y];
-    }
-
 }
 
 void IsingModel::MonteCarlo() {
