@@ -18,4 +18,4 @@ With the above execution, main.cpp takes in `L = 100`, `T = 2.4`, `cycles = 1000
 
 The main program then creates an instance of the class and goes on to perform the calculations. If the number of threads is set to 1, it runs everything on a single thread. If not, it uses the OpenMP API to parallelize and run the calculations on the chosen number of threads.
 
-The final results are written to a file `results.txt`.
+The final results of the expectation values of energy and magnetization and the heat capacity and susceptibility are written to a file `results.txt`.
