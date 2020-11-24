@@ -7,8 +7,8 @@ import numpy as np
 # ------------- Compilation -------------
 all_cpp_codes = "./*.cpp"
 os.system("echo compiling...")
-os.system("g++-10 -O3 -fopenmp -o main.exe" + " " + all_cpp_codes) # mac OS friendly
-#os.system("g++ -O3 -fopenmp -o main.exe" + " " + all_cpp_codes) # Linux friendly
+# os.system("g++-10 -O3 -fopenmp -o main.exe" + " " + all_cpp_codes) # mac OS friendly
+os.system("g++ -O3 -fopenmp -o main.exe" + " " + all_cpp_codes) # Linux friendly
 # ---------------------------------------
 
 L = 2                   # Size system
@@ -38,7 +38,6 @@ print('chi = ', chi/L**2)
 
 header_str = " Lattice size L  Temperature T      MC Cycles          <E>/N          <M>/N            C_V            chi        Threads       Time (s)   Accept. rate"
 
-
 cycles = [1e4,1e6,1e8]
 for cycle in cycles:
     os.system(f'echo "{header_str}"  >> results.txt')
@@ -46,7 +45,7 @@ for cycle in cycles:
     os.system("./main.exe " + str(L) + " " + str(T) + " " + str(int(cycle)) + " " + str(bool_random_config) + " " + str(threads) + " " + str(cutoff_fraction) + " " + str(bool_write_spins) + " " + str(bool_write_energies))
     new_name = "2x2_cycles_" + str(int(cycle)) + ".txt"
     os.rename("results.txt", new_name)
-    os.system("mv " + new_name +  " results")           # Move data to results directory.
+    os.system("mv " + new_name +  " ./results")           # Move data to results directory.
 
 os.chdir("./results/")
 

@@ -35,7 +35,7 @@ void IsingModel::Initialize(int L, double temp, int cycles, bool random_config, 
         }
     }
 
-    // Beregner energien med periodic boundary conditions
+    // Calculated energy with periodic boundary conditions
     m_E = 0;
     for (int i = 0; i < m_L; i++) {
         for (int j = 0; j < m_L; j++) {
@@ -91,7 +91,7 @@ void IsingModel::Metropolis(){
 }
 
 void IsingModel::MonteCarlo() {
-    double normalize = 1/((1.0-m_cutoff_fraction)*m_cycles*m_N);    //
+    double normalize = 1/((1.0-m_cutoff_fraction)*m_cycles*m_N);    // Used to find values per spin and cycle
     m_Eavg = 0.0;
     m_Mavg = 0.0;
     m_Esqavg = 0.0;
@@ -114,7 +114,7 @@ void IsingModel::MonteCarlo() {
     m_Mavg *= normalize;
     m_Esqavg *= normalize;
     m_Msqavg *= normalize;
-    m_acceptancerate /= (m_cycles*m_N);  // Acceptance rate ignores cut-off fraction!
+    m_acceptancerate /= (m_cycles*m_N);  // Note: Acceptance rate ignores cut-off fraction!
 }
 
 void IsingModel::WriteSpins(){

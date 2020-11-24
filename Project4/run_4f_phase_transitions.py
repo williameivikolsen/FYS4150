@@ -6,7 +6,8 @@ import sys
 # ------------- Compilation -------------
 all_cpp_codes = "./*.cpp"
 os.system("echo compiling...")
-os.system("g++ -O3 -fopenmp -o main.exe" + " " + all_cpp_codes)
+# os.system("g++-10 -O3 -fopenmp -o main.exe" + " " + all_cpp_codes) # mac OS friendly
+os.system("g++ -O3 -fopenmp -o main.exe" + " " + all_cpp_codes) # Linux friendly
 # ---------------------------------------
 
 cycles = 2e6
@@ -33,4 +34,4 @@ for L in [40, 60, 80, 100]:
 
 new_name = "phase_transitions.txt"
 os.rename("results.txt", new_name)
-os.system("mv " + new_name +  " results")           # Move data to results directory.
+os.system("mv " + new_name +  " ./results")           # Move data to results directory.
