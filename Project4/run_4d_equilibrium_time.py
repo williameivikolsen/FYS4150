@@ -32,7 +32,7 @@ def produce_new_data():
 
     # First make system with random initialization
     random_config = 1
-    os.system(f'echo "{header_str}"  > results .txt')
+    os.system(f'echo "{header_str}"  > results.txt')
     for i, cycles in enumerate(np.logspace(start_cycle, end_cycle, steps), start=1):
         os.system("echo  ")
         os.system("echo execution " + str(i) + "/"  + str(steps) +  "...")
@@ -41,11 +41,11 @@ def produce_new_data():
 
     new_name = "4d_equilibrium_time_random.txt"
     os.rename("results.txt", new_name)
-    os.system("mv " + new_name +  " results")           # Move data to results directory.
+    os.system("mv " + new_name +  " ./results")           # Move data to results directory.
 
     # Then make system with aligned initialization
     random_config = 0
-    os.system(f'echo "{header_str}"  > results .txt')
+    os.system(f'echo "{header_str}"  > results.txt')
     for i, cycles in enumerate(np.logspace(start_cycle, end_cycle, steps), start=1):
         os.system("echo  ")
         os.system("echo execution " + str(i) + "/"  + str(steps) +   "...")
@@ -54,7 +54,7 @@ def produce_new_data():
 
     new_name = "4d_equilibrium_time_aligned.txt"
     os.rename("results.txt", new_name)
-    os.system("mv " + new_name +  " results")           # Move data to results directory.
+    os.system("mv " + new_name +  " ./results")           # Move data to results directory.
 
 """ -------------------- Load data --------------------  """
 
