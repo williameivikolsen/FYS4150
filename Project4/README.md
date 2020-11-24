@@ -9,10 +9,10 @@ The main program `main.cpp` takes in command line arguments for the lattice leng
 all: compile execute
 
 compile:
-	c++ -o main.exe main.cpp IsingModel.cpp
+	g++ -fopenmp -o main.exe main.cpp IsingModel.cpp
 
 execute:
-	./main.exe 100 2.4 1000 1 12 0.1
+	./main.exe 100 2.4 100000 1 12 0.1 0 0 
 ```
 With the above execution, main.cpp takes in `L = 100`, `T = 2.4`, `cycles = 1000`, `random_config = 1`, `threads = 12` and `cutoff_fraction = 0.1`.
 
