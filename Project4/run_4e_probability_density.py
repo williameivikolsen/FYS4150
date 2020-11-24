@@ -94,8 +94,8 @@ bin_width_highT = bin_edges_highT[1] - bin_edges_highT[0]
 
 # Figure 1: Can finally make scaled histograms (as bar plots)
 plt.figure(1)
-plt.bar(bin_middles_lowT, prob_lowT, width=bin_width_lowT, label='T = 1.0 [$J/k$]')
-plt.bar(bin_middles_highT, prob_highT, width=bin_width_highT, label='T = 2.4 [$J/k$]')
+plt.bar(bin_middles_lowT, prob_lowT, width=bin_width_lowT, label='$T$ = 1.0 $J/k$')
+plt.bar(bin_middles_highT, prob_highT, width=bin_width_highT, label='$T$ = 2.4 $J/k$')
 plt.xlabel(r'System energy $E$ [$J$]')
 plt.ylabel(r'Probability')
 plt.yticks(np.arange(0, 1, 0.1))
