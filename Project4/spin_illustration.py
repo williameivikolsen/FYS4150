@@ -45,20 +45,33 @@ def produce_new_data():
 
 os.chdir("./results/")
 
+
 i = 1
-plt.figure(dpi=400)
+
+plt.style.use('seaborn')
+sns.set(font_scale=1.3)
+plt.subplots(2,3)
 for temp in [T1,T2]:
     for cycle in [cycles1,cycles2,cycles3]:
         data = np.loadtxt("spins_T_" + str(temp) + "_cycles_" + str(cycle) + ".txt")
         plt.subplot(2,3,i)
         #plt.title("temp=" + str(temp) + "cycles = " + str(int(cycle)))
         plt.imshow(data, cmap ='tab20b')
-        plt.axis('off')
+        if i ==1:
+            plt.ylabel(r'$T = 1.0$ [k/J]')
+        if i == 4:
+            plt.xlabel(r'$c = 0$')
+            plt.ylabel(r'$T = 2.4$ [k/J]')
+        if i == 5:
+            plt.xlabel(r'$c = 10^2$')
+        if i == 6:
+            plt.xlabel(r'$c = 10^5$')
+        #plt.axis('off')
+        plt.xticks([])
+        plt.yticks([])
         i += 1
 
 plt.tight_layout()
-plt.style.use('seaborn')
-sns.set(font_scale=1.3)
 os.chdir("../plots/")
-plt.savefig("spins.pdf")
+plt.savefig("spins.pdf",dpi=300)
 plt.show()
