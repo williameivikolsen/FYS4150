@@ -71,29 +71,38 @@ E_highT = np.loadtxt('4e_probability_density_highT.txt')
 variance_lowT = np.var(E_lowT)
 variance_highT = np.var(E_highT)
 
+
 # Print variance of energies
 print(f"Variance of energies T=1.0: {variance_lowT}")
 print(f"Variance of energies T=2.4: {variance_highT}")   
 
+# Make histogram
+hist_lowT, bin_edges_lowT = np.histogram(E_lowT, bins=np.arange(min(E_lowT)-4, max(E_lowT)-4 + 8, 8))
+hist_highT, bin_edges_highT = np.histogram(E_highT, bins=np.arange(min(E_highT)-4, max(E_highT)-4 + 8, 8))
 
-# Figure 1: Low T histogram
+# Scale for probability
+prob_lowT = hist_lowT/float(hist_lowT.sum())
+prob_highT = hist_highT/float(hist_highT.sum())
+
+# Get mid points of each bin
+bin_middles_lowT = (bin_edges_lowT[1:]+bin_edges_lowT[:-1])/2.0 
+bin_middles_highT = (bin_edges_highT[1:]+bin_edges_highT[:-1])/2.0
+
+# Compute the bin-width
+bin_width_lowT = bin_edges_lowT[1] - bin_edges_lowT[0]
+bin_width_highT = bin_edges_highT[1] - bin_edges_highT[0]
+
+# Figure 1: Can finally make scaled histograms (as bar plots)
 plt.figure(1)
-plt.hist(E_lowT, bins=np.arange(min(E_lowT)-4, max(E_lowT)-4 + 8, 8), bottom=-4, label='T = 1.0 [J/$k_B$]')
-plt.xlabel(r'System energy $E$ [J]')
-plt.ylabel(r'Accurences')
+plt.bar(bin_middles_lowT, prob_lowT, width=bin_width_lowT, label='T = 1.0 [$J/k$]')
+plt.bar(bin_middles_highT, prob_highT, width=bin_width_highT, label='T = 2.4 [$J/k$]')
+plt.xlabel(r'System energy $E$ [$J$]')
+plt.ylabel(r'Probability')
+plt.yticks(np.arange(0, 1, 0.1))
 plt.legend()
 plt.tight_layout()
-plt.savefig("4e_histogram_lowT.pdf")
-os.system("mv 4e_histogram_lowT.pdf ../plots")
-
-plt.figure(2)
-plt.hist(E_highT, bins=np.arange(min(E_highT)-4, max(E_highT)-4 + 8, 8), bottom=-4, label='T = 2.4 [J/$k_B$]')
-plt.xlabel(r'System energy $E$ [J]')
-plt.ylabel(r'Accurences')
-plt.legend()
-plt.tight_layout()
-plt.savefig("4e_histogram_highT.pdf")
-os.system("mv 4e_histogram_highT.pdf ../plots")
+plt.savefig("4e_probability_histogram.pdf")
+os.system("mv 4e_probability_histogram.pdf ../plots")
 
 # Show produced plots
 plt.show()
