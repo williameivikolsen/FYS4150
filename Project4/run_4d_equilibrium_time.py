@@ -41,7 +41,7 @@ def produce_new_data():
 
     new_name = "4d_equilibrium_time_random.txt"
     os.rename("results.txt", new_name)
-    os.system("mv " + new_name +  "./results")           # Move data to results directory.
+    os.system("mv " + new_name +  " ./results")           # Move data to results directory.
 
     # Then make system with aligned initialization
     random_config = 0
@@ -54,7 +54,7 @@ def produce_new_data():
 
     new_name = "4d_equilibrium_time_aligned.txt"
     os.rename("results.txt", new_name)
-    os.system("mv " + new_name +  " results")           # Move data to results directory.
+    os.system("mv " + new_name +  " ./results")           # Move data to results directory.
 
 """ -------------------- Load data --------------------  """
 

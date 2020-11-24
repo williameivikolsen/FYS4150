@@ -34,4 +34,4 @@ for L in [40, 60, 80, 100]:
 
 new_name = "phase_transitions.txt"
 os.rename("results.txt", new_name)
-os.system("mv " + new_name +  " results")           # Move data to results directory.
+os.system("mv " + new_name +  " ./results")           # Move data to results directory.

@@ -22,11 +22,11 @@ def produce_new_data():
     # ---------------------------------------
 
     L = 80                 # Size system
-    threads = 4
-    cutoff_fraction = 0.1   #
-    bool_write_spins = 1
+    threads = 4            # Number of threads (> 1 = parallellized code)
+    cutoff_fraction = 0.1   # Fraction of samples to cut before equilibrium
+    bool_write_spins = 1    # Write the spin matrix to file if 1
     bool_write_energies = 0
-    bool_random_config = 1
+    bool_random_config = 1  # Random configuration as initial
 
 
     for temp in [T1,T2]:
@@ -40,25 +40,36 @@ def produce_new_data():
 
 
 # -------------------- Load data --------------------
+#If data already exist, just comment out the next line
+produce_new_data()
 
-#produce_new_data()
-
+# Change direction to the result files for the spin configurations
 os.chdir("./results/")
-
 i = 1
-plt.figure(dpi=400)
+
+# Make figure of the spin configurations
+plt.style.use('seaborn') # Nice layout
+sns.set(font_scale=1.3)
+plt.subplots(2,3)
 for temp in [T1,T2]:
     for cycle in [cycles1,cycles2,cycles3]:
         data = np.loadtxt("spins_T_" + str(temp) + "_cycles_" + str(cycle) + ".txt")
         plt.subplot(2,3,i)
-        #plt.title("temp=" + str(temp) + "cycles = " + str(int(cycle)))
         plt.imshow(data, cmap ='tab20b')
-        plt.axis('off')
+        if i ==1:
+            plt.ylabel(r'$T = 1.0$ [k/J]')
+        if i == 4:
+            plt.xlabel(r'$c = 0$')
+            plt.ylabel(r'$T = 2.4$ [k/J]')
+        if i == 5:
+            plt.xlabel(r'$c = 10^2$')
+        if i == 6:
+            plt.xlabel(r'$c = 10^5$')
+        plt.xticks([]) #Remove axes
+        plt.yticks([]) #Remove axes
         i += 1
 
 plt.tight_layout()
-plt.style.use('seaborn')
-sns.set(font_scale=1.3)
 os.chdir("../plots/")
-plt.savefig("spins.pdf")
+plt.savefig("spins.pdf", dpi=300)
 plt.show()
