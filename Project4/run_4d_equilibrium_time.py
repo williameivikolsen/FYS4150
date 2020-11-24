@@ -32,7 +32,7 @@ def produce_new_data():
 
     # First make system with random initialization
     random_config = 1
-    os.system(f'echo "{header_str}"  >> results.txt')
+    os.system(f'echo "{header_str}"  > results .txt')
     for i, cycles in enumerate(np.logspace(start_cycle, end_cycle, steps), start=1):
         os.system("echo  ")
         os.system("echo execution " + str(i) + "/"  + str(steps) +  "...")
@@ -45,7 +45,7 @@ def produce_new_data():
 
     # Then make system with aligned initialization
     random_config = 0
-    os.system(f'echo "{header_str}"  >> results.txt')
+    os.system(f'echo "{header_str}"  > results .txt')
     for i, cycles in enumerate(np.logspace(start_cycle, end_cycle, steps), start=1):
         os.system("echo  ")
         os.system("echo execution " + str(i) + "/"  + str(steps) +   "...")
@@ -78,14 +78,14 @@ else:
 """ -------------------- Plot --------------------  """
 
 plt.style.use('seaborn')
-seaborn.set(font_scale=1.3)
+seaborn.set(font_scale=1)
 os.chdir('./results')
 
 data_aligned = np.loadtxt('4d_equilibrium_time_aligned.txt', skiprows=1)
-T, cycles, E_aligned, acceptancerate_aligned = data_aligned[:, 1], data_aligned[:, 2], data_aligned[:, 3], data_aligned[:,9]
+T, cycles, E_aligned, M_aligned, acceptancerate_aligned = data_aligned[:, 1], data_aligned[:, 2], data_aligned[:, 3], data_aligned[:,4], data_aligned[:,9]
 
 data_random = np.loadtxt('4d_equilibrium_time_random.txt', skiprows=1)
-E_random, acceptancerate_random = data_random[:, 3], data_random[:,9]
+E_random, M_random, acceptancerate_random = data_random[:, 3], data_random[:,4], data_random[:,9]
 
 
 T1 = 1.0    # Temp below Tc
@@ -93,53 +93,66 @@ T2 = 2.4    # Temp above Tc
 
 idx_dict = {i: np.where(T == i) for i in [T1, T2]}
     
-# Figure 1: Energies for T = 1
-plt.figure(1)
-plt.plot(cycles[idx_dict[T1]], E_aligned[idx_dict[T1]], '-o', label='Aligned initialization')
-plt.plot(cycles[idx_dict[T1]], E_random[idx_dict[T1]], '-o', label='Random initialization')
-plt.xlabel("Monte Carlo cycles")
-plt.ylabel(r'Average energy per spin $\langle E\rangle/L^2$ [J]')
+# Figure 1: Energies
+plt.figure(1,figsize=((6,6)))
+plt.subplot(2,1,1)
+plt.plot(cycles[idx_dict[T1]], E_aligned[idx_dict[T1]], '-o', label=r'Aligned init., $T$ = 1.0 $J/k_B$')
+plt.plot(cycles[idx_dict[T1]], E_random[idx_dict[T1]], '-o', label=r'Random init., $T$ = 1.0 $J/k_B$')
+plt.ylabel(r'$\langle E\rangle/L^2$ [J]')
 plt.xscale('log')
 plt.legend()
-plt.tight_layout()
-plt.savefig("4d_equilibrium_time_lowT_energy.pdf")
-os.system("mv 4d_equilibrium_time_lowT_energy.pdf ../plots")
 
-# Figure 2: Energies for T = 2.4
-plt.figure(2)
-plt.plot(cycles[idx_dict[T2]], E_aligned[idx_dict[T2]], '-o', label='Aligned initialization')
-plt.plot(cycles[idx_dict[T2]], E_random[idx_dict[T2]], '-o', label='Random initialization')
-plt.ylabel(r'Average energy per spin $\langle E\rangle/L^2$ [J]')
+plt.subplot(2,1,2)
+plt.plot(cycles[idx_dict[T2]], E_aligned[idx_dict[T2]], '-o', label=r'Aligned init., $T$ = 2.4 $J/k_B$')
+plt.plot(cycles[idx_dict[T2]], E_random[idx_dict[T2]], '-o', label=r'Random init., $T$ = 2.4 $J/k_B$')
+plt.ylabel(r'$\langle E\rangle/L^2$ [J]')
 plt.xlabel("Monte Carlo cycles")
 plt.xscale('log')
 plt.legend()
 plt.tight_layout()
-plt.savefig("4d_equilibrium_time_highT_energy.pdf")
-os.system("mv 4d_equilibrium_time_highT_energy.pdf ../plots")
+plt.savefig("4d_equilibrium_time_energy.pdf")
+os.system("mv 4d_equilibrium_time_energy.pdf ../plots")
 
-# Figure 3: Acceptance rate for T = 1
-plt.figure(3)
-plt.plot(cycles[idx_dict[T1]], acceptancerate_aligned[idx_dict[T1]], '-o', label='Aligned initialization')
-plt.plot(cycles[idx_dict[T1]], acceptancerate_random[idx_dict[T1]], '-o', label='Random initialization')
-plt.xlabel("Monte Carlo cycles")
-plt.ylabel(r'Acceptance rate proposed spin flips [1]')
-plt.xscale('log')
-plt.legend()
-plt.tight_layout()
-plt.savefig("4d_equilibrium_time_lowT_acceptance_rate.pdf")
-os.system("mv 4d_equilibrium_time_lowT_acceptance_rate.pdf ../plots")
 
-# Figure 4: Acceptance rate for T = 2.4
-plt.figure(4)
-plt.plot(cycles[idx_dict[T2]], acceptancerate_aligned[idx_dict[T2]], '-o', label='Aligned initialization')
-plt.plot(cycles[idx_dict[T2]], acceptancerate_random[idx_dict[T2]], '-o', label='Random initialization')
+# Figure 2: Magnetization
+plt.figure(2,figsize=((6,6)))
+plt.subplot(2,1,1)
+plt.plot(cycles[idx_dict[T1]], acceptancerate_aligned[idx_dict[T1]], '-o', label=r'Aligned init., $T$ = 1.0 $J/k_B$')
+plt.plot(cycles[idx_dict[T1]], acceptancerate_random[idx_dict[T1]], '-o', label=r'Random init., $T$ = 1.0 $J/k_B$')
+plt.ylabel(r'Acceptance rate')
+plt.xscale('log')
+plt.legend()
+
+plt.subplot(2,1,2)
+plt.plot(cycles[idx_dict[T2]], acceptancerate_aligned[idx_dict[T2]], '-o', label=r'Aligned init., $T$ = 2.4 $J/k_B$')
+plt.plot(cycles[idx_dict[T2]], acceptancerate_random[idx_dict[T2]], '-o', label=r'Random init., $T$ = 2.4 $J/k_B$')
+plt.ylabel(r'Acceptance rate')
 plt.xlabel("Monte Carlo cycles")
-plt.ylabel(r'Acceptance rate proposed spin flips [1]')
 plt.xscale('log')
 plt.legend()
 plt.tight_layout()
-plt.savefig("4d_equilibrium_time_highT_acceptance_rate.pdf")
-os.system("mv 4d_equilibrium_time_highT_acceptance_rate.pdf ../plots")
+plt.savefig("4d_equilibrium_time_magnetization.pdf")
+os.system("mv 4d_equilibrium_time_magnetization.pdf ../plots")
+
+# Figure 2: Acceptance rate
+plt.figure(3,figsize=((6,6)))
+plt.subplot(2,1,1)
+plt.plot(cycles[idx_dict[T1]], M_aligned[idx_dict[T1]], '-o', label=r'Aligned init., $T$ = 1.0 $J/k_B$')
+plt.plot(cycles[idx_dict[T1]], M_random[idx_dict[T1]], '-o', label=r'Random init., $T$ = 1.0 $J/k_B$')
+plt.ylabel(r'$\langle |M|\rangle/L^2$ [1]')
+plt.xscale('log')
+plt.legend()
+
+plt.subplot(2,1,2)
+plt.plot(cycles[idx_dict[T2]], M_aligned[idx_dict[T2]], '-o', label=r'Aligned init., $T$ = 2.4 $J/k_B$')
+plt.plot(cycles[idx_dict[T2]], M_random[idx_dict[T2]], '-o', label=r'Random init., $T$ = 2.4 $J/k_B$')
+plt.ylabel(r'$\langle |M|\rangle/L^2$ [1]')
+plt.xlabel("Monte Carlo cycles")
+plt.xscale('log')
+plt.legend()
+plt.tight_layout()
+plt.savefig("4d_equilibrium_time_acceptance.pdf")
+os.system("mv 4d_equilibrium_time_acceptance.pdf ../plots")
 
 # Show produced plots
 plt.show()
