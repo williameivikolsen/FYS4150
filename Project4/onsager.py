@@ -14,7 +14,7 @@ def linregress(x, y):
     return m, delta_m, c, delta_c
 
 plt.style.use('seaborn')
-TC = np.array([2.2, 2.275, 2.15, 2.05])
+TC = np.array([2.292, 2.276, 2.288, 2.276])
 L = np.array([40, 60, 80, 100])
 # slope, intercept, r_value, p_value, std_err = stats.linregress(1/L, TC)
 slope, delta_slope, intercept, delta_intercept = linregress(1/L, TC)
