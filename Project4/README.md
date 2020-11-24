@@ -4,7 +4,9 @@ The files in this folder solves the [given assignment](http://compphysics.github
 
 The simulations are performed with the class IsingModel as defined in `IsingModel.hpp` and `IsingModel.cpp`.
 
-The main program `main.cpp` takes in command line arguments for the lattice length `L`, temperature `T`, number of cycles `cycles`, an initial spin configuration variable `random_config`, the number of threads `threads` and a cutoff fraction `cutoff_fraction` for calculating expectation values, a choice for printing out the final spin state `write_final_spins` and a choice of printing the lattice energy after computing cycles `write_energy_distribution`. The following example makefile compiles and executes the program:
+The main program `main.cpp` takes in command line arguments for the lattice length `L`, temperature `T`, number of cycles `cycles`, an initial spin configuration variable `random_config`, the number of threads `threads`, a cutoff fraction `cutoff_fraction` for calculating expectation values, a choice for printing out the final spin state `write_final_spins` and a choice of printing the lattice energy after computing cycles `write_energy_distribution`.
+
+The following example makefile compiles and executes the program:
 ``` Ruby
 all: compile execute
 
