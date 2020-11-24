@@ -70,12 +70,12 @@ int main(int argc, char *argv[]){
         #pragma omp parallel
         {
             int ID = omp_get_thread_num();
-            int cycles_per_thread = cycles/threads;     // Remainder will be added to master thread later
+            int cycles_per_thread = cycles/threads;         // Remainder will be added to master thread later
             #pragma omp master
             {
                 if(threads > omp_get_num_threads()) cout << "Warning: Number of threads actually set to be" << omp_get_num_threads() << endl;
-                cycles_per_thread += cycles % threads;  // Add remaining cycles
-                start_time = omp_get_wtime();    // Master thread keeps track of time
+                cycles_per_thread += cycles % threads;      // Add remaining cycles
+                start_time = omp_get_wtime();               // Master thread keeps track of time
             }
             IsingModel my_solver;
             my_solver.Initialize(L, T, cycles_per_thread, random_config, cutoff_fraction, write_energy_distribution, ID);
