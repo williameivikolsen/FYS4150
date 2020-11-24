@@ -36,7 +36,7 @@ print('chi = ', chi)
 
 
 header_str = " Lattice size L  Temperature T      MC Cycles          <E>/N          <M>/N            C_V            chi        Threads       Time (s)"
-os.system(f'echo "{header_str}"  >> results.txt')
+os.system(f'echo "{header_str}"  > results .txt')
 
 os.system("echo  ")
 os.system("./main.exe " + str(L) + " " + str(T) + " " + str(int(cycles)) + " " + str(random_config) + " " + str(threads))    # Execute code
