@@ -1,0 +1,4 @@
+Arbeidslogg
+
+Dato          Loggtid        Person         Hva skjedde
+30.11.20      10:00          Peder          Lager logg
