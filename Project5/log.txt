@@ -3,4 +3,4 @@ Arbeidslogg
 Dato          Loggtid        Person         Hva skjedde
 30.11.20      10:00          Peder          Lager logg
 04.12.20      15:00          Peder          Fullført å se gjennom forelesninger
-08.12.20      22:00          Peder          Skrev introduksjon
+08.12.20      22:00          Peder          Skrev introduksjon/første kode
