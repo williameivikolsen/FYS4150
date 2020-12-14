@@ -28,7 +28,7 @@ protected:
   double *m_E_distribution;    // Array containing system energy value after every cycle (used to make distribution of energies)
 
   int Periodic(int i, int add); // Function that takes care of periodic boundary conditions
-  void Metropolis();            // Solving using the Metropolis algorithm
+  void Metropolis();            // Loop that suggest + accepts/declines spin flips
 
   // std random number generators
   mt19937 gen;
@@ -38,18 +38,18 @@ protected:
 
 public:
   void Initialize(int L, double T, int cycles, bool random_config, double cutoff_fraction, bool E_distribution_bool, int seed_shift = 0);
-  void MonteCarlo();
-  void WriteSpins();            // Writes last spin config to file
-  void WriteEnergies();         // Writes all energy values to file
-  void WriteToFile(double time_used);
+  void MonteCarlo();                  // Solver of the class
+  void WriteSpins();                  // Writes last spin config to file
+  void WriteEnergies();               // Writes all energy values to file
+  void WriteToFile(double time_used); // Prints results to file (single-threaded version)
   void WriteToFileParallelized(double global_Eavg, double global_Mavg, double global_Esqavg, double global_Msqavg, int cycles, int threads, double time_used, double global_acceptancerate);
   ~IsingModel(); // Destructor
 
-  // Følgende må være public for å kunne parallelliseres
-  double m_Eavg;                // Gjennomsnittlig energi
-  double m_Mavg;                // Gjennomsnittlig magnetisering (absoluttverdi!)
-  double m_Esqavg;              // Gjennomsnittlig energi kvadrert
-  double m_Msqavg;              // Gjennomsnittlig magentisering kvadrert
+  // Mollowing has to be public in order to be parallelized
+  double m_Eavg;                // Mean energy
+  double m_Mavg;                // Mean magnetizationg (absolute value)
+  double m_Esqavg;              // Mean energy squared
+  double m_Msqavg;              // Mean emagnetization squared
   double m_acceptancerate;      // Rate of suggested spin flips accepted
 };
 
