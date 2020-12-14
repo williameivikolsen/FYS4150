@@ -54,7 +54,7 @@ class OneDimensionalDiffusion:
             print(f"Warning: Stability criteria for Forward Euler not met, F = {self.F:.3f}, which is greater than 0.5.")
 
         u = self.u0.copy()                                     # Current time step
-        Nx, F = self.Nx, self.F
+        Nx = self.Nx
         u_new = np.zeros(len(u))                        # Next time step (to be calculated)
 
         for n in range(0, self.Nt):                     # Loop over time
@@ -126,10 +126,13 @@ class OneDimensionalDiffusion:
 
 
 
-# class BlackScholes(OneDimensionalDiffusion):
-#     def __init__(self, input_vars_BS):
-#         # Make transformations..... 
-#         super().__init__(L,T,Nx,Nt,I,D=1)
+class BlackScholes(OneDimensionalDiffusion):
+    def __init__(self, input_vars_BS):
+
+
+
+        # Make transformations..... 
+        super().__init__(L,T,Nx,Nt,I,D=1)
 
 
 if __name__ == '__main__':
@@ -140,8 +143,8 @@ if __name__ == '__main__':
     Nx = 60; Nt = 1000
     
     IC = lambda x: np.sin(np.pi*x/x_end)**2 + x/4      # Initial conditions
-    BCL = lambda t: IC(x_start)                        # Boundary condition at x=x_start 
-    BCR = lambda t: IC(x_end)                          # Boundary condition at x=x_end
+    BCL = lambda t: IC(x_start)                        # Boundary condition at x=x_start (constant)
+    BCR = lambda t: IC(x_end)                          # Boundary condition at x=x_end (constant)
 
     test_object = OneDimensionalDiffusion(x_start, x_end, T, Nx, Nt, IC, BCL, BCR)
     u_array1 = test_object.solve('FE')
@@ -156,5 +159,4 @@ if __name__ == '__main__':
     plt.plot(x_array, IC(x_array))
     plt.legend()
     plt.show()
-
-    print(IC(-5), IC(5))
+¨¨
