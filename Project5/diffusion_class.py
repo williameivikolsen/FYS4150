@@ -4,31 +4,31 @@ import scipy.sparse.linalg
 
 class OneDimensionalDiffusion:
     # Class for solving 1D diffusion equation without source term 
-    def __init__(self, x_start, x_end, T, Nx, Nt, I, BCL, BCR, D=1):
+    def __init__(self, x_start, x_end, T, Nx, Nt, I, BCL, BCR, C=1):
         # Constants
         self.x_start = x_start              # x-axis start position
         self.x_end = x_end                  # x-axis end position
         self.T = T                          # Final time
         self.Nx = Nx                        # Number of intervals x-axis
         self.Nt = Nt                        # Number of intervals time
-        self.D = D                          # Diffusion constant
+        self.C = C                          # Diffusion constant
 
         # Functions
         self.I = I                          # Initial condtion I(x)
-        self.BCL = BCL                      # Boundary condition BCL(x=x_start, t)
-        self.BCR = BCR                      # Boundary condition BCL(x=x_end, t)
+        self.BCL = BCL                      # Boundary condition left BCL(x=x_start, t)
+        self.BCR = BCR                      # Boundary condition right BCR(x=x_end, t)
 
         # Set up arrays
-        x = np.linspace(x_start,x_end,Nx+1) # Position array
-        t = np.linspace(0, T, Nt+1)         # Time array
-        dx = x[1] - x[0]
-        self.dt = t[1] - t[0]
-        self.F = D*self.dt/dx**2            # Mesh Fourier number (stability requirement)
+        self.x = np.linspace(x_start,x_end,Nx+1) # Position array
+        self.t = np.linspace(0, T, Nt+1)         # Time array
+        dx = self.x[1] - self.x[0]
+        self.dt = self.t[1] - self.t[0]
+        self.F = C*self.dt/dx**2            # Mesh Fourier number (stability requirement)
 
         # Fill in initial values
         self.u0 = np.zeros(Nx+1)            # u0 is initial values of u
         for i in range(0, Nx+1):
-            self.u0[i] = I(x[i])
+            self.u0[i] = I(self.x[i])
 
 
     def solve(self, method, stabilitycheck=True):
@@ -37,16 +37,16 @@ class OneDimensionalDiffusion:
             f"Method name has to be 'FE' (Forward Euler), 'BE' (Backward Euler) or 'CN' (Crank-Nicholson)"
 
         if method == 'FE':
-            solution = self.__ForwardEuler(stabilitycheck)
+            solution = self._ForwardEuler(stabilitycheck)
         elif method == 'BE':
-            solution = self.__BackwardEuler()
+            solution = self._BackwardEuler()
         elif method == 'CN':
-            solution = self.__CrankNicholson()
+            solution = self._CrankNicholson()
 
         return solution
 
     # Private methods for different solving schemes
-    def __ForwardEuler(self, stabilitycheck):
+    def _ForwardEuler(self, stabilitycheck):
         if stabilitycheck == True:
             assert self.F <= 0.5, \
                 f"Error: Stability criteria for Forward Euler not met, F = {self.F:.3f}, which is greater than 0.5."        
@@ -68,7 +68,7 @@ class OneDimensionalDiffusion:
         return u
 
 
-    def __BackwardEuler(self):
+    def _BackwardEuler(self):
         u = self.u0.copy()                              # Current time step
         Nx, F = self.Nx, self.F
         u_new = np.zeros(len(u))                        # Next time step (to be calculated)
@@ -94,7 +94,7 @@ class OneDimensionalDiffusion:
         return u
 
 
-    def __CrankNicholson(self):
+    def _CrankNicholson(self):
         # In order to find next time-iteration of u, we solve the system A*u_new = b, where b = B*u. 
         u = self.u0.copy()                              # Current time step
         Nx, F = self.Nx, self.F
@@ -127,36 +127,103 @@ class OneDimensionalDiffusion:
 
 
 class BlackScholes(OneDimensionalDiffusion):
-    def __init__(self, input_vars_BS):
+    def __init__(self, x_ratio, tau, Nx, Nt, E, sigma, r, D):
+        # The initializer takes in variables related to the Black-Scholes equation and transforms them to 1D diffusion equation form
+
+        # Constants
+        self.x_ratio = x_ratio                          # Cutoffs along price-axis (x-axis) is a ratio (S/E) of difference from the exercise price (>1)
+        self.tau = tau                                  # Time to expiration date
+        self.Nx = Nx                                    # Number of intervals x-axis
+        self.Nt = Nt                                    # Number of itervals time
+        self.E = E                                      # Exercise price of option
+        self.sigma = sigma                              # Volatility of underlying asset
+        self.r = r                                      # Risk-free interest rate
+        self.D = D                                      # Yield (dividend paying rate) of underlying stock
+
+        self.alpha = (r-D)/2 - 0.5                                   # Constant alpha in transformation
+        self.beta = (r+D)/2 + (r-D)**2/(2*sigma**2) + sigma**2/8     # Constant beta in transformation
+
+        # Trasformed constants used to feed diffusion equation solver  
+        C = sigma**2/2                                          # Modified diffusion constant
+        x_start = -np.log(x_ratio)                              # Modified x-axis start position
+        x_end = np.log(x_ratio)                                 # Modified x-axis end position
+        
+        # Transformed inital conditions and boundary conditons for Black-Scholes
+        I = lambda x: E*np.exp(self.alpha*x)*max(0, np.exp(x)-1)# Modified initial condtion u(x)
+        BCL = lambda t: 0                                       # Modidied boundary condition left BCL(x=x_start, tau)
+        BCR = lambda t: E*np.exp(self.alpha*x_end+self.beta*t) \
+                            * (np.exp(x_end-D*t) - np.exp(-r*t))# Modified oundary condition right BCR(x=x_end, tau)
+  
+        # Finally, use superclass initializor
+        super().__init__(x_start, x_end, tau, Nx, Nt, I, BCL, BCR, C)
+    
+    def solve(self, method, stabilitycheck=True):
+        # Overwrite solve method, the returned value is a solution of Black Scholes
+        assert method in ['FE', 'BE', 'CN'], \
+            f"Method name has to be 'FE' (Forward Euler), 'BE' (Backward Euler) or 'CN' (Crank-Nicholson)"
+
+        if method == 'FE':
+            diffusion_solution = self._ForwardEuler(stabilitycheck)
+        elif method == 'BE':
+            diffusion_solution = self._BackwardEuler()
+        elif method == 'CN':
+            diffusion_solution = self._CrankNicholson()
+
+        convertion_ratio = np.exp(-1*(self.alpha*self.x+self.beta*self.tau))
+        blackscholes_solution = diffusion_solution*convertion_ratio        
+
+        return blackscholes_solution
 
 
 
-        # Make transformations..... 
-        super().__init__(L,T,Nx,Nt,I,D=1)
+    
 
 
 if __name__ == '__main__':
     import matplotlib.pyplot as plt
     plt.style.use('seaborn')
 
-    x_start = -5; x_end = 5; T = 10
-    Nx = 60; Nt = 1000
+    # x_start = -5; x_end = 5; T = 10
+    # Nx = 60; Nt = 1000
     
-    IC = lambda x: np.sin(np.pi*x/x_end)**2 + x/4      # Initial conditions
-    BCL = lambda t: IC(x_start)                        # Boundary condition at x=x_start (constant)
-    BCR = lambda t: IC(x_end)                          # Boundary condition at x=x_end (constant)
+    # IC = lambda x: np.sin(np.pi*x/x_end)**2 + x/4      # Initial conditions
+    # BCL = lambda t: IC(x_start)                        # Boundary condition at x=x_start (constant)
+    # BCR = lambda t: IC(x_end)                          # Boundary condition at x=x_end (constant)
 
-    test_object = OneDimensionalDiffusion(x_start, x_end, T, Nx, Nt, IC, BCL, BCR)
-    u_array1 = test_object.solve('FE')
-    u_array2 = test_object.solve('BE')
-    u_array3 = test_object.solve('CN')
+    # test_object = OneDimensionalDiffusion(x_start, x_end, T, Nx, Nt, IC, BCL, BCR)
+    # u_array1 = test_object.solve('FE')
+    # u_array2 = test_object.solve('BE')
+    # u_array3 = test_object.solve('CN')
 
-    x_array = np.linspace(x_start,x_end,Nx+1)
-    plt.plot(x_array, u_array1, label='FE')
-    plt.plot(x_array, u_array2, label='BE')
-    plt.plot(x_array, u_array3, label='CN')
+    # x_array = np.linspace(x_start,x_end,Nx+1)
+    # plt.plot(x_array, u_array1, label='FE')
+    # plt.plot(x_array, u_array2, label='BE')
+    # plt.plot(x_array, u_array3, label='CN')
 
-    plt.plot(x_array, IC(x_array))
+    # plt.plot(x_array, IC(x_array))
+    # plt.legend()
+    # plt.show()
+
+    x_ratio = 10
+    tau = 3
+    E = 50
+    r = 0.04
+    D = 0.12
+    sigma = 0.4
+  
+    Nx, Nt = 60, 1000
+
+    x = np.linspace(-np.log(x_ratio), np.log(x_ratio), Nx+1)
+    S = E*np.exp(x)
+
+    tau_array = np.linspace(0, 10, 11)
+    for tau in tau_array:
+        sol = BlackScholes(x_ratio, tau, Nx, Nt, E, sigma, r, D).solve('CN')
+        plt.plot(S, sol, label=f"tau = {tau}")
+        
+
+    plt.axis('equal')
     plt.legend()
     plt.show()
-¨¨
+
+
