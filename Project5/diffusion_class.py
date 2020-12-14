@@ -127,7 +127,7 @@ class OneDimensionalDiffusion:
 
 
 class BlackScholes(OneDimensionalDiffusion):
-    def __init__(self, x_ratio, tau, Nx, Nt, E, sigma, r, D):
+    def __init__(self, x_ratio, tau, Nx, Nt, E, sigma, r, D, discountedBCR=True):
         # The initializer takes in variables related to the Black-Scholes equation and transforms them to 1D diffusion equation form
 
         # Constants
@@ -144,15 +144,19 @@ class BlackScholes(OneDimensionalDiffusion):
         self.beta = (r+D)/2 + (r-D)**2/(2*sigma**2) + sigma**2/8     # Constant beta in transformation
 
         # Trasformed constants used to feed diffusion equation solver  
-        C = sigma**2/2                                          # Modified diffusion constant
-        x_start = -np.log(x_ratio)                              # Modified x-axis start position
-        x_end = np.log(x_ratio)                                 # Modified x-axis end position
+        C = sigma**2/2                                              # Modified diffusion constant
+        x_start = -np.log(x_ratio)                                  # Modified x-axis start position
+        x_end = np.log(x_ratio)                                     # Modified x-axis end position
         
         # Transformed inital conditions and boundary conditons for Black-Scholes
-        I = lambda x: E*np.exp(self.alpha*x)*max(0, np.exp(x)-1)# Modified initial condtion u(x)
-        BCL = lambda t: 0                                       # Modidied boundary condition left BCL(x=x_start, tau)
-        BCR = lambda t: E*np.exp(self.alpha*x_end+self.beta*t) \
-                            * (np.exp(x_end-D*t) - np.exp(-r*t))# Modified oundary condition right BCR(x=x_end, tau)
+        I = lambda x: E*np.exp(self.alpha*x)*max(0, np.exp(x)-1)    # Modified initial condtion u(x)
+        BCL = lambda t: 0                                           # Modidied boundary condition left BCL(x=x_start, tau)
+        if discountedBCR == True:                                   # Default: use discount factors in right BC
+            BCR = lambda t: E*np.exp(self.alpha*x_end+self.beta*t)\
+                            * (np.exp(x_end-D*t) - np.exp(-r*t))    # Version 1: Modified oundary condition right BCR(x=x_end, tau)
+        else:
+            BCR = lambda t: E*np.exp(self.alpha*x_end+self.beta*t)\
+                            * (np.exp(x_end) - 1)                   # Version 2: Modified oundary condition right BCR(x=x_end, tau)
   
         # Finally, use superclass initializor
         super().__init__(x_start, x_end, tau, Nx, Nt, I, BCL, BCR, C)
@@ -194,6 +198,7 @@ if __name__ == '__main__':
     import matplotlib.pyplot as plt
     plt.style.use('seaborn')
 
+    """ Test av generell diffusjonsligningløser """
     # x_start = -5; x_end = 5; T = 10
     # Nx = 60; Nt = 1000
     
@@ -215,6 +220,7 @@ if __name__ == '__main__':
     # plt.legend()
     # plt.show()
 
+    """ Test av Black-Scholes løser"""
     x_ratio = 10
     tau = 10
     E = 50
@@ -222,35 +228,37 @@ if __name__ == '__main__':
     D = 0.12
     sigma = 0.4
   
-    Nx, Nt = 60, 1000
+    Nx, Nt = 100, 1000
 
     x = np.linspace(-np.log(x_ratio), np.log(x_ratio), Nx+1)
     S = E*np.exp(x)
 
-    # test_instance = BlackScholes(x_ratio, tau, Nx, Nt, E, sigma, r, D)
-
-
-    # calc_value = test_instance.solve('FE')
-    # analytical_value = test_instance.analytical_solution()
-
-    # plt.plot(S, calc_value)
-    # plt.plot(S, analytical_value, 'o')
-
+    fig, axes = plt.subplots(2)
     tau_array = np.linspace(0.01, 10, 11)
     for tau in tau_array:
-        instance = BlackScholes(x_ratio, tau, Nx, Nt, E, sigma, r, D)
-        sol = instance.solve('FE')
-        analytic = instance.analytical_solution()
-        plt.plot(S, sol, label=f"tau = {tau:.2f}")
-        plt.plot(S, analytic, '-o', label=f"tau = {tau:.2f}")
-
+        instance1 = BlackScholes(x_ratio, tau, Nx, Nt, E, sigma, r, D)
+        instance2 = BlackScholes(x_ratio, tau, Nx, Nt, E, sigma, r, D, discountedBCR=False)
+        sol1 = instance1.solve('FE')
+        sol2 = instance2.solve('FE')
+        analytic = instance1.analytical_solution()
         
-    plt.xlabel("S [kr]")
-    plt.ylabel("V [kr]")
+        axes[0].plot(S, sol1, label=f"tau = {tau:3.1f}")
+        # axes[0].plot(S, analytic, '-o', label=f"tau = {tau:3.1f}", markersize=4)
 
-    
-    plt.axis('equal')
-    plt.legend()
+        # axes[1].plot(S, sol2 , label=f"tau = {tau:3.1f}")
+        axes[1].plot(S, analytic, '-o', label=f"tau = {tau:3.1f}", markersize=4)
+
+    for i in [0,1]:
+        axes[i].set_xlabel("S [kr]")
+        axes[i].set_ylabel("V [kr]")
+        axes[i].set_xlim([20, 80])
+        axes[i].set_ylim([0, 40])  
+    axes[0].set_title("Without discount factor calculated")
+    axes[1].set_title("Without discount factor analytical")
+
+    # plt.axis('equal')
+    # plt.legend()
+    plt.tight_layout()
     plt.show()
 
 
