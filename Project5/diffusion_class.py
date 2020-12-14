@@ -174,9 +174,20 @@ class BlackScholes(OneDimensionalDiffusion):
 
         return blackscholes_solution
 
+    def analytical_solution(self):
+        # Import distribution function from scipy
+        from scipy.stats import norm                      # norm.cdf(x) gives cumulative dist. function
 
+        # Define parameters
+        S_array = self.E*np.exp(self.x)                   # All prices to be evaluated
 
-    
+        PV = self.E*np.exp(-self.r*self.tau)              # Present value of exercise price
+        d1 = 1/(self.sigma*np.sqrt(self.tau)) \
+            *(np.log(S_array/self.E) + (self.r + self.sigma**2/2)*self.tau)
+        d2 = d1 - self.sigma*np.sqrt(self.tau)
+
+        V_analytical = norm.cdf(d1)*S_array - norm.cdf(d2)*PV
+        return V_analytical
 
 
 if __name__ == '__main__':
@@ -205,7 +216,7 @@ if __name__ == '__main__':
     # plt.show()
 
     x_ratio = 10
-    tau = 3
+    tau = 10
     E = 50
     r = 0.04
     D = 0.12
@@ -216,12 +227,28 @@ if __name__ == '__main__':
     x = np.linspace(-np.log(x_ratio), np.log(x_ratio), Nx+1)
     S = E*np.exp(x)
 
-    tau_array = np.linspace(0, 10, 11)
-    for tau in tau_array:
-        sol = BlackScholes(x_ratio, tau, Nx, Nt, E, sigma, r, D).solve('CN')
-        plt.plot(S, sol, label=f"tau = {tau}")
-        
+    # test_instance = BlackScholes(x_ratio, tau, Nx, Nt, E, sigma, r, D)
 
+
+    # calc_value = test_instance.solve('FE')
+    # analytical_value = test_instance.analytical_solution()
+
+    # plt.plot(S, calc_value)
+    # plt.plot(S, analytical_value, 'o')
+
+    tau_array = np.linspace(0.01, 10, 11)
+    for tau in tau_array:
+        instance = BlackScholes(x_ratio, tau, Nx, Nt, E, sigma, r, D)
+        sol = instance.solve('FE')
+        analytic = instance.analytical_solution()
+        plt.plot(S, sol, label=f"tau = {tau:.2f}")
+        plt.plot(S, analytic, '-o', label=f"tau = {tau:.2f}")
+
+        
+    plt.xlabel("S [kr]")
+    plt.ylabel("V [kr]")
+
+    
     plt.axis('equal')
     plt.legend()
     plt.show()
