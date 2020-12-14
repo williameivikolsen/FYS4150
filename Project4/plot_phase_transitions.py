@@ -21,12 +21,13 @@ chi = data[:, 6]
 
 Lvals = [40, 60, 80, 100]
 idx_dict = {i: np.where(L == i) for i in Lvals}
+# marker = {40: "-v", 60: "-^", 80: "-<", 100: "->"}
 
 for L in Lvals:
     idx = idx_dict[L]
-    plt.plot(T[idx], CV[idx], '-o', label='L = %i' % L)
-plt.xlabel(r'$T$ [kT/J]')
-plt.ylabel(r'$\chi /N$')
+    plt.plot(T[idx], CV[idx], 'o', label='L = %i' % L, alpha=0.7)
+plt.xlabel(r'$T$ [k/J]')
+plt.ylabel(r'$C_V /N$ [J$^2$k$^{-1}$]')
 plt.legend()
 plt.tight_layout()
 plt.show()
