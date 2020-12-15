@@ -187,10 +187,11 @@ class BlackScholes(OneDimensionalDiffusion):
 
         PV = self.E*np.exp(-self.r*self.tau)              # Present value of exercise price
         d1 = 1/(self.sigma*np.sqrt(self.tau)) \
-            *(np.log(S_array/self.E) + (self.r + self.sigma**2/2)*self.tau)
+            *(self.x + (self.r + self.sigma**2/2)*self.tau)
         d2 = d1 - self.sigma*np.sqrt(self.tau)
 
-        V_analytical = norm.cdf(d1)*S_array - norm.cdf(d2)*PV
+        convertion_ratio = np.exp(-1*(self.alpha*self.x+self.beta*self.tau))
+        V_analytical = (norm.cdf(d1)*S_array - norm.cdf(d2)*PV) #* convertion_ratio
         return V_analytical
 
 
@@ -198,67 +199,74 @@ if __name__ == '__main__':
     import matplotlib.pyplot as plt
     plt.style.use('seaborn')
 
-    """ Test av generell diffusjonsligningløser """
-    # x_start = -5; x_end = 5; T = 10
-    # Nx = 60; Nt = 1000
-    
-    # IC = lambda x: np.sin(np.pi*x/x_end)**2 + x/4      # Initial conditions
-    # BCL = lambda t: IC(x_start)                        # Boundary condition at x=x_start (constant)
-    # BCR = lambda t: IC(x_end)                          # Boundary condition at x=x_end (constant)
-
-    # test_object = OneDimensionalDiffusion(x_start, x_end, T, Nx, Nt, IC, BCL, BCR)
-    # u_array1 = test_object.solve('FE')
-    # u_array2 = test_object.solve('BE')
-    # u_array3 = test_object.solve('CN')
-
-    # x_array = np.linspace(x_start,x_end,Nx+1)
-    # plt.plot(x_array, u_array1, label='FE')
-    # plt.plot(x_array, u_array2, label='BE')
-    # plt.plot(x_array, u_array3, label='CN')
-
-    # plt.plot(x_array, IC(x_array))
-    # plt.legend()
-    # plt.show()
-
-    """ Test av Black-Scholes løser"""
-    x_ratio = 10
-    tau = 10
-    E = 50
-    r = 0.04
-    D = 0.12
-    sigma = 0.4
-  
-    Nx, Nt = 100, 1000
-
-    x = np.linspace(-np.log(x_ratio), np.log(x_ratio), Nx+1)
-    S = E*np.exp(x)
-
-    fig, axes = plt.subplots(2)
-    tau_array = np.linspace(0.01, 10, 11)
-    for tau in tau_array:
-        instance1 = BlackScholes(x_ratio, tau, Nx, Nt, E, sigma, r, D)
-        instance2 = BlackScholes(x_ratio, tau, Nx, Nt, E, sigma, r, D, discountedBCR=False)
-        sol1 = instance1.solve('FE')
-        sol2 = instance2.solve('FE')
-        analytic = instance1.analytical_solution()
+    def test_general_diffusion_eq_solver():
+        """
+        Test of general diffusion equation solver
+        Use a initial value function IC(x) with fixed boundary conditions,
+        and check that the three solvers in the OneDimensionalDiffusion class returns the same results
+        """
+        x_start = -5; x_end = 5; T = 10                    # Endpoints, x-axis and time
+        Nx = 60; Nt = 1000                                 # Number of intervals x-axis and time
         
-        axes[0].plot(S, sol1, label=f"tau = {tau:3.1f}")
-        # axes[0].plot(S, analytic, '-o', label=f"tau = {tau:3.1f}", markersize=4)
+        IC = lambda x: np.sin(np.pi*x/x_end)**2 + x/4      # Initial conditions
+        BCL = lambda t: IC(x_start)                        # Boundary condition at x=x_start (constant)
+        BCR = lambda t: IC(x_end)                          # Boundary condition at x=x_end (constant)
 
-        # axes[1].plot(S, sol2 , label=f"tau = {tau:3.1f}")
-        axes[1].plot(S, analytic, '-o', label=f"tau = {tau:3.1f}", markersize=4)
+        test_object = OneDimensionalDiffusion(x_start, x_end, T, Nx, Nt, IC, BCL, BCR)
+        u_array1 = test_object.solve('FE')                 # Forward Euler
+        u_array2 = test_object.solve('BE')                 # Backward Euler
+        u_array3 = test_object.solve('CN')                 # Crank-Nicholson
 
-    for i in [0,1]:
-        axes[i].set_xlabel("S [kr]")
-        axes[i].set_ylabel("V [kr]")
-        axes[i].set_xlim([20, 80])
-        axes[i].set_ylim([0, 40])  
-    axes[0].set_title("Without discount factor calculated")
-    axes[1].set_title("Without discount factor analytical")
+        x_array = np.linspace(x_start,x_end,Nx+1)           
+        plt.plot(x_array, u_array1, '-o', label='Forward Euler')
+        plt.plot(x_array, u_array2, '-^', label='Backward Euler')
+        plt.plot(x_array, u_array3, '-s', label='Crank-Nicholson')
 
-    # plt.axis('equal')
-    # plt.legend()
-    plt.tight_layout()
-    plt.show()
+        plt.plot(x_array, IC(x_array), label='Initial condition')
+        plt.title("Test: Consistency of different solver methods")
+        plt.legend()
+        plt.show()
 
+    def test_black_scholes_solver():
+        """ Test av Black-Scholes løser"""
+        x_ratio = 50
+        tau = 10
+        E = 50
+        r = 0.04
+        D = 0#.12
+        sigma = 0.4
+    
+        Nx, Nt = 100, 1000
 
+        x = np.linspace(-np.log(x_ratio), np.log(x_ratio), Nx+1)
+        S = E*np.exp(x)
+
+        fig, axes = plt.subplots(2)
+        tau_array = np.linspace(0.01, 1, 11)
+        for tau in tau_array:
+            instance1 = BlackScholes(x_ratio, tau, Nx, Nt, E, sigma, r, D)
+            instance2 = BlackScholes(x_ratio, tau, Nx, Nt, E, sigma, r, D, discountedBCR=False)
+            sol1 = instance1.solve('CN')
+            sol2 = instance2.solve('CN')
+            analytic = instance1.analytical_solution()
+            
+            axes[0].plot(S, sol2, label=f"tau = {tau:3.1f}")
+            axes[0].plot(S, analytic, 'o', label=f"tau = {tau:3.1f}", markersize=4)
+
+            axes[1].plot(S[10:], np.abs(sol2-analytic)[10:]/analytic[10:] , label=f"tau = {tau:3.1f}")
+            # axes[1].plot(S, analytic, '-o', label=f"tau = {tau:3.1f}", markersize=4)
+
+        for i in [0,1]:
+            axes[i].set_xlabel("S [kr]")
+            axes[i].set_ylabel("V [kr]")
+            # axes[i].set_xlim([0, 150])
+            # axes[i].set_ylim([0, 100])  
+        # axes[0].set_title("Without discount factor calculated")
+        # axes[1].set_title("Without discount factor analytical")
+
+        # plt.legend()
+        plt.tight_layout()
+        plt.show()
+
+    # test_general_diffusion_eq_solver()
+    test_black_scholes_solver()

@@ -137,7 +137,7 @@ x_start = -5; x_end = 5; T = 10
 Nx = 60; Nt = 1000
 x_array = np.linspace(x_start,x_end,Nx+1)
 
-
+ 
 
 BCL = lambda t: I(x_start)                        # Boundary condition at x=x_start 
 BCR = lambda t: I(x_end)                          # Boundary condition at x=x_end
