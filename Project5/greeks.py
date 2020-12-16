@@ -6,15 +6,15 @@ plt.style.use('seaborn')
 
 x_ratio = 10
 tau = 10
-E = 50
-r = 0.04
-D = 0.12
-sigma = 0.4
+E = 155
+r = 0.10
+D = 0.056
+sigma = 0.50
 Nx, Nt = 100, 1000
 x = np.linspace(-np.log(x_ratio), np.log(x_ratio), Nx+1)
 S = E*np.exp(x)
 
-epsilon = 1e-8  # To compute derivatives
+epsilon = 1e-10  # To compute derivatives
 N_tau = 5
 tau_arr = np.linspace(0, 1, N_tau)
 delta_tau = np.zeros((N_tau, Nx+1))
