@@ -22,7 +22,7 @@ gamma_tau = np.zeros((N_tau, Nx+1))
 vega_tau = np.zeros((N_tau, Nx+1))
 theta_tau = np.zeros((N_tau, Nx+1))
 rho_tau = np.zeros((N_tau, Nx+1))
-greeks = {'delta': delta_tau, 'gamma': gamma_tau, 'vega': vega_tau, 'theta': theta_tau, 'rho': rho_tau}
+greeks = {r'$\Delta$': delta_tau, r'$\Gamma$': gamma_tau, r'$\nu$': vega_tau, r'$\Theta$': theta_tau, r'$\rho$': rho_tau}
 
 for i in range(N_tau):
     delta_inst = BlackScholes(x_ratio, tau_arr[i], Nx, Nt, E, sigma, r, D)              # Instance for delta/gamma
@@ -39,10 +39,11 @@ for i in range(N_tau):
     theta_tau[i] = -(theta2_inst.solve('BE') - theta1_inst.solve('BE'))/(2*epsilon)
     rho_tau[i] = (rho2_inst.solve('BE') - rho1_inst.solve('BE'))/(2*epsilon)
 
-for i in range(N_tau):
-    plt.plot(S, vega_tau[i], label = r'$\tau = $' + '%g' % tau_arr[i])
-plt.xlabel(r'$S$')
-plt.ylabel(r'$\nu$')
-plt.legend()
-plt.tight_layout()
-plt.show()
+for greek in greeks:
+    for i in range(N_tau):
+        plt.plot(S, greeks[greek][i], label = r'$\tau = $' + '%g' % tau_arr[i])
+    plt.xlabel(r'$S$')
+    plt.ylabel(greek)
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
