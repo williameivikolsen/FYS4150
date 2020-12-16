@@ -179,6 +179,9 @@ class BlackScholes(OneDimensionalDiffusion):
         return blackscholes_solution
 
     def analytical_solution(self):
+        if self.D != 0:
+            print(f"Warning: The analyical solution assumes yield D = 0. You have set D = {self.D:.2f}.")
+
         # Import distribution function from scipy
         from scipy.stats import norm                      # norm.cdf(x) gives cumulative dist. function
 
@@ -190,8 +193,7 @@ class BlackScholes(OneDimensionalDiffusion):
             *(self.x + (self.r + self.sigma**2/2)*self.tau)
         d2 = d1 - self.sigma*np.sqrt(self.tau)
 
-        convertion_ratio = np.exp(-1*(self.alpha*self.x+self.beta*self.tau))
-        V_analytical = (norm.cdf(d1)*S_array - norm.cdf(d2)*PV) #* convertion_ratio
+        V_analytical = (norm.cdf(d1)*S_array - norm.cdf(d2)*PV)
         return V_analytical
 
 
@@ -233,7 +235,7 @@ if __name__ == '__main__':
         tau = 10
         E = 50
         r = 0.04
-        D = 0#.12
+        D = 0
         sigma = 0.4
     
         Nx, Nt = 100, 1000
@@ -253,7 +255,7 @@ if __name__ == '__main__':
             axes[0].plot(S, sol2, label=f"tau = {tau:3.1f}")
             axes[0].plot(S, analytic, 'o', label=f"tau = {tau:3.1f}", markersize=4)
 
-            axes[1].plot(S[10:], np.abs(sol2-analytic)[10:]/analytic[10:] , label=f"tau = {tau:3.1f}")
+            # axes[1].plot(S[10:], np.abs(sol2-analytic)[10:]/analytic[10:] , label=f"tau = {tau:3.1f}")
             # axes[1].plot(S, analytic, '-o', label=f"tau = {tau:3.1f}", markersize=4)
 
         for i in [0,1]:
