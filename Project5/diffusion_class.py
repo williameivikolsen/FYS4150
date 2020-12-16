@@ -34,14 +34,14 @@ class OneDimensionalDiffusion:
     def solve(self, method, stabilitycheck=True):
         # The PDE is solved using the chosen method, returns solution u
         assert method in ['FE', 'BE', 'CN'], \
-            f"Method name has to be 'FE' (Forward Euler), 'BE' (Backward Euler) or 'CN' (Crank-Nicholson)"
+            f"Method name has to be 'FE' (Forward Euler), 'BE' (Backward Euler) or 'CN' (Crank-Nicolson)"
 
         if method == 'FE':
             solution = self._ForwardEuler(stabilitycheck)
         elif method == 'BE':
             solution = self._BackwardEuler()
         elif method == 'CN':
-            solution = self._CrankNicholson()
+            solution = self._CrankNicolson()
 
         return solution
 
@@ -94,7 +94,7 @@ class OneDimensionalDiffusion:
         return u
 
 
-    def _CrankNicholson(self):
+    def _CrankNicolson(self):
         # In order to find next time-iteration of u, we solve the system A*u_new = b, where b = B*u. 
         u = self.u0.copy()                              # Current time step
         Nx, F = self.Nx, self.F
@@ -164,14 +164,14 @@ class BlackScholes(OneDimensionalDiffusion):
     def solve(self, method, stabilitycheck=True):
         # Overwrite solve method, the returned value is a solution of Black Scholes
         assert method in ['FE', 'BE', 'CN'], \
-            f"Method name has to be 'FE' (Forward Euler), 'BE' (Backward Euler) or 'CN' (Crank-Nicholson)"
+            f"Method name has to be 'FE' (Forward Euler), 'BE' (Backward Euler) or 'CN' (Crank-Nicolson)"
 
         if method == 'FE':
             diffusion_solution = self._ForwardEuler(stabilitycheck)
         elif method == 'BE':
             diffusion_solution = self._BackwardEuler()
         elif method == 'CN':
-            diffusion_solution = self._CrankNicholson()
+            diffusion_solution = self._CrankNicolson()
 
         convertion_ratio = np.exp(-1*(self.alpha*self.x+self.beta*self.tau))
         blackscholes_solution = diffusion_solution*convertion_ratio        
@@ -217,12 +217,12 @@ if __name__ == '__main__':
         test_object = OneDimensionalDiffusion(x_start, x_end, T, Nx, Nt, IC, BCL, BCR)
         u_array1 = test_object.solve('FE')                 # Forward Euler
         u_array2 = test_object.solve('BE')                 # Backward Euler
-        u_array3 = test_object.solve('CN')                 # Crank-Nicholson
+        u_array3 = test_object.solve('CN')                 # Crank-Nicolson
 
         x_array = np.linspace(x_start,x_end,Nx+1)           
         plt.plot(x_array, u_array1, '-o', label='Forward Euler')
         plt.plot(x_array, u_array2, '-^', label='Backward Euler')
-        plt.plot(x_array, u_array3, '-s', label='Crank-Nicholson')
+        plt.plot(x_array, u_array3, '-s', label='Crank-Nicolson')
 
         plt.plot(x_array, IC(x_array), label='Initial condition')
         plt.title("Test: Consistency of different solver methods")
@@ -231,11 +231,11 @@ if __name__ == '__main__':
 
     def test_black_scholes_solver():
         """ Test av Black-Scholes løser"""
-        x_ratio = 50
+        x_ratio = 10
         tau = 10
         E = 50
         r = 0.04
-        D = 0
+        D = 0.5
         sigma = 0.4
     
         Nx, Nt = 100, 1000
@@ -246,11 +246,11 @@ if __name__ == '__main__':
         fig, axes = plt.subplots(2)
         tau_array = np.linspace(0.01, 1, 11)
         for tau in tau_array:
-            instance1 = BlackScholes(x_ratio, tau, Nx, Nt, E, sigma, r, D)
-            instance2 = BlackScholes(x_ratio, tau, Nx, Nt, E, sigma, r, D, discountedBCR=False)
-            sol1 = instance1.solve('CN')
+            # instance1 = BlackScholes(x_ratio, tau, Nx, Nt, E, sigma, r, D)
+            instance2 = BlackScholes(x_ratio, tau, Nx, Nt, E, sigma, r, D, discountedBCR=True)
+            # sol1 = instance1.solve('CN')
             sol2 = instance2.solve('CN')
-            analytic = instance1.analytical_solution()
+            analytic = instance2.analytical_solution()
             
             axes[0].plot(S, sol2, label=f"tau = {tau:3.1f}")
             axes[0].plot(S, analytic, 'o', label=f"tau = {tau:3.1f}", markersize=4)
