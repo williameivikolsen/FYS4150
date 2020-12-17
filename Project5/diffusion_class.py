@@ -225,7 +225,7 @@ if __name__ == '__main__':
         plt.plot(x_array, u_array3, '-s', label='Crank-Nicolson')
 
         plt.plot(x_array, IC(x_array), label='Initial condition')
-        plt.title("Test: Consistency of different solver methods")
+        plt.title("Test: Consistency of different solver methods. Made with OneDimensionalDiffusion solver")
         plt.legend()
         plt.show()
 
@@ -235,7 +235,7 @@ if __name__ == '__main__':
         tau = 10
         E = 50
         r = 0.04
-        D = 0.5
+        D = 0.0
         sigma = 0.4
     
         Nx, Nt = 100, 1000
@@ -247,7 +247,7 @@ if __name__ == '__main__':
         tau_array = np.linspace(0.01, 1, 11)
         for tau in tau_array:
             # instance1 = BlackScholes(x_ratio, tau, Nx, Nt, E, sigma, r, D)
-            instance2 = BlackScholes(x_ratio, tau, Nx, Nt, E, sigma, r, D, discountedBCR=True)
+            instance2 = BlackScholes(x_ratio, tau, Nx, Nt, E, sigma, r, D, discountedBCR=False)
             # sol1 = instance1.solve('CN')
             sol2 = instance2.solve('CN')
             analytic = instance2.analytical_solution()
