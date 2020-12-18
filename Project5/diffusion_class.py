@@ -231,44 +231,35 @@ if __name__ == '__main__':
 
     def test_black_scholes_solver():
         """ Test av Black-Scholes løser"""
-        x_ratio = 10
-        tau = 10
-        E = 50
-        r = 0.04
-        D = 0.0
-        sigma = 0.4
-    
-        Nx, Nt = 100, 1000
+        E = 50              # Wanted exercise price
+        x_ratio = 10        # S/E ratio used for BCs
+        tau = 1/12          # Look at prices one month in the future
+        r = 0.04            # Risk-free interest rate
+        D = 0.0             # Yield
+        sigma = 0.4         # Volatility               
+
+        Nx, Nt = 800, 1000  # Intervals x-axis, time
 
         x = np.linspace(-np.log(x_ratio), np.log(x_ratio), Nx+1)
         S = E*np.exp(x)
 
-        fig, axes = plt.subplots(2)
-        tau_array = np.linspace(0.01, 1, 11)
-        for tau in tau_array:
-            # instance1 = BlackScholes(x_ratio, tau, Nx, Nt, E, sigma, r, D)
-            instance2 = BlackScholes(x_ratio, tau, Nx, Nt, E, sigma, r, D, discountedBCR=False)
-            # sol1 = instance1.solve('CN')
-            sol2 = instance2.solve('CN')
-            analytic = instance2.analytical_solution()
-            
-            axes[0].plot(S, sol2, label=f"tau = {tau:3.1f}")
-            axes[0].plot(S, analytic, 'o', label=f"tau = {tau:3.1f}", markersize=4)
+        BlackScholes_object =  BlackScholes(x_ratio, tau, Nx, Nt, E, sigma, r, D)
+        solution = BlackScholes_object.solve('CN')
 
-            # axes[1].plot(S[10:], np.abs(sol2-analytic)[10:]/analytic[10:] , label=f"tau = {tau:3.1f}")
-            # axes[1].plot(S, analytic, '-o', label=f"tau = {tau:3.1f}", markersize=4)
+        # U0 is solution at end time
+        U0 = lambda x: E*np.exp(BlackScholes_object.alpha*x) * (np.exp(x) - 1) * np.heaviside(np.exp(x) - 1, 1) 
 
-        for i in [0,1]:
-            axes[i].set_xlabel("S [kr]")
-            axes[i].set_ylabel("V [kr]")
-            # axes[i].set_xlim([0, 150])
-            # axes[i].set_ylim([0, 100])  
-        # axes[0].set_title("Without discount factor calculated")
-        # axes[1].set_title("Without discount factor analytical")
-
-        # plt.legend()
+        plt.plot(S, solution, label='One month to expiration')
+        plt.plot(S, U0(x), ':', color='black', label='Final time')
+        plt.xlabel("S [kr]")
+        plt.ylabel("V [kr]")
+        plt.tight_layout()
+        plt.title('Example: Solution of the Black-Scholes equation')
+        plt.xlim([0,100])
+        plt.ylim([-1,60])
+        plt.legend()
         plt.tight_layout()
         plt.show()
 
-    # test_general_diffusion_eq_solver()
+    test_general_diffusion_eq_solver()
     test_black_scholes_solver()
