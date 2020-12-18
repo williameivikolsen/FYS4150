@@ -140,7 +140,7 @@ class BlackScholes(OneDimensionalDiffusion):
         self.r = r                                      # Risk-free interest rate
         self.D = D                                      # Yield (dividend paying rate) of underlying stock
 
-        self.alpha = (r-D)/2 - 0.5                                   # Constant alpha in transformation
+        self.alpha = (r-D)/(sigma**2) - 0.5                                   # Constant alpha in transformation
         self.beta = (r+D)/2 + (r-D)**2/(2*sigma**2) + sigma**2/8     # Constant beta in transformation
 
         # Trasformed constants used to feed diffusion equation solver  
