@@ -13,11 +13,10 @@ colors = sns.color_palette()
 x_ratio = 10        # S/E ratio used for BCs
 r = 0.10            # Risk-free interest rate
 D = 0.056           # Yield (DNB)          
-sigma = 0.40        # Volatility (DNB)     
 
 closing_price = 160.00  # Closing price (DNB) 16 Dec 2020
 
-Nx, Nt = 500, 1000  # Intervals x-axis, time
+Nx, Nt = 500, 100  # Intervals x-axis, time
 
 E_array_jan = np.linspace(140, 175, 15)             # Strike prices for January 2021
 V_real_jan = np.array([20.17, 17.79, 15.48, 13.26, 11.18, 9.23, 7.37, 5.72, 4.30, 3.09, 2.28, 1.57, 1.07, 0.61, 0.43]) # Closing prices options
@@ -33,50 +32,53 @@ V_calc_mar = np.zeros(len(V_real_mar))
 
 x = np.linspace(-np.log(x_ratio), np.log(x_ratio), Nx+1)
 
-tau_jan = 1/12
-for i, E in enumerate(E_array_jan):
-    print(f"Jan., E = {E:.1f}")
-    S = E*np.exp(x)                                                     # Make new S-axis (changes depending on E)
-    idx_closing_price = np.abs(S - closing_price).argmin()              # Index corresponding to closing price along S-axis.
+# Make two plots, different sigmas 0.20, 0.40:
+for sigma in [0.20, 0.40]:
+    tau_jan = 1/12
+    for i, E in enumerate(E_array_jan):
+        print(f"Jan., E = {E:.1f}")
+        S = E*np.exp(x)                                                     # Make new S-axis (changes depending on E)
+        idx_closing_price = np.abs(S - closing_price).argmin()              # Index corresponding to closing price along S-axis.
 
-    BS_instance = BlackScholes(x_ratio, tau_jan, Nx, Nt, E, sigma, r, D)
-    V_calc_jan[i]  = BS_instance.solve('CN')[idx_closing_price]
+        BS_instance = BlackScholes(x_ratio, tau_jan, Nx, Nt, E, sigma, r, D)
+        V_calc_jan[i]  = BS_instance.solve('CN')[idx_closing_price]
 
-tau_feb = 2/12
-for i, E in enumerate(E_array_feb):
-    print(f"Feb., E = {E:.1f}")
-    S = E*np.exp(x)
-    idx_closing_price = np.abs(S - closing_price).argmin()              # Index corresponding to closing price along S-axis.
+    tau_feb = 2/12
+    for i, E in enumerate(E_array_feb):
+        print(f"Feb., E = {E:.1f}")
+        S = E*np.exp(x)
+        idx_closing_price = np.abs(S - closing_price).argmin()              # Index corresponding to closing price along S-axis.
 
-    BS_instance = BlackScholes(x_ratio, tau_feb, Nx, Nt, E, sigma, r, D)
-    V_calc_feb[i]  = BS_instance.solve('CN')[idx_closing_price]
+        BS_instance = BlackScholes(x_ratio, tau_feb, Nx, Nt, E, sigma, r, D)
+        V_calc_feb[i]  = BS_instance.solve('CN')[idx_closing_price]
 
-tau_mar = 3/12
-for i, E in enumerate(E_array_mar):
-    print(f"Mar., E = {E:.1f}")
-    S = E*np.exp(x)
-    idx_closing_price = np.abs(S - closing_price).argmin()              # Index corresponding to closing price along S-axis.
+    tau_mar = 3/12
+    for i, E in enumerate(E_array_mar):
+        print(f"Mar., E = {E:.1f}")
+        S = E*np.exp(x)
+        idx_closing_price = np.abs(S - closing_price).argmin()              # Index corresponding to closing price along S-axis.
 
-    BS_instance = BlackScholes(x_ratio, tau_mar, Nx, Nt, E, sigma, r, D)
-    V_calc_mar[i]  = BS_instance.solve('CN')[idx_closing_price]
+        BS_instance = BlackScholes(x_ratio, tau_mar, Nx, Nt, E, sigma, r, D)
+        V_calc_mar[i]  = BS_instance.solve('CN')[idx_closing_price]
 
-plt.figure(1)
-plt.plot(E_array_jan, V_real_jan, '-o', color=colors[0], label="Jan. Market")
-plt.plot(E_array_jan, V_calc_jan, '-^', color=colors[0], label="Jan. Calculated")
+    plt.figure(1)
+    plt.plot(E_array_jan, V_real_jan, '-o', color=colors[0], label="Jan. Market")
+    plt.plot(E_array_jan, V_calc_jan, '-^', color=colors[0], label="Jan. Calculated")
 
-plt.plot(E_array_feb, V_real_feb, '-o', color=colors[1], label="Feb. Market")
-plt.plot(E_array_feb, V_calc_feb, '-^', color=colors[1], label="Feb. Calculated")
+    plt.plot(E_array_feb, V_real_feb, '-o', color=colors[1], label="Feb. Market")
+    plt.plot(E_array_feb, V_calc_feb, '-^', color=colors[1], label="Feb. Calculated")
 
-plt.plot(E_array_mar, V_real_mar, '-o', color=colors[2], label="Mar. Market")
-plt.plot(E_array_mar, V_calc_mar, '-^', color=colors[2], label="Mar. Calculated")
+    plt.plot(E_array_mar, V_real_mar, '-o', color=colors[2], label="Mar. Market")
+    plt.plot(E_array_mar, V_calc_mar, '-^', color=colors[2], label="Mar. Calculated")
 
-plt.xlabel("$E$ [NOK]")
-plt.ylabel("$V$ [NOK]")
+    plt.xlabel("$E$ [NOK]")
+    plt.ylabel("$V$ [NOK]")
 
-plt.legend()
-plt.tight_layout()
-plt.savefig('./plots/dnb_comparison.pdf')
-plt.show()
+    plt.legend()
+    plt.tight_layout()
+    save_string = f'./plots/dnb_comparison_sigma_{int(sigma*100)}.pdf'
+    plt.savefig(save_string)
+    plt.show()
 
 
 
