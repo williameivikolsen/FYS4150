@@ -2,6 +2,9 @@ import numpy as np
 import scipy.sparse
 import scipy.sparse.linalg 
 
+# In this file, the classes OneDimensionalDiffusion and BlackScholes are defined. The "if __name__ == '__main__':" section
+# shows how the classes are used and generates some demonstration plots.
+
 class OneDimensionalDiffusion:
     # Class for solving 1D diffusion equation without source term 
     def __init__(self, x_start, x_end, T, Nx, Nt, I, BCL, BCR, C=1):
